@@ -25,7 +25,7 @@ class InstallController extends Controller
     public function requirements()
     {
         $checks = $this->runRequirementChecks();
-        $allPassed = collect($checks)->every(fn ($c) => $c['status']);
+        $allPassed = collect($checks)->every(fn($c) => $c['status']);
 
         return view('install.requirements', compact('checks', 'allPassed'));
     }
@@ -134,12 +134,12 @@ class InstallController extends Controller
             if ($connection === 'sqlite') {
                 // Disconnect first to release any locks
                 DB::disconnect($connection);
-                
+
                 $dbPath = config('database.connections.sqlite.database');
                 if (file_exists($dbPath)) {
                     @unlink($dbPath);
                 }
-                
+
                 // Reconnect so migrations can create a fresh database
                 DB::reconnect($connection);
             }
@@ -151,7 +151,7 @@ class InstallController extends Controller
             Artisan::call('optimize:clear');
 
             session(['install.migrations_done' => true]);
-            
+
             return response()->json(['success' => true]);
         } catch (Throwable $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
@@ -218,7 +218,7 @@ class InstallController extends Controller
         $adminName  = session('install.admin_name', '');
 
         // Flush install session data
-        session()->forget(array_filter(array_keys(session()->all()), fn ($k) => str_starts_with($k, 'install.')));
+        session()->forget(array_filter(array_keys(session()->all()), fn($k) => str_starts_with($k, 'install.')));
 
         return view('install.complete', compact('appUrl', 'adminEmail', 'adminName'));
     }
@@ -278,9 +278,9 @@ class InstallController extends Controller
                 'DB_CONNECTION=mysql',
                 'DB_HOST=' . session('install.db_host', '127.0.0.1'),
                 'DB_PORT=' . session('install.db_port', '3306'),
-                'DB_DATABASE=' . session('install.db_database', 'livestockpro'),
+                'DB_DATABASE=' . session('install.db_database', 'livestock'),
                 'DB_USERNAME=' . session('install.db_username', 'root'),
-                'DB_PASSWORD=' . session('install.db_password', ''),
+                'DB_PASSWORD=' . session('install.db_password', "'moin786#Ruhul786#Mahian'"),
             ]);
 
         $saasMode = session('install.saas_mode', 'true');
@@ -302,7 +302,7 @@ class InstallController extends Controller
 APP_NAME="{$appName}"
 APP_ENV=production
 APP_KEY={$appKey}
-APP_DEBUG=false
+APP_DEBUG=true
 APP_TIMEZONE={$timezone}
 APP_URL={$appUrl}
 
@@ -322,7 +322,7 @@ LOG_LEVEL=error
 
 {$dbBlock}
 
-SESSION_DRIVER=database
+SESSION_DRIVER=file
 SESSION_LIFETIME=120
 SESSION_ENCRYPT=false
 SESSION_PATH=/
