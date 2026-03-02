@@ -66,13 +66,22 @@ class FarmProductivityDashboardController extends Controller
             'to' => ['nullable', 'date', 'after_or_equal:from'],
         ]);
 
-        $from = isset($validated['from'])
-            ? Carbon::parse($validated['from'])->startOfDay()
-            : now()->subDays(30)->startOfDay();
+        // Explicitly create Carbon instances for maximum compatibility
+        if (isset($validated['from']) && !empty($validated['from'])) {
+            $from = Carbon::make($validated['from'])->startOfDay();
+        } else {
+            $from = Carbon::now()->subDays(30)->startOfDay();
+        }
 
-        $to = isset($validated['to'])
-            ? Carbon::parse($validated['to'])->endOfDay()
-            : now()->endOfDay();
+        if (isset($validated['to']) && !empty($validated['to'])) {
+            $to = Carbon::make($validated['to'])->endOfDay();
+        } else {
+            $to = Carbon::now()->endOfDay();
+        }
+
+        // For database queries: convert to strings for PHP 8.3 compatibility
+        $fromForDb = $from->format('Y-m-d H:i:s');
+        $toForDb = $to->format('Y-m-d H:i:s');
 
         //dd($from, $to);
 
@@ -83,7 +92,7 @@ class FarmProductivityDashboardController extends Controller
 
         $milkTotal = MilkRecord::query()
             ->where('farm_id', $farm->id)
-            ->whereBetween('date', [$from, $to])
+            ->whereBetween('date', [$fromForDb, $toForDb])
             ->sum('quantity_liters');
 
         $days = max(1, $from->copy()->startOfDay()->diffInDays($to->copy()->startOfDay()) + 1);
@@ -91,17 +100,17 @@ class FarmProductivityDashboardController extends Controller
 
         $milkSalesRevenue = MilkSale::query()
             ->where('farm_id', $farm->id)
-            ->whereBetween('sale_date', [$from, $to])
+            ->whereBetween('sale_date', [$fromForDb, $toForDb])
             ->sum('total_price');
 
         $feedingsCount = FeedingRecord::query()
             ->where('farm_id', $farm->id)
-            ->whereBetween('feeding_date', [$from, $to])
+            ->whereBetween('feeding_date', [$fromForDb, $toForDb])
             ->count();
 
         $healthEventsCount = HealthEvent::query()
             ->where('farm_id', $farm->id)
-            ->whereBetween('occurred_at', [$from, $to])
+            ->whereBetween('occurred_at', [$fromForDb, $toForDb])
             ->count();
 
         $vaccinationsDue7d = VaccinationRecord::query()
@@ -112,7 +121,7 @@ class FarmProductivityDashboardController extends Controller
 
         $expensesTotal = Expense::query()
             ->where('farm_id', $farm->id)
-            ->whereBetween('incurred_on', [$from, $to])
+            ->whereBetween('incurred_on', [$fromForDb, $toForDb])
             ->sum('amount');
 
         // Trends (daily)
@@ -124,25 +133,27 @@ class FarmProductivityDashboardController extends Controller
         while ($cursor->lte($to)) {
             $dayStart = $cursor->copy()->startOfDay();
             $dayEnd = $cursor->copy()->endOfDay();
+            $dayStartForDb = $dayStart->format('Y-m-d H:i:s');
+            $dayEndForDb = $dayEnd->format('Y-m-d H:i:s');
 
             $milkTrend[] = [
                 'date' => $cursor->toDateString(),
                 'liters' => (float) MilkRecord::where('farm_id', $farm->id)
-                    ->whereBetween('date', [$dayStart, $dayEnd])
+                    ->whereBetween('date', [$dayStartForDb, $dayEndForDb])
                     ->sum('quantity_liters'),
             ];
 
             $revenueTrend[] = [
                 'date' => $cursor->toDateString(),
                 'amount' => (float) MilkSale::where('farm_id', $farm->id)
-                    ->whereBetween('sale_date', [$dayStart, $dayEnd])
+                    ->whereBetween('sale_date', [$dayStartForDb, $dayEndForDb])
                     ->sum('total_price'),
             ];
 
             $feedingTrend[] = [
                 'date' => $cursor->toDateString(),
                 'count' => (int) FeedingRecord::where('farm_id', $farm->id)
-                    ->whereBetween('feeding_date', [$dayStart, $dayEnd])
+                    ->whereBetween('feeding_date', [$dayStartForDb, $dayEndForDb])
                     ->count(),
             ];
 
