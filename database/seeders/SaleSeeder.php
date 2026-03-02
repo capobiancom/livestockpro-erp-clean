@@ -18,11 +18,16 @@ class SaleSeeder extends Seeder
         $animal = Animal::first();
         $customer = Supplier::first();
 
+        $userId = $user ? $user->id : null;
+        $farmId = $farm ? $farm->id : null;
+        $animalId = $animal ? $animal->id : null;
+        $customerId = $customer ? $customer->id : null;
+
         Sale::factory()->count(10)->create([
-            'user_id' => $user->id,
-            'farm_id' => $farm->id,
-            'animal_id' => $animal->id,
-            'customer_id' => $customer->id,
+            'user_id'     => $userId,
+            'farm_id'     => $farmId,
+            'animal_id'   => $animalId,
+            'customer_id' => $customerId,
         ]);
     }
 }

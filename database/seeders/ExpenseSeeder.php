@@ -18,10 +18,12 @@ class ExpenseSeeder extends Seeder
         }
 
         $user = User::first();
+        $userId = $user ? $user->id : null;
+
         foreach ($farms as $farm) {
             Expense::factory()->count(30)->create([
                 'farm_id' => $farm->id,
-                'user_id' => $user->id,
+                'user_id' => $userId,
             ]);
         }
     }

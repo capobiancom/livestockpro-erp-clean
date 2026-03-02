@@ -951,21 +951,18 @@ class DemoSeedingController extends Controller
                         ]);
                     }
 
-                    $baseMilkSaleRef = 'MILK-SALE-' . $farmId . '-0001';
-                    $milkSaleRef = $baseMilkSaleRef;
-                    if (MilkSale::query()->where('reference', $milkSaleRef)->exists()) {
-                        $milkSaleRef = $baseMilkSaleRef . '-' . Str::upper(Str::random(4));
-                    }
+                    // create a simple milk sale demo record using invoice numbers instead of the
+                    // old `reference` column which has been removed from the schema.
                     MilkSale::query()->create([
-                        'farm_id'    => $farmId,
-                        'reference'  => $milkSaleRef,
-                        'customer_id' => $supplier->id,
-                        'sale_date'  => now()->subDays(2)->toDateString(),
-                        'quantity'   => 50,
-                        'unit'       => 'liters',
-                        'unit_price' => 60,
-                        'total_price' => 3000,
-                        'notes'      => 'Milk sold to local buyer',
+                        'farm_id'       => $farmId,
+                        'invoice_number' => MilkSale::generateInvoiceNumber(),
+                        'customer_id'   => $supplier->id,
+                        'sale_date'     => now()->subDays(2)->toDateString(),
+                        'quantity'      => 50,
+                        'unit'          => 'liters',
+                        'unit_price'    => 60,
+                        'total_price'   => 3000,
+                        'notes'         => 'Milk sold to local buyer',
                     ]);
 
                     // ─── Finance ───────────────────────────────────────────────────────────

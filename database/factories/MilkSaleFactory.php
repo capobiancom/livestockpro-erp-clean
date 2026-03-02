@@ -24,15 +24,35 @@ class MilkSaleFactory extends Factory
     public function definition()
     {
         return [
-            'farm_id' => Farm::factory(),
-            'user_id' => \App\Models\User::factory(),
-            'customer_id' => Supplier::factory(),
-            'sale_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'quantity' => $this->faker->randomFloat(2, 10, 1000),
-            'unit' => $this->faker->randomElement(['Liter', 'Gallon']),
-            'unit_price' => $this->faker->randomFloat(2, 0.5, 5.0),
-            'total_price' => $this->faker->randomFloat(2, 50, 5000),
-            'notes' => $this->faker->sentence(),
+            'invoice_number' => self::generateInvoiceNumber(),
+            'farm_id'        => Farm::factory(),
+            'user_id'        => \App\Models\User::factory(),
+            'customer_id'    => Supplier::factory(),
+            'sale_date'      => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'quantity'       => $this->faker->randomFloat(2, 10, 1000),
+            'unit'           => $this->faker->randomElement(['Liter', 'Gallon']),
+            'unit_price'     => $this->faker->randomFloat(2, 0.5, 5.0),
+            'total_price'    => $this->faker->randomFloat(2, 50, 5000),
+            'notes'          => $this->faker->sentence(),
         ];
+    }
+
+    /**
+     * Generate a sequential invoice number for milk sales. Matches the logic in
+     * the model so factories and controller code stay consistent.
+     */
+    public static function generateInvoiceNumber(): string
+    {
+        $latestInvoice = MilkSale::whereNotNull('invoice_number')
+            ->orderByDesc('invoice_number')
+            ->first();
+
+        $nextNumber = 1;
+        if ($latestInvoice) {
+            $lastNumber = (int) substr($latestInvoice->invoice_number, 3);
+            $nextNumber = $lastNumber + 1;
+        }
+
+        return 'MS-' . str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
     }
 }

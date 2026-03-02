@@ -18,12 +18,17 @@ class ReproductionSeeder extends Seeder
         $animal = Animal::first();
         $artificialInsemination = ArtificialInsemination::first();
 
+        $userId = $user ? $user->id : null;
+        $farmId = $farm ? $farm->id : null;
+        $animalId = $animal ? $animal->id : null;
+        $aiId = $artificialInsemination ? $artificialInsemination->id : null;
+
         ReproductionRecord::factory()->count(20)->create([
-            'user_id' => $user->id,
-            'farm_id' => $farm->id,
-            'animal_id' => $animal->id,
-            'partner_id' => $animal->id, // Assuming partner can be the same animal for seeding purposes
-            'artificial_insemination_id' => $artificialInsemination->id,
+            'user_id'                    => $userId,
+            'farm_id'                    => $farmId,
+            'animal_id'                  => $animalId,
+            'partner_id'                 => $animalId,
+            'artificial_insemination_id' => $aiId,
         ]);
     }
 }

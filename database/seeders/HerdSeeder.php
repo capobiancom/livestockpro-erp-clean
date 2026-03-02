@@ -22,9 +22,11 @@ class HerdSeeder extends Seeder
         $farmId = Farm::all()->random()->id;
 
         $user = User::first();
+        $userId = $user ? $user->id : null;
+
         Herd::factory()->count(10)->create([
             'farm_id' => $farmId,
-            'user_id' => $user->id,
+            'user_id' => $userId,
         ]);
     }
 }

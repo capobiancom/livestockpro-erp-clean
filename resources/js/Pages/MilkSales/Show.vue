@@ -361,10 +361,10 @@
                             class="flex items-center justify-between p-3 bg-white rounded-lg"
                         >
                             <span class="text-sm font-semibold text-gray-700"
-                                >Reference</span
+                                >Invoice #</span
                             >
                             <span class="text-sm font-bold text-gray-900">{{
-                                milkSale.reference || "—"
+                                milkSale.invoice_number || "—"
                             }}</span>
                         </div>
                     </div>

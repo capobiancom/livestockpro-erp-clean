@@ -18,11 +18,16 @@ class VaccinationSeeder extends Seeder
         $animal = Animal::first();
         $staff = StaffProfile::first();
 
+        $userId = $user ? $user->id : null;
+        $farmId = $farm ? $farm->id : null;
+        $animalId = $animal ? $animal->id : null;
+        $staffId = $staff ? $staff->id : null;
+
         VaccinationRecord::factory()->count(20)->create([
-            'user_id' => $user->id,
-            'farm_id' => $farm->id,
-            'animal_id' => $animal->id,
-            'staff_id' => $staff->id,
+            'user_id'   => $userId,
+            'farm_id'   => $farmId,
+            'animal_id' => $animalId,
+            'staff_id'  => $staffId,
             'disease_id' => \App\Models\Disease::factory(),
         ])->each(function ($vaccinationRecord) {
             $medicines = \App\Models\Medicine::inRandomOrder()->limit(rand(1, 3))->get();

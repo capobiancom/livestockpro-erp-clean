@@ -16,10 +16,14 @@ class MilkSaleSeeder extends Seeder
         $farm = Farm::first();
         $customer = Supplier::first();
 
+        $userId = $user ? $user->id : null;
+        $farmId = $farm ? $farm->id : null;
+        $customerId = $customer ? $customer->id : null;
+
         MilkSale::factory()->count(30)->create([
-            'user_id' => $user->id,
-            'farm_id' => $farm->id,
-            'customer_id' => $customer->id,
+            'user_id'     => $userId,
+            'farm_id'     => $farmId,
+            'customer_id' => $customerId,
         ]);
     }
 }
