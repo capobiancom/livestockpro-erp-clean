@@ -221,7 +221,24 @@ class InstallController extends Controller
                         if ($stmt === '') {
                             continue;
                         }
-                        DB::connection($connection)->unprepared($stmt . ';');
+
+                        // If the installer is re-run on the same database, some CREATE INDEX statements
+                        // can fail with "Duplicate key name" (MySQL error 1061). SQLite schema uses
+                        // CREATE INDEX without IF NOT EXISTS, so we ignore that specific error.
+                        try {
+                            DB::connection($connection)->unprepared($stmt . ';');
+                        } catch (Throwable $e) {
+                            $msg = $e->getMessage();
+
+                            if (
+                                str_contains($msg, 'Duplicate key name') ||
+                                str_contains($msg, 'SQLSTATE[42000]: Syntax error or access violation: 1061')
+                            ) {
+                                continue;
+                            }
+
+                            throw $e;
+                        }
                     }
                     DB::connection($connection)->statement('SET FOREIGN_KEY_CHECKS=1');
                 }
