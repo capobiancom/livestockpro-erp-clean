@@ -72,38 +72,61 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(\App\Models\User::class, UserPolicy::class);
         Gate::policy(\App\Models\SaleTransaction::class, SaleTransactionPolicy::class);
 
-        // Share settings with Inertia
+        // Share settings with Inertia (skip if .env doesn't exist or installation in progress)
         Inertia::share('appSettings', function () {
-            if (Schema::hasTable('settings')) {
-                $settings = Setting::firstOrCreate([]);
-                return [
-                    'app_title' => $settings->app_title,
-                    'currency' => $settings->currency,
-                    'currency_symbol' => match ($settings->currency) {
-                        'USD' => '$',
-                        'EUR' => '€',
-                        'GBP' => '£',
-                        'BDT' => '৳',
-                        default => '$', // Default to dollar sign
-                    },
-                    'logo_path' => $settings->logo_path ? Storage::url($settings->logo_path) : null,
-                    'timezone' => $settings->timezone,
-                ];
+            if (!file_exists(base_path('.env'))) {
+                return $this->defaultSettings();
             }
-            return [
-                'app_title' => Config::get('app.name'),
-                'currency' => 'USD', // Default if no settings table
-                'currency_symbol' => '$', // Default to dollar sign
-                'logo_path' => null,
-                'timezone' => Config::get('app.timezone'),
-            ];
+
+            try {
+                if (Schema::hasTable('settings')) {
+                    $settings = Setting::firstOrCreate([]);
+                    return [
+                        'app_title' => $settings->app_title,
+                        'currency' => $settings->currency,
+                        'currency_symbol' => match ($settings->currency) {
+                            'USD' => '$',
+                            'EUR' => '€',
+                            'GBP' => '£',
+                            'BDT' => '৳',
+                            default => '$', // Default to dollar sign
+                        },
+                        'logo_path' => $settings->logo_path ? Storage::url($settings->logo_path) : null,
+                        'timezone' => $settings->timezone,
+                    ];
+                }
+            } catch (\Throwable $e) {
+                // Silently fail if database is not initialized
+            }
+
+            return $this->defaultSettings();
         });
 
-        // Set application timezone based on settings
-        if (Schema::hasTable('settings')) {
-            $settings = Setting::firstOrCreate([]);
-            Config::set('app.timezone', $settings->timezone);
-            Carbon::setLocale(Config::get('app.locale'));
+        // Set application timezone based on settings (skip if .env doesn't exist)
+        if (file_exists(base_path('.env'))) {
+            try {
+                if (Schema::hasTable('settings')) {
+                    $settings = Setting::firstOrCreate([]);
+                    Config::set('app.timezone', $settings->timezone);
+                    Carbon::setLocale(Config::get('app.locale'));
+                }
+            } catch (\Throwable $e) {
+                // Silently fail if database is not initialized
+            }
         }
+    }
+
+    /**
+     * Get default settings when database is not available.
+     */
+    private function defaultSettings(): array
+    {
+        return [
+            'app_title' => Config::get('app.name'),
+            'currency' => 'USD',
+            'currency_symbol' => '$',
+            'logo_path' => null,
+            'timezone' => Config::get('app.timezone'),
+        ];
     }
 }

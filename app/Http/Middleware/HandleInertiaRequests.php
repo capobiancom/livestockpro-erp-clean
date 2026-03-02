@@ -32,6 +32,9 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        // Skip database queries during installation (no .env, no database configured)
+        $isInstalling = (bool) preg_match('~^/install~', $request->path()) || !file_exists(base_path('.env'));
+
         $user = $request->user();
 
         $userResource = null;
@@ -51,32 +54,52 @@ class HandleInertiaRequests extends Middleware
         $subscription = null;
         $enabledFeatureKeys = [];
 
-        if ($user && $user->farm_id) {
-            $activeSubscription = FarmSubscription::query()
-                ->with(['plan.enabledFeatures'])
-                ->where('farm_id', $user->farm_id)
-                ->whereNull('cancelled_at')
-                ->whereDate('ends_on', '>=', now()->toDateString())
-                ->orderByDesc('ends_on')
-                ->first();
+        if (!$isInstalling && $user && $user->farm_id) {
+            try {
+                $activeSubscription = FarmSubscription::query()
+                    ->with(['plan.enabledFeatures'])
+                    ->where('farm_id', $user->farm_id)
+                    ->whereNull('cancelled_at')
+                    ->whereDate('ends_on', '>=', now()->toDateString())
+                    ->orderByDesc('ends_on')
+                    ->first();
 
-            if ($activeSubscription) {
-                $subscription = [
-                    'id' => $activeSubscription->id,
-                    'plan' => [
-                        'id' => $activeSubscription->plan?->id,
-                        'name' => $activeSubscription->plan?->name,
-                        'slug' => $activeSubscription->plan?->slug,
-                    ],
-                    'starts_on' => $activeSubscription->starts_on?->toDateString(),
-                    'ends_on' => $activeSubscription->ends_on?->toDateString(),
-                ];
+                if ($activeSubscription) {
+                    $subscription = [
+                        'id' => $activeSubscription->id,
+                        'plan' => [
+                            'id' => $activeSubscription->plan?->id,
+                            'name' => $activeSubscription->plan?->name,
+                            'slug' => $activeSubscription->plan?->slug,
+                        ],
+                        'starts_on' => $activeSubscription->starts_on?->toDateString(),
+                        'ends_on' => $activeSubscription->ends_on?->toDateString(),
+                    ];
 
-                $enabledFeatureKeys = $activeSubscription->plan
-                    ?->enabledFeatures
-                    ?->pluck('key')
-                    ?->values()
-                    ?->toArray() ?? [];
+                    $enabledFeatureKeys = $activeSubscription->plan
+                        ?->enabledFeatures
+                        ?->pluck('key')
+                        ?->values()
+                        ?->toArray() ?? [];
+                }
+            } catch (\Throwable $e) {
+                // Silently fail if database is not initialized yet
+            }
+        }
+
+        $logoPath = null;
+        $currencySymbol = '$';
+        $websiteCurrencySymbol = '$';
+
+        if (!$isInstalling) {
+            try {
+                if (Schema::hasTable('settings')) {
+                    $logoPath = Setting::first()?->logo_path;
+                    $currencySymbol = Setting::first()?->currency_symbol ?? '$';
+                    $websiteCurrencySymbol = Setting::first()?->website_currency_symbol ?? '$';
+                }
+            } catch (\Throwable $e) {
+                // Silently fail if database is not initialized yet
             }
         }
 
@@ -95,9 +118,9 @@ class HandleInertiaRequests extends Middleware
                 'error' => fn() => $request->session()->get('error'),
                 'info' => fn() => $request->session()->get('info'),
             ],
-            'app_logo_path' => Schema::hasTable('settings') ? Setting::first()?->logo_path : null,
-            'app_currency_symbol' => Schema::hasTable('settings') ? (Setting::first()?->currency_symbol ?? '$') : '$',
-            'website_currency_symbol' => Schema::hasTable('settings') ? (Setting::first()?->website_currency_symbol ?? '$') : '$',
+            'app_logo_path' => $logoPath,
+            'app_currency_symbol' => $currencySymbol,
+            'website_currency_symbol' => $websiteCurrencySymbol,
 
             // Public website-only settings (managed by Super Admin)
             'website_settings' => [
