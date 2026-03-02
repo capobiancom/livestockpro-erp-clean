@@ -81,6 +81,11 @@
                 </div>
             </div>
 
+            <!-- debug output (visible on remote, helps verify data) -->
+            <pre class="bg-yellow-50 text-xs text-red-600 p-2 overflow-auto">
+                {{ JSON.stringify(props, null, 2) }}
+            </pre>
+
             <!-- KPI cards -->
             <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
                 <KpiCard
