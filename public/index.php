@@ -15,12 +15,27 @@ require __DIR__ . '/../vendor/autoload.php';
 // Create minimal .env if it doesn't exist (for fresh installs)
 // This must happen before bootstrap so encryption service provider can load
 $baseDir = __DIR__ . '/../';
-if (!file_exists($baseDir . '.env')) {
-    // Generate a base64-encoded random key for encryption
-    $appKey = 'base64:' . base64_encode(random_bytes(32));
+$envFile = $baseDir . '.env';
 
-    // Create a minimal .env file so the app can boot
-    $minimalEnv = <<<'ENV'
+// Check if .env exists and has APP_KEY
+$envExists = file_exists($envFile);
+$hasValidAppKey = false;
+
+if ($envExists) {
+    // Check if .env has a valid APP_KEY
+    $envContent = file_get_contents($envFile);
+    $hasValidAppKey = (strpos($envContent, 'APP_KEY=') !== false &&
+        strpos($envContent, 'APP_KEY=base64:') !== false);
+}
+
+// Create/update .env if missing or missing APP_KEY
+if (!$envExists || !$hasValidAppKey) {
+    try {
+        // Generate a base64-encoded random key for encryption
+        $appKey = 'base64:' . base64_encode(random_bytes(32));
+
+        // Create a minimal .env file so the app can boot
+        $minimalEnv = <<<'ENV'
 APP_NAME="LivestockPro ERP"
 APP_ENV=production
 APP_DEBUG=true
@@ -32,8 +47,23 @@ LOG_CHANNEL=stack
 SESSION_DRIVER=file
 ENV;
 
-    $minimalEnv = str_replace('{$appKey}', $appKey, $minimalEnv);
-    file_put_contents($baseDir . '.env', $minimalEnv);
+        $minimalEnv = str_replace('{$appKey}', $appKey, $minimalEnv);
+
+        // Try to write the file with error checking
+        $bytesWritten = @file_put_contents($envFile, $minimalEnv, LOCK_EX);
+
+        if ($bytesWritten === false) {
+            // If write fails, try to log it (for diagnostics)
+            error_log('Failed to create .env file at ' . $envFile . '. Check file permissions.');
+        }
+
+        // Ensure file is readable
+        if (file_exists($envFile)) {
+            @chmod($envFile, 0664);
+        }
+    } catch (\Throwable $e) {
+        error_log('Error creating .env file: ' . $e->getMessage());
+    }
 }
 
 // Ensure bootstrap/cache directory exists (required by PackageManifest during bootstrap)

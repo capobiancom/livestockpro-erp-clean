@@ -672,9 +672,13 @@ ENV;
             @touch($logFile);
         }
 
-        // Set proper permissions if possible
+        // Set proper permissions
         @chmod($logsDir, 0775);
         @chmod($logFile, 0664);
+
+        // Try to change ownership to www-data
+        $this->changeOwnershipToWwwData($logsDir);
+        $this->changeOwnershipToWwwData($logFile);
     }
 
     /**
@@ -727,13 +731,57 @@ ENV;
         if (function_exists('posix_getuid')) {
             $uid = posix_getuid();
             if ($uid === 0) { // Running as root
-                $wwwDataUid = posix_getpwnam('www-data');
-                if ($wwwDataUid !== false) {
-                    @chown($basePath, $wwwDataUid['uid']);
-                    @chown($basePath . '/storage', $wwwDataUid['uid']);
-                    @chown($basePath . '/bootstrap/cache', $wwwDataUid['uid']);
-                }
+                // Change ownership recursively for critical directories
+                $this->chownRecursive($basePath . '/storage', 'www-data');
+                $this->chownRecursive($basePath . '/bootstrap/cache', 'www-data');
+                $this->changeOwnershipToWwwData($basePath);
             }
+        }
+    }
+
+    /**
+     * Change ownership of a path to www-data user
+     * Non-recursive version for files and single directories
+     */
+    private function changeOwnershipToWwwData(string $path): void
+    {
+        if (!function_exists('posix_getpwnam')) {
+            return;
+        }
+
+        $wwwDataUid = posix_getpwnam('www-data');
+        if ($wwwDataUid !== false) {
+            @chown($path, $wwwDataUid['uid']);
+        }
+    }
+
+    /**
+     * Recursively change ownership of directory and all contents to www-data
+     */
+    private function chownRecursive(string $path, string $user = 'www-data'): void
+    {
+        if (!function_exists('posix_getpwnam') || !is_dir($path)) {
+            return;
+        }
+
+        $userInfo = posix_getpwnam($user);
+        if ($userInfo === false) {
+            return;
+        }
+
+        try {
+            // Change ownership of the directory itself
+            @chown($path, $userInfo['uid']);
+
+            // Change ownership of all files and subdirectories recursively
+            $files = new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS);
+            $iterator = new \RecursiveIteratorIterator($files);
+
+            foreach ($iterator as $file) {
+                @chown($file->getPathname(), $userInfo['uid']);
+            }
+        } catch (\Throwable) {
+            // Silently fail if we can't change ownership
         }
     }
 
