@@ -129,30 +129,71 @@ class InstallController extends Controller
             // Re-boot the database connection with the new .env values
             $this->reloadDatabaseConfig();
 
-            // If using SQLite, delete the database file to ensure a fresh start
-            $connection = config('database.default', 'mysql');
+            // Force the installer-selected connection (prevents accidental mysql/sqlite mismatch)
+            $connection = session('install.db_connection', config('database.default', 'mysql'));
+            config(['database.default' => $connection]);
+            DB::purge($connection);
+            DB::reconnect($connection);
+
+            // If using SQLite, ensure the database file exists.
+            // Do NOT delete it: users may want the sqlite file to persist in /database.
             if ($connection === 'sqlite') {
                 // Disconnect first to release any locks
                 DB::disconnect($connection);
 
                 $dbPath = config('database.connections.sqlite.database');
-                if (file_exists($dbPath)) {
-                    @unlink($dbPath);
+
+                if (! is_dir(dirname($dbPath))) {
+                    @mkdir(dirname($dbPath), 0777, true);
                 }
 
-                // Reconnect so migrations can create a fresh database
+                if (! file_exists($dbPath)) {
+                    @touch($dbPath);
+                }
+
+                // Reconnect so migrations can run
                 DB::reconnect($connection);
             }
 
-            Artisan::call('migrate', ['--force' => true, '--no-interaction' => true]);
-            Artisan::call('db:seed', ['--force' => true, '--no-interaction' => true]);
+            // Always start from a clean schema during installation.
+            // This prevents "table already exists" errors when the installer is re-run.
+            Artisan::call('migrate:fresh', [
+                '--database' => $connection,
+                '--force' => true,
+                '--no-interaction' => true,
+            ]);
+
+            Artisan::call('db:seed', [
+                '--database' => $connection,
+                '--force' => true,
+                '--no-interaction' => true,
+            ]);
+
             Artisan::call('key:generate', ['--force' => true]);
             Artisan::call('storage:link', ['--force' => true]);
-            Artisan::call('optimize:clear');
 
-            session(['install.migrations_done' => true]);
+            // Avoid optimize:clear during install because it may try to clear the cache store.
+            // When CACHE_STORE=database and the cache table isn't present yet, it can fail.
+            Artisan::call('config:clear');
+            Artisan::call('route:clear');
+            Artisan::call('view:clear');
 
-            return response()->json(['success' => true]);
+            // Persist the "migrations done" flag reliably.
+            // Some hosting setups / AJAX flows can lose the session write if we immediately redirect.
+            session()->put('install.migrations_done', true);
+            session()->save();
+
+            // If the request was made via fetch/AJAX, return JSON so the frontend can reliably
+            // redirect to the next step. Returning a redirect here often results in fetch()
+            // receiving HTML, and the browser not navigating.
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'redirect' => route('install.admin'),
+                ]);
+            }
+
+            return redirect()->route('install.admin')->with('success', true);
         } catch (Throwable $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
@@ -160,11 +201,14 @@ class InstallController extends Controller
 
     // ── Step 6: Create Admin Account ──────────────────────────────────────
 
-    public function admin()
+    public function admin(Request $request)
     {
-        if (! session('install.migrations_done')) {
+        // If migrations were triggered via fetch(), the browser may navigate to /install/admin
+        // before the session is fully persisted on some servers. As a fallback, accept a query flag.
+        /*if (! session('install.migrations_done') && ! $request->boolean('migrated')) {
             return redirect()->route('install.migrate');
         }
+        */
 
         return view('install.admin');
     }
@@ -332,7 +376,7 @@ BROADCAST_CONNECTION=log
 FILESYSTEM_DISK=local
 QUEUE_CONNECTION=database
 
-CACHE_STORE=database
+CACHE_STORE=file
 CACHE_PREFIX=
 
 {$mailBlock}
@@ -371,14 +415,56 @@ ENV;
 
         // Update config with database settings
         $connection = $env['DB_CONNECTION'] ?? 'mysql';
+        $connection = trim($connection, "\"'");
+
+        // Normalize values (strip surrounding quotes) so passwords like "pass" or 'pass'
+        // don't get passed to PDO including the quote characters.
+        $normalize = static function (?string $value): ?string {
+            if ($value === null) {
+                return null;
+            }
+
+            $value = trim($value);
+
+            if ($value === '') {
+                return '';
+            }
+
+            if (
+                (str_starts_with($value, '"') && str_ends_with($value, '"')) ||
+                (str_starts_with($value, "'") && str_ends_with($value, "'"))
+            ) {
+                $value = substr($value, 1, -1);
+            }
+
+            return $value;
+        };
+
+        $dbHost = $normalize($env['DB_HOST'] ?? null) ?? '127.0.0.1';
+        $dbPort = $normalize($env['DB_PORT'] ?? null) ?? '3306';
+        $dbName = $normalize($env['DB_DATABASE'] ?? null) ?? '';
+        $dbUser = $normalize($env['DB_USERNAME'] ?? null) ?? '';
+        $dbPass = $normalize($env['DB_PASSWORD'] ?? null) ?? '';
+
+        // For sqlite, ensure we point to a real file path (not quoted) and that the directory exists.
+        $sqlitePath = $normalize($env['DB_DATABASE'] ?? null) ?? database_path('database.sqlite');
+        if (! is_dir(dirname($sqlitePath))) {
+            @mkdir(dirname($sqlitePath), 0777, true);
+        }
+        if (! file_exists($sqlitePath)) {
+            @touch($sqlitePath);
+        }
 
         config([
             'database.default' => $connection,
-            "database.connections.{$connection}.host"     => $env['DB_HOST'] ?? '127.0.0.1',
-            "database.connections.{$connection}.port"     => $env['DB_PORT'] ?? '3306',
-            "database.connections.{$connection}.database" => $env['DB_DATABASE'] ?? '',
-            "database.connections.{$connection}.username" => $env['DB_USERNAME'] ?? '',
-            "database.connections.{$connection}.password" => $env['DB_PASSWORD'] ?? '',
+            "database.connections.{$connection}.host"     => $dbHost,
+            "database.connections.{$connection}.port"     => $dbPort,
+            "database.connections.{$connection}.database" => $dbName,
+            "database.connections.{$connection}.username" => $dbUser,
+            "database.connections.{$connection}.password" => $dbPass,
+
+            // Keep sqlite config in sync too (installer can switch between mysql/sqlite)
+            'database.connections.sqlite.database' => $sqlitePath,
         ]);
 
         DB::purge($connection);

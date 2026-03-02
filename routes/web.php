@@ -203,7 +203,7 @@ Route::middleware(['auth', 'subscription.active'])->group(function () {
             ->name('dashboard');
 
         Route::get('/farm-productivity-dashboard', [FarmProductivityDashboardController::class, 'index'])
-            ->middleware(['auth', 'verified'])
+            ->middleware(['auth', 'verified', 'role:farm owner'])
             ->name('farm-productivity-dashboard.index');
     });
 
@@ -352,99 +352,99 @@ Route::middleware(['auth', 'subscription.active'])->group(function () {
     // Admin role management
     Route::get('admin/roles', [RoleController::class, 'index'])
         ->name('admin.roles.index')
-        ->middleware('role:admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::post('admin/roles', [RoleController::class, 'store'])
         ->name('admin.roles.store')
-        ->middleware('role:admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::delete('admin/roles/{role}', [RoleController::class, 'destroy'])
         ->name('admin.roles.destroy')
-        ->middleware('role:admin');
+        ->middleware('role:admin|Super Admin');
 
     // Admin permission management
     Route::get('admin/permissions', [PermissionController::class, 'index'])
         ->name('admin.permissions.index')
-        ->middleware('role:admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::post('admin/permissions', [PermissionController::class, 'store'])
         ->name('admin.permissions.store')
-        ->middleware('role:admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::delete('admin/permissions/{permission}', [PermissionController::class, 'destroy'])
         ->name('admin.permissions.destroy')
-        ->middleware('role:admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::post('admin/permissions/assign', [PermissionController::class, 'assignToRole'])
         ->name('admin.permissions.assign')
-        ->middleware('role:admin');
+        ->middleware('role:admin|Super Admin');
 
     // Admin subscription plan management
     Route::get('admin/subscription-plans', [SubscriptionPlanController::class, 'index'])
         ->name('admin.subscription-plans.index')
-        ->middleware('role:admin|super admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::get('admin/subscription-plans/create', [SubscriptionPlanController::class, 'create'])
         ->name('admin.subscription-plans.create')
-        ->middleware('role:admin|super admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::post('admin/subscription-plans', [SubscriptionPlanController::class, 'store'])
         ->name('admin.subscription-plans.store')
-        ->middleware('role:admin|super admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::get('admin/subscription-plans/{subscriptionPlan}/edit', [SubscriptionPlanController::class, 'edit'])
         ->name('admin.subscription-plans.edit')
-        ->middleware('role:admin|super admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::put('admin/subscription-plans/{subscriptionPlan}', [SubscriptionPlanController::class, 'update'])
         ->name('admin.subscription-plans.update')
-        ->middleware('role:admin|super admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::delete('admin/subscription-plans/{subscriptionPlan}', [SubscriptionPlanController::class, 'destroy'])
         ->name('admin.subscription-plans.destroy')
-        ->middleware('role:admin|super admin');
+        ->middleware('role:admin|Super Admin');
 
     // Admin subscription feature management
     Route::get('admin/subscription-features', [SubscriptionFeatureController::class, 'index'])
         ->name('admin.subscription-features.index')
-        ->middleware('role:admin|super admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::get('admin/subscription-features/create', [SubscriptionFeatureController::class, 'create'])
         ->name('admin.subscription-features.create')
-        ->middleware('role:admin|super admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::post('admin/subscription-features', [SubscriptionFeatureController::class, 'store'])
         ->name('admin.subscription-features.store')
-        ->middleware('role:admin|super admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::get('admin/subscription-features/{subscriptionFeature}/edit', [SubscriptionFeatureController::class, 'edit'])
         ->name('admin.subscription-features.edit')
-        ->middleware('role:admin|super admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::put('admin/subscription-features/{subscriptionFeature}', [SubscriptionFeatureController::class, 'update'])
         ->name('admin.subscription-features.update')
-        ->middleware('role:admin|super admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::delete('admin/subscription-features/{subscriptionFeature}', [SubscriptionFeatureController::class, 'destroy'])
         ->name('admin.subscription-features.destroy')
-        ->middleware('role:admin|super admin');
+        ->middleware('role:admin|Super Admin');
 
     // Admin user management
     Route::get('admin/users', [UserController::class, 'index'])
         ->name('admin.users.index')
-        ->middleware('role:admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::get('admin/assign-roles', [UserController::class, 'assignRoles'])
         ->name('admin.assignRoles')
-        ->middleware('role:admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::post('admin/users/{user}/roles', [UserController::class, 'updateRoles'])
         ->name('admin.users.updateRoles')
-        ->middleware('role:admin');
+        ->middleware('role:admin|Super Admin');
 
     Route::post('admin/users/{user}/permissions', [UserController::class, 'updatePermissions'])
         ->name('admin.users.updatePermissions')
-        ->middleware('role:admin');
+        ->middleware('role:admin|Super Admin');
 
     // Domain resources
     // NOTE: Feature-gated routes are defined above. Duplicating resource routes here would bypass gating.

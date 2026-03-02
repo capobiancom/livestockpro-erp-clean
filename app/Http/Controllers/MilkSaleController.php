@@ -103,6 +103,7 @@ class MilkSaleController extends Controller
         if (!$user) {
             return redirect()->route('login');
         }
+
         $validated = $request->validate([
             'invoice_number' => [
                 'nullable',
@@ -125,10 +126,9 @@ class MilkSaleController extends Controller
         try {
             DB::transaction(function () use ($validated, $user) {
                 // Enforce farm_id for farm owners
-                if ($user->hasRole('farm owner')) {
-                    $validated['farm_id'] = $user->farm_id;
-                    $validated['user_id'] = $user->id;
-                }
+
+                $validated['farm_id'] = $user->farm_id;
+                $validated['user_id'] = $user->id;
 
                 // Validate that the selected customer belongs to the user's farm
                 if ($user->hasRole('farm owner') && !empty($validated['customer_id'])) {
@@ -283,6 +283,7 @@ class MilkSaleController extends Controller
         if (!$user) {
             return redirect()->route('login');
         }
+
         $validated = $request->validate([
             'invoice_number' => [
                 'nullable',
@@ -305,10 +306,9 @@ class MilkSaleController extends Controller
 
         try {
             DB::transaction(function () use ($validated, $user, $milkSale) {
-                // Enforce farm_id for farm owners
-                if ($user->hasRole('farm owner')) {
-                    $validated['farm_id'] = $user->farm_id;
-                }
+
+                $validated['farm_id'] = $user->farm_id;
+                $validated['user_id'] = $user->id;
 
                 // Validate that the selected customer belongs to the user's farm
                 if ($user->hasRole('farm owner') && !empty($validated['customer_id'])) {
@@ -354,6 +354,8 @@ class MilkSaleController extends Controller
                     'unit_price' => $validated['unit_price'],
                     'total_price' => $validated['total_price'],
                     'notes' => $validated['notes'] ?? null,
+                    'farm_id' => $validated['farm_id'],
+                    'user_id' => $validated['user_id']
                 ]);
 
                 // Calculate total paid amount from associated sale transactions

@@ -156,7 +156,9 @@
                                 >
                             </li>
                             <li v-if="hasFeature('animals')">
-                                <Link :href="route('herds.index')" :class="linkClass('/herds')"
+                                <Link
+                                    :href="route('herds.index')"
+                                    :class="linkClass('/herds')"
                                     >Herds</Link
                                 >
                             </li>
@@ -169,7 +171,9 @@
                             </li>
                             <li v-if="hasFeature('animals')">
                                 <Link
-                                    :href="route('artificial-inseminations.index')"
+                                    :href="
+                                        route('artificial-inseminations.index')
+                                    "
                                     :class="
                                         linkClass('/artificial-inseminations')
                                     "
@@ -513,7 +517,9 @@
                             </li>
                             <li v-if="hasFeature('accounting')">
                                 <Link
-                                    :href="route('journal-voucher-report.index')"
+                                    :href="
+                                        route('journal-voucher-report.index')
+                                    "
                                     :class="
                                         linkClass('/journal-voucher-report')
                                     "
@@ -617,7 +623,9 @@
                                 >
                             </li>
                             <li v-if="hasFeature('finance')">
-                                <Link :href="route('sales.index')" :class="linkClass('/sales')"
+                                <Link
+                                    :href="route('sales.index')"
+                                    :class="linkClass('/sales')"
                                     >Sales</Link
                                 >
                             </li>
@@ -867,7 +875,9 @@
                                 >
                             </li>
                             <li v-if="hasFeature('operation')">
-                                <Link :href="route('farms.index')" :class="linkClass('/farms')"
+                                <Link
+                                    :href="route('farms.index')"
+                                    :class="linkClass('/farms')"
                                     >Farms</Link
                                 >
                             </li>
@@ -1072,7 +1082,11 @@
                             </li>
                             <li v-if="hasFeature('reports')">
                                 <Link
-                                    :href="route('reports.feeding-cost-analysis.index')"
+                                    :href="
+                                        route(
+                                            'reports.feeding-cost-analysis.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/feeding-cost-analysis',
@@ -1083,7 +1097,9 @@
                             </li>
                             <li v-if="hasFeature('reports')">
                                 <Link
-                                    :href="route('reports.vaccination-due.index')"
+                                    :href="
+                                        route('reports.vaccination-due.index')
+                                    "
                                     :class="
                                         linkClass('/reports/vaccination-due')
                                     "
@@ -1099,7 +1115,11 @@
                             </li>
                             <li v-if="hasFeature('reports')">
                                 <Link
-                                    :href="route('reports.conception-success-rate.index')"
+                                    :href="
+                                        route(
+                                            'reports.conception-success-rate.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/conception-success-rate',
@@ -1110,7 +1130,11 @@
                             </li>
                             <li v-if="hasFeature('reports')">
                                 <Link
-                                    :href="route('reports.pregnancy-loss-analysis.index')"
+                                    :href="
+                                        route(
+                                            'reports.pregnancy-loss-analysis.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/pregnancy-loss-analysis',
@@ -1121,7 +1145,11 @@
                             </li>
                             <li v-if="hasFeature('reports')">
                                 <Link
-                                    :href="route('reports.ai-vs-natural-breeding-success.index')"
+                                    :href="
+                                        route(
+                                            'reports.ai-vs-natural-breeding-success.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/ai-vs-natural-breeding-success',
@@ -1132,7 +1160,9 @@
                             </li>
                             <li v-if="hasFeature('reports')">
                                 <Link
-                                    :href="route('reports.calving-interval.index')"
+                                    :href="
+                                        route('reports.calving-interval.index')
+                                    "
                                     :class="
                                         linkClass('/reports/calving-interval')
                                     "
@@ -1141,7 +1171,11 @@
                             </li>
                             <li v-if="hasFeature('reports')">
                                 <Link
-                                    :href="route('reports.fertility-performance-per-cow.index')"
+                                    :href="
+                                        route(
+                                            'reports.fertility-performance-per-cow.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/fertility-performance-per-cow',
@@ -1152,7 +1186,11 @@
                             </li>
                             <li v-if="hasFeature('reports')">
                                 <Link
-                                    :href="route('reports.treatment-cost-per-animal.index')"
+                                    :href="
+                                        route(
+                                            'reports.treatment-cost-per-animal.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/treatment-cost-per-animal',
@@ -1217,7 +1255,11 @@
                         >
                             <li v-if="hasFeature('invreports')">
                                 <Link
-                                    :href="route('reports.inventory.current-stock-by-item.index')"
+                                    :href="
+                                        route(
+                                            'reports.inventory.current-stock-by-item.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/inventory/current-stock-by-item',
@@ -1228,7 +1270,11 @@
                             </li>
                             <li v-if="hasFeature('invreports')">
                                 <Link
-                                    :href="route('reports.inventory.low-stock-alerts.index')"
+                                    :href="
+                                        route(
+                                            'reports.inventory.low-stock-alerts.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/inventory/low-stock-alerts',
@@ -1239,7 +1285,11 @@
                             </li>
                             <li v-if="hasFeature('invreports')">
                                 <Link
-                                    :href="route('reports.inventory.expired-medicine.index')"
+                                    :href="
+                                        route(
+                                            'reports.inventory.expired-medicine.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/inventory/expired-medicine',
@@ -1250,7 +1300,11 @@
                             </li>
                             <li v-if="hasFeature('invreports')">
                                 <Link
-                                    :href="route('reports.inventory.feed-consumed-per-animal.index')"
+                                    :href="
+                                        route(
+                                            'reports.inventory.feed-consumed-per-animal.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/inventory/feed-consumed-per-animal',
@@ -1261,7 +1315,11 @@
                             </li>
                             <li v-if="hasFeature('invreports')">
                                 <Link
-                                    :href="route('reports.inventory.cost-of-feed-per-cow.index')"
+                                    :href="
+                                        route(
+                                            'reports.inventory.cost-of-feed-per-cow.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/inventory/cost-of-feed-per-cow',
@@ -1272,7 +1330,11 @@
                             </li>
                             <li v-if="hasFeature('invreports')">
                                 <Link
-                                    :href="route('reports.inventory.medicine-used-per-disease.index')"
+                                    :href="
+                                        route(
+                                            'reports.inventory.medicine-used-per-disease.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/inventory/medicine-used-per-disease',
@@ -1283,7 +1345,11 @@
                             </li>
                             <li v-if="hasFeature('invreports')">
                                 <Link
-                                    :href="route('reports.inventory.monthly-consumption-summary.index')"
+                                    :href="
+                                        route(
+                                            'reports.inventory.monthly-consumption-summary.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/inventory/monthly-consumption-summary',
@@ -1294,7 +1360,11 @@
                             </li>
                             <li v-if="hasFeature('invreports')">
                                 <Link
-                                    :href="route('reports.inventory.wastage-loss.index')"
+                                    :href="
+                                        route(
+                                            'reports.inventory.wastage-loss.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/reports/inventory/wastage-loss',
@@ -1362,7 +1432,9 @@
                         >
                             <li>
                                 <Link
-                                    :href="route('admin.subscription-plans.index')"
+                                    :href="
+                                        route('admin.subscription-plans.index')
+                                    "
                                     :class="
                                         linkClass('/admin/subscription-plans')
                                     "
@@ -1371,7 +1443,11 @@
                             </li>
                             <li>
                                 <Link
-                                    :href="route('admin.subscription-features.index')"
+                                    :href="
+                                        route(
+                                            'admin.subscription-features.index',
+                                        )
+                                    "
                                     :class="
                                         linkClass(
                                             '/admin/subscription-features',

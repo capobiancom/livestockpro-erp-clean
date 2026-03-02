@@ -67,14 +67,12 @@ class FarmProductivityDashboardController extends Controller
         ]);
 
         $from = isset($validated['from'])
-            ? Carbon::parse($validated['from'])->startOfDay()->format('Y-m-d HH:mm:ss')
+            ? Carbon::parse($validated['from'])->startOfDay()
             : now()->subDays(30)->startOfDay();
 
         $to = isset($validated['to'])
-            ? Carbon::parse($validated['to'])->endOfDay()->format('Y-m-d HH:mm:ss')
+            ? Carbon::parse($validated['to'])->endOfDay()
             : now()->endOfDay();
-
-        //dd($from, $to);
 
         $activeAnimals = Animal::query()
             ->where('farm_id', $farm->id)

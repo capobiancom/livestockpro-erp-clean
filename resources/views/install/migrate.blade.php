@@ -94,33 +94,71 @@ async function runMigrations() {
 
         clearInterval(interval);
         console.log('Response status:', resp.status);
-        
-        const data = await resp.json();
-        console.log('Response data:', data);
 
-        if (data.success) {
-            // Complete the progress bar to 100%
-            progressFill.style.width = '100%';
-            log.innerHTML += '\n\n✅ All migrations and seeding completed successfully!';
-            progressFill.classList.remove('bg-green-500');
-            progressFill.classList.add('bg-green-600');
-            
-            // Hide action buttons
-            document.getElementById('action-buttons').style.display = 'none';
-            
-            // Show next button
-            nextBtn.classList.remove('hidden');
-            
-            console.log('Redirecting to admin in 2 seconds...');
-            
-            // Auto-redirect after 2 seconds
-            setTimeout(() => {
-                console.log('Redirecting now...');
-                window.location.href = '{{ route('install.admin') }}';
-            }, 2000);
+        // The backend currently returns a redirect (HTML) on success.
+        // If we blindly call resp.json(), we'll get:
+        //   Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+        //
+        // So:
+        // 1) If response is JSON, parse it and use {success:true/false}
+        // 2) Otherwise, treat any 2xx as success and navigate to the next step.
+        const contentType = resp.headers.get('content-type') || '';
+        console.log('Response content-type:', contentType);
+
+        let data = null;
+
+        if (contentType.includes('application/json')) {
+            data = await resp.json();
+            console.log('Response data (json):', data);
+
+            if (!data.success) {
+                throw new Error(data.error || 'Unknown error');
+            }
+
+            // If backend provides a redirect URL, follow it immediately.
+            if (data.redirect) {
+                console.log('Following JSON redirect to:', data.redirect);
+                // Ensure admin step doesn't bounce back if session write is delayed
+                window.location.href = data.redirect + (data.redirect.includes('?') ? '&' : '?') + 'migrated=1';
+                return;
+            }
         } else {
-            throw new Error(data.error || 'Unknown error');
+            // Non-JSON (likely HTML redirect page). If not OK, show the body as error.
+            if (!resp.ok) {
+                const text = await resp.text();
+                console.log('Response data (text):', text);
+                throw new Error('Server returned ' + resp.status + '. ' + (text?.slice(0, 300) || ''));
+            }
         }
+
+        // Success UI
+        progressFill.style.width = '100%';
+        log.innerHTML += '\n\n✅ All migrations and seeding completed successfully!';
+        progressFill.classList.remove('bg-green-500');
+        progressFill.classList.add('bg-green-600');
+
+        // Hide action buttons
+        document.getElementById('action-buttons').style.display = 'none';
+
+        // Show next button
+        nextBtn.classList.remove('hidden');
+
+        // If the backend responded with a redirect, follow it explicitly.
+        // (fetch() follows redirects internally, but it does NOT change window.location)
+        if (resp.redirected && resp.url) {
+            console.log('Following server redirect to:', resp.url);
+            // Ensure admin step doesn't bounce back if session write is delayed
+            window.location.href = resp.url + (resp.url.includes('?') ? '&' : '?') + 'migrated=1';
+            return;
+        }
+
+        console.log('Redirecting to admin in 1 second...');
+
+        // Auto-redirect after 1 second
+        setTimeout(() => {
+            console.log('Redirecting now...');
+            window.location.href = '{{ route('install.admin', ['migrated' => 1]) }}';
+        }, 1000);
     } catch (err) {
         clearInterval(interval);
         console.error('Migration error:', err);

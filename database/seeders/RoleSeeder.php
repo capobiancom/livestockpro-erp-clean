@@ -17,7 +17,7 @@ class RoleSeeder extends Seeder
         }
 
         // Assign Super Admin to test user
-        $user = User::where('email', 'test@example.com')->first();
+        $user = User::where('email', 'superadmin@example.com')->first();
         if ($user) {
             $user->assignRole('Super Admin');
             $user->assignRole('admin'); // Assign 'admin' role to Super Admin for route middleware

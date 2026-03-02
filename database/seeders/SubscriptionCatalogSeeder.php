@@ -137,7 +137,11 @@ class SubscriptionCatalogSeeder extends Seeder
                     'monthly_price_cents' => 0,
                     'yearly_discount_percent' => 0,
                     'sort_order' => 10,
-                    'features' => [],
+                    'features' => [
+                        'animals' => true,
+                        'healths' => true,
+                        'feedings' => true,
+                    ],
                 ],
                 [
                     'slug' => 'starter',
@@ -146,11 +150,12 @@ class SubscriptionCatalogSeeder extends Seeder
                     'yearly_discount_percent' => 10,
                     'sort_order' => 20,
                     'features' => [
+                        'dashboard' => true,
+                        'farmproductivity' => true,
                         'animals' => true,
                         'healths' => true,
                         'feedings' => true,
                         'productions' => true,
-                        'farmproductivity' => true,
                         'customers' => true,
                         'finance' => true,
                         'operation' => true,
