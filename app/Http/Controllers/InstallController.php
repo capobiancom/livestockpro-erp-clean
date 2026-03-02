@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Throwable;
@@ -174,6 +175,16 @@ class InstallController extends Controller
                     '--no-interaction' => true,
                 ]);
             } else {
+                // For fresh installs we need to wipe any existing schema as well so that
+                // incompatible column types don't linger from a previous attempt. The
+                // importer below uses "IF NOT EXISTS" and skips duplicate indexes, which
+                // means rerunning without dropping tables can leave mismatched definitions
+                // (e.g. farms.id BIGINT UNSIGNED vs herds.farm_id INTEGER). Drop everything
+                // first so the schema import starts from a clean slate.
+                Schema::disableForeignKeyConstraints();
+                Schema::dropAllTables();
+                Schema::enableForeignKeyConstraints();
+
                 // Import schema from SQL file
                 $schemaFile = database_path('schema/sqlite-schema.sql');
                 if (! file_exists($schemaFile)) {
