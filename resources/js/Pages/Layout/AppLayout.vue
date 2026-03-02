@@ -617,13 +617,6 @@
                         >
                             <li v-if="hasFeature('finance')">
                                 <Link
-                                    :href="route('expenses.index')"
-                                    :class="linkClass('/expenses')"
-                                    >Expenses</Link
-                                >
-                            </li>
-                            <li v-if="hasFeature('finance')">
-                                <Link
                                     :href="route('sales.index')"
                                     :class="linkClass('/sales')"
                                     >Sales</Link
