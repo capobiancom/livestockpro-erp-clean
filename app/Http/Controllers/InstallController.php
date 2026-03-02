@@ -198,32 +198,17 @@ class InstallController extends Controller
                     $mysqlSql = preg_replace('/integer\s+primary\s+key\s+autoincrement\s+not\s+null/i', 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY', $mysqlSql);
                     $mysqlSql = preg_replace('/integer\s+primary\s+key\s+autoincrement/i', 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY', $mysqlSql);
 
-                    // Remove constraints around column names that may interfere with word boundaries
-                    // This handles cases like id`, `farm_id` etc.
-
                     // IMPORTANT: In the shipped SQLite schema, all foreign keys reference `id` columns
                     // that are created as "integer primary key autoincrement" => BIGINT UNSIGNED.
                     // Therefore, any non-PK integer columns that participate in FKs must also be UNSIGNED,
                     // otherwise MySQL 8 throws error 3780 (incompatible columns).
-                    // Match integer followed by ANY non-alphanumeric character (not preceded by word char)
-                    $mysqlSql = preg_replace('/([^\w])integer([^\w])/i', '$1BIGINT UNSIGNED$2', $mysqlSql);
-                    // Handle case where integer is at string start or end
-                    $mysqlSql = preg_replace('/^integer([^\w])/im', 'BIGINT UNSIGNED$1', $mysqlSql);
-                    $mysqlSql = preg_replace('/([^\w])integer$/im', '$1BIGINT UNSIGNED', $mysqlSql);
 
-                    // Additional safety: catch any remaining "integer" with more aggressive patterns
-                    // This handles edge cases with different whitespace/formatting
-                    $mysqlSql = str_ireplace(' integer ', ' BIGINT UNSIGNED ', $mysqlSql);
-                    $mysqlSql = str_ireplace(' integer,', ' BIGINT UNSIGNED,', $mysqlSql);
-                    $mysqlSql = str_ireplace(' integer)', ' BIGINT UNSIGNED)', $mysqlSql);
+                    // Use regex to match "integer" as a complete word, regardless of surrounding whitespace
+                    // This handles cases like: "integer," "integer not null", "integer)" etc.
+                    $mysqlSql = preg_replace('/\binteger\b/i', 'BIGINT UNSIGNED', $mysqlSql);
 
                     // Ensure any remaining BIGINT columns are also UNSIGNED so FK columns match PKs
-                    $mysqlSql = preg_replace('/BIGINT(?!\s+UNSIGNED)/i', 'BIGINT UNSIGNED', $mysqlSql);
-
-                    // Ensure case consistency for NOT NULL
-                    $mysqlSql = preg_replace('/\s+not\s+null/i', ' NOT NULL', $mysqlSql);
-
-                    $mysqlSql = preg_replace('/tinyint\(1\)/i', 'TINYINT(1)', $mysqlSql);
+                    $mysqlSql = preg_replace('/\bBIGINT\b(?!\s+UNSIGNED)/i', 'BIGINT UNSIGNED', $mysqlSql);
                     $mysqlSql = preg_replace('/datetime/i', 'DATETIME', $mysqlSql);
                     $mysqlSql = preg_replace('/\bdate\b/i', 'DATE', $mysqlSql);
                     $mysqlSql = preg_replace('/\btime\b/i', 'TIME', $mysqlSql);
