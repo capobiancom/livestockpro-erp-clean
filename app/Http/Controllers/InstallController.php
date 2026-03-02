@@ -661,7 +661,7 @@ ENV;
      */
     private function applyPermissions(): void
     {
-        $basePath = base_path();
+        $basePath = "/var/www/livestockPro"; //base_path();
         $permissions = [
             // Main directories: 755 (rwxr-xr-x)
             $basePath                          => 0755,
