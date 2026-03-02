@@ -476,6 +476,12 @@ class InstallController extends Controller
         $connection = session('install.db_connection', 'mysql');
         $appKey     = 'base64:' . base64_encode(random_bytes(32));
 
+        $dbPassword = session('install.db_password', "");
+        // Quote password if it contains special characters
+        if ($this->envValueNeedsQuoting($dbPassword)) {
+            $dbPassword = "'" . str_replace("'", "'\\''", $dbPassword) . "'";
+        }
+
         $dbBlock = $connection === 'sqlite'
             ? "DB_CONNECTION=sqlite\n"
             : implode("\n", [
@@ -484,7 +490,7 @@ class InstallController extends Controller
                 'DB_PORT=' . session('install.db_port', '3306'),
                 'DB_DATABASE=' . session('install.db_database', 'livestock'),
                 'DB_USERNAME=' . session('install.db_username', 'root'),
-                'DB_PASSWORD=' . session('install.db_password', "'moin786#Ruhul786#Mahian'"),
+                'DB_PASSWORD=' . $dbPassword,
             ]);
 
         $saasMode = session('install.saas_mode', 'true');
@@ -545,6 +551,13 @@ VITE_APP_NAME="\${APP_NAME}"
 ENV;
 
         file_put_contents(base_path('.env'), $content);
+    }
+
+    private function envValueNeedsQuoting(string $value): bool
+    {
+        // Check if value contains characters that require quoting in .env files
+        // Special characters: #, =, $, spaces, newlines, etc.
+        return preg_match('/[\s#=$\'"\\\\`]/', $value) > 0;
     }
 
     private function reloadDatabaseConfig(): void
