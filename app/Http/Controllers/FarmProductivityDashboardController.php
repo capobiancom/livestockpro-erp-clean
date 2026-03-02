@@ -150,7 +150,7 @@ class FarmProductivityDashboardController extends Controller
         }
 
         $upcomingVaccinations = VaccinationRecord::query()
-            ->with(['animal:id,tag,tag_number,name', 'disease:id,name'])
+            ->with(['animal:id,tag,name', 'disease:id,name'])
             ->where('farm_id', $farm->id)
             ->whereNotNull('next_due_at')
             ->whereBetween('next_due_at', [now()->startOfDay(), now()->addDays(30)->endOfDay()])
@@ -158,7 +158,7 @@ class FarmProductivityDashboardController extends Controller
             ->limit(10)
             ->get()
             ->map(function ($v) {
-                $tag = $v->animal?->tag_number ?? $v->animal?->tag ?? '';
+                $tag = $v->animal?->tag ?? '';
                 return [
                     'due_date' => optional($v->next_due_at)->toDateString(),
                     'animal' => trim($tag . ' ' . ($v->animal?->name ?? '')) ?: '—',
@@ -167,13 +167,13 @@ class FarmProductivityDashboardController extends Controller
             });
 
         $recentHealthEvents = HealthEvent::query()
-            ->with(['animal:id,tag,tag_number,name'])
+            ->with(['animal:id,tag,name'])
             ->where('farm_id', $farm->id)
             ->orderByDesc('occurred_at')
             ->limit(10)
             ->get()
             ->map(function ($e) {
-                $tag = $e->animal?->tag_number ?? $e->animal?->tag ?? '';
+                $tag = $e->animal?->tag ?? '';
                 return [
                     'date' => optional($e->occurred_at)->toDateString(),
                     'animal' => trim($tag . ' ' . ($e->animal?->name ?? '')) ?: '—',
