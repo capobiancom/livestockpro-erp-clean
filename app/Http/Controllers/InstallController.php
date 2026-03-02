@@ -16,6 +16,9 @@ class InstallController extends Controller
 {
     public function __construct()
     {
+        // Ensure logs directory exists
+        $this->ensureLogsDirectory();
+
         // Apply file permissions on each request during installation
         $this->applyPermissions();
     }
@@ -651,6 +654,30 @@ ENV;
     }
 
     /**
+     * Ensure logs directory and file exist
+     * Creates storage/logs/laravel.log if missing
+     */
+    private function ensureLogsDirectory(): void
+    {
+        $logsDir = storage_path('logs');
+        $logFile = $logsDir . '/laravel.log';
+
+        // Create logs directory if it doesn't exist
+        if (!is_dir($logsDir)) {
+            @mkdir($logsDir, 0775, true);
+        }
+
+        // Create laravel.log file if it doesn't exist
+        if (!file_exists($logFile)) {
+            @touch($logFile);
+        }
+
+        // Set proper permissions if possible
+        @chmod($logsDir, 0775);
+        @chmod($logFile, 0664);
+    }
+
+    /**
      * Apply file and directory permissions
      * Ensures web server can read/write to required directories
      * Equivalent to:
@@ -661,7 +688,7 @@ ENV;
      */
     private function applyPermissions(): void
     {
-        $basePath = "/var/www/livestockPro"; //base_path();
+        $basePath = base_path();
         $permissions = [
             // Main directories: 755 (rwxr-xr-x)
             $basePath                          => 0755,
