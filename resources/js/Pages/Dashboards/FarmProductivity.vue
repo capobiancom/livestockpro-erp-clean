@@ -85,24 +85,24 @@
             <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
                 <KpiCard
                     label="Milk (Total)"
-                    :value="number(kpis.milk_total_liters)"
+                    :value="safeKpi('milk_total_liters')"
                     suffix="L"
                     tone="cyan"
                 />
                 <KpiCard
                     label="Milk (Avg / day)"
-                    :value="number(kpis.milk_avg_daily_liters)"
+                    :value="safeKpi('milk_avg_daily_liters')"
                     suffix="L"
                     tone="indigo"
                 />
                 <KpiCard
                     label="Milk Sales Revenue"
-                    :value="money(kpis.milk_sales_revenue)"
+                    :value="money(props.kpis?.milk_sales_revenue ?? 0)"
                     tone="emerald"
                 />
                 <KpiCard
                     label="Expenses"
-                    :value="money(kpis.expenses_total)"
+                    :value="money(props.kpis?.expenses_total ?? 0)"
                     tone="rose"
                 />
             </div>
@@ -110,22 +110,22 @@
             <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
                 <KpiCard
                     label="Feedings"
-                    :value="number(kpis.feedings_count)"
+                    :value="safeKpi('feedings_count')"
                     tone="amber"
                 />
                 <KpiCard
                     label="Health Events"
-                    :value="number(kpis.health_events_count)"
+                    :value="safeKpi('health_events_count')"
                     tone="red"
                 />
                 <KpiCard
                     label="Vaccinations Due (7d)"
-                    :value="number(kpis.vaccinations_due_7d)"
+                    :value="safeKpi('vaccinations_due_7d')"
                     tone="violet"
                 />
                 <KpiCard
                     label="Active Animals"
-                    :value="number(kpis.active_animals)"
+                    :value="safeKpi('active_animals')"
                     tone="slate"
                 />
             </div>
@@ -135,14 +135,14 @@
                 <TrendCard
                     title="Milk Trend"
                     subtitle="Daily liters"
-                    :series="trends.milk"
+                    :series="safeTrend('milk')"
                     value-key="liters"
                     tone="cyan"
                 />
                 <TrendCard
                     title="Revenue Trend"
                     subtitle="Daily milk sales"
-                    :series="trends.revenue"
+                    :series="safeTrend('revenue')"
                     value-key="amount"
                     tone="emerald"
                     :format="money"
@@ -150,7 +150,7 @@
                 <TrendCard
                     title="Feeding Trend"
                     subtitle="Daily feeding count"
-                    :series="trends.feedings"
+                    :series="safeTrend('feedings')"
                     value-key="count"
                     tone="amber"
                 />
@@ -324,6 +324,18 @@ const props = defineProps({
     tables: { type: Object, required: true },
 });
 
+// log props on mount (helps verify what the server sent)
+import { onMounted, watchEffect } from "vue";
+
+onMounted(() => {
+    console.log("FarmProductivity props:", props);
+});
+
+watchEffect(() => {
+    // reactive log to catch updates
+    console.log("FP props changed", props);
+});
+
 const form = reactive({
     from: props.filters.from ?? null,
     to: props.filters.to ?? null,
@@ -362,6 +374,15 @@ function money(v) {
 function number(v) {
     const n = Number(v ?? 0);
     return Number.isFinite(n) ? n.toLocaleString() : "0";
+}
+
+// safe helpers that tolerate missing props
+function safeKpi(key) {
+    return number(props.kpis?.[key] ?? 0);
+}
+
+function safeTrend(series, key) {
+    return props.trends?.[series] || [];
 }
 
 /**
