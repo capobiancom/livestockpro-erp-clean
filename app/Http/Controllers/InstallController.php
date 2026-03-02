@@ -196,7 +196,12 @@ class InstallController extends Controller
                     // Type conversions
                     $mysqlSql = preg_replace('/\binteger primary key autoincrement not null\b/i', 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY', $mysqlSql);
                     $mysqlSql = preg_replace('/\binteger primary key autoincrement\b/i', 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY', $mysqlSql);
-                    $mysqlSql = preg_replace('/\binteger\b/i', 'BIGINT', $mysqlSql);
+
+                    // IMPORTANT: In the shipped SQLite schema, all foreign keys reference `id` columns
+                    // that are created as "integer primary key autoincrement" => BIGINT UNSIGNED.
+                    // Therefore, any non-PK integer columns that participate in FKs must also be UNSIGNED,
+                    // otherwise MySQL 8 throws error 3780 (incompatible columns).
+                    $mysqlSql = preg_replace('/\binteger\b/i', 'BIGINT UNSIGNED', $mysqlSql);
                     $mysqlSql = preg_replace('/\btinyint\(1\)\b/i', 'TINYINT(1)', $mysqlSql);
                     $mysqlSql = preg_replace('/\bdatetime\b/i', 'DATETIME', $mysqlSql);
                     $mysqlSql = preg_replace('/\bdate\b/i', 'DATE', $mysqlSql);
