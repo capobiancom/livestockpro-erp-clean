@@ -151,6 +151,9 @@ class InstallController extends Controller
                     @touch($dbPath);
                 }
 
+                // Ensure the file is writable by the web server / CLI user
+                @chmod($dbPath, 0666);
+
                 // Reconnect so migrations can run
                 DB::reconnect($connection);
             }
