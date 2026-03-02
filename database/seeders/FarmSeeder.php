@@ -15,8 +15,11 @@ class FarmSeeder extends Seeder
         FakerFactory::create()->unique(true);
 
         $user = User::first();
+        $userId = $user ? $user->id : null;
+
         Farm::factory()->count(5)->create([
-            'user_id' => $user->id,
+            // if no user exists yet (clean install), allow the foreign key to be null
+            'user_id' => $userId,
         ]);
     }
 }
