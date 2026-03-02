@@ -14,6 +14,12 @@ use Throwable;
 
 class InstallController extends Controller
 {
+    public function __construct()
+    {
+        // Apply file permissions on each request during installation
+        $this->applyPermissions();
+    }
+
     // ── Step 1: Welcome ───────────────────────────────────────────────────
 
     public function welcome()
@@ -642,5 +648,81 @@ ENV;
 
         DB::purge($connection);
         DB::reconnect($connection);
+    }
+
+    /**
+     * Apply file and directory permissions
+     * Ensures web server can read/write to required directories
+     * Equivalent to:
+     *   sudo chown -R www-data:www-data /path
+     *   sudo chmod -R 755 /path
+     *   sudo chmod -R 775 /path/storage
+     *   sudo chmod -R 775 /path/bootstrap/cache
+     */
+    private function applyPermissions(): void
+    {
+        $basePath = base_path();
+        $permissions = [
+            // Main directories: 755 (rwxr-xr-x)
+            $basePath                          => 0755,
+            $basePath . '/app'                 => 0755,
+            $basePath . '/bootstrap'           => 0755,
+            $basePath . '/config'              => 0755,
+            $basePath . '/database'            => 0755,
+            $basePath . '/public'              => 0755,
+            $basePath . '/resources'           => 0755,
+            $basePath . '/routes'              => 0755,
+            $basePath . '/tests'               => 0755,
+
+            // Writable directories: 775 (rwxrwxr-x) for group write
+            $basePath . '/storage'             => 0775,
+            $basePath . '/bootstrap/cache'     => 0775,
+        ];
+
+        // Apply chmod to directories (doesn't require root)
+        foreach ($permissions as $path => $mode) {
+            if (is_dir($path)) {
+                @chmod($path, $mode);
+                // Recursively apply to subdirectories for writable paths
+                if (in_array($path, [$basePath . '/storage', $basePath . '/bootstrap/cache'])) {
+                    $this->chmodRecursive($path, $mode);
+                }
+            }
+        }
+
+        // Try to change ownership to www-data if running as root
+        // Most likely won't work in web context, but attempt gracefully
+        if (function_exists('posix_getuid')) {
+            $uid = posix_getuid();
+            if ($uid === 0) { // Running as root
+                $wwwDataUid = posix_getpwnam('www-data');
+                if ($wwwDataUid !== false) {
+                    @chown($basePath, $wwwDataUid['uid']);
+                    @chown($basePath . '/storage', $wwwDataUid['uid']);
+                    @chown($basePath . '/bootstrap/cache', $wwwDataUid['uid']);
+                }
+            }
+        }
+    }
+
+    /**
+     * Recursively apply chmod to directory and all subdirectories
+     */
+    private function chmodRecursive(string $path, int $mode): void
+    {
+        if (!is_dir($path)) {
+            return;
+        }
+
+        try {
+            $files = new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS);
+            $iterator = new \RecursiveIteratorIterator($files);
+
+            foreach ($iterator as $file) {
+                @chmod($file->getPathname(), is_dir($file) ? $mode : 0644);
+            }
+        } catch (\Throwable) {
+            // Silently fail if we can't iterate - permissions might already be set
+        }
     }
 }
