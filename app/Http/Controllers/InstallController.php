@@ -202,6 +202,11 @@ class InstallController extends Controller
                     // Therefore, any non-PK integer columns that participate in FKs must also be UNSIGNED,
                     // otherwise MySQL 8 throws error 3780 (incompatible columns).
                     $mysqlSql = preg_replace('/\binteger\b/i', 'BIGINT UNSIGNED', $mysqlSql);
+
+                    // Ensure any remaining BIGINT columns are also UNSIGNED so FK columns match PKs.
+                    // (Some earlier conversions or schema fragments may already contain BIGINT.)
+                    $mysqlSql = preg_replace('/\bBIGINT\b(?!\s+UNSIGNED)/i', 'BIGINT UNSIGNED', $mysqlSql);
+
                     $mysqlSql = preg_replace('/\btinyint\(1\)\b/i', 'TINYINT(1)', $mysqlSql);
                     $mysqlSql = preg_replace('/\bdatetime\b/i', 'DATETIME', $mysqlSql);
                     $mysqlSql = preg_replace('/\bdate\b/i', 'DATE', $mysqlSql);
