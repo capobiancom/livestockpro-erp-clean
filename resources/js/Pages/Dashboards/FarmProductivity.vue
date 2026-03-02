@@ -81,84 +81,313 @@
                 </div>
             </div>
 
-            <!-- debug output (visible on remote, helps verify data) -->
-            <pre class="bg-yellow-50 text-xs text-red-600 p-2 overflow-auto">
-                {{ JSON.stringify(props, null, 2) }}
-            </pre>
-
             <!-- KPI cards -->
             <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
-                <KpiCard
-                    label="Milk (Total)"
-                    :value="safeKpi('milk_total_liters')"
-                    suffix="L"
-                    tone="cyan"
-                />
-                <KpiCard
-                    label="Milk (Avg / day)"
-                    :value="safeKpi('milk_avg_daily_liters')"
-                    suffix="L"
-                    tone="indigo"
-                />
-                <KpiCard
-                    label="Milk Sales Revenue"
-                    :value="money(props.kpis?.milk_sales_revenue ?? 0)"
-                    tone="emerald"
-                />
-                <KpiCard
-                    label="Expenses"
-                    :value="money(props.kpis?.expenses_total ?? 0)"
-                    tone="rose"
-                />
+                <!-- Milk Total -->
+                <div
+                    class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
+                >
+                    <div
+                        class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                    >
+                        Milk (Total)
+                    </div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900">
+                        {{ safeKpi("milk_total_liters")
+                        }}<span class="ml-1 text-sm font-semibold text-gray-500"
+                            >L</span
+                        >
+                    </div>
+                </div>
+                <!-- Milk Avg Daily -->
+                <div
+                    class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
+                >
+                    <div
+                        class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                    >
+                        Milk (Avg / day)
+                    </div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900">
+                        {{ safeKpi("milk_avg_daily_liters")
+                        }}<span class="ml-1 text-sm font-semibold text-gray-500"
+                            >L</span
+                        >
+                    </div>
+                </div>
+                <!-- Milk Sales Revenue -->
+                <div
+                    class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
+                >
+                    <div
+                        class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                    >
+                        Milk Sales Revenue
+                    </div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900">
+                        {{ money(props.kpis?.milk_sales_revenue ?? 0) }}
+                    </div>
+                </div>
+                <!-- Expenses -->
+                <div
+                    class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
+                >
+                    <div
+                        class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                    >
+                        Expenses
+                    </div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900">
+                        {{ money(props.kpis?.expenses_total ?? 0) }}
+                    </div>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
-                <KpiCard
-                    label="Feedings"
-                    :value="safeKpi('feedings_count')"
-                    tone="amber"
-                />
-                <KpiCard
-                    label="Health Events"
-                    :value="safeKpi('health_events_count')"
-                    tone="red"
-                />
-                <KpiCard
-                    label="Vaccinations Due (7d)"
-                    :value="safeKpi('vaccinations_due_7d')"
-                    tone="violet"
-                />
-                <KpiCard
-                    label="Active Animals"
-                    :value="safeKpi('active_animals')"
-                    tone="slate"
-                />
+                <!-- Feedings -->
+                <div
+                    class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
+                >
+                    <div
+                        class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                    >
+                        Feedings
+                    </div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900">
+                        {{ safeKpi("feedings_count") }}
+                    </div>
+                </div>
+                <!-- Health Events -->
+                <div
+                    class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
+                >
+                    <div
+                        class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                    >
+                        Health Events
+                    </div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900">
+                        {{ safeKpi("health_events_count") }}
+                    </div>
+                </div>
+                <!-- Vaccinations Due -->
+                <div
+                    class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
+                >
+                    <div
+                        class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                    >
+                        Vaccinations Due (7d)
+                    </div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900">
+                        {{ safeKpi("vaccinations_due_7d") }}
+                    </div>
+                </div>
+                <!-- Active Animals -->
+                <div
+                    class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
+                >
+                    <div
+                        class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                    >
+                        Active Animals
+                    </div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900">
+                        {{ safeKpi("active_animals") }}
+                    </div>
+                </div>
             </div>
 
             <!-- Trends -->
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                <TrendCard
-                    title="Milk Trend"
-                    subtitle="Daily liters"
-                    :series="safeTrend('milk')"
-                    value-key="liters"
-                    tone="cyan"
-                />
-                <TrendCard
-                    title="Revenue Trend"
-                    subtitle="Daily milk sales"
-                    :series="safeTrend('revenue')"
-                    value-key="amount"
-                    tone="emerald"
-                    :format="money"
-                />
-                <TrendCard
-                    title="Feeding Trend"
-                    subtitle="Daily feeding count"
-                    :series="safeTrend('feedings')"
-                    value-key="count"
-                    tone="amber"
-                />
+                <!-- Milk Trend Card -->
+                <div class="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
+                    <div class="border-b border-gray-200 px-4 py-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-900">
+                                    Milk Trend
+                                </h3>
+                                <p class="mt-0.5 text-xs text-gray-500">
+                                    Daily liters
+                                </p>
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                {{ (safeTrend("milk") || []).length }} day(s)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <div
+                            v-if="(safeTrend('milk') || []).length === 0"
+                            class="py-10 text-center text-sm text-gray-500"
+                        >
+                            No trend data for this period.
+                        </div>
+                        <div
+                            v-for="(s, idx) in safeTrend('milk')"
+                            :key="idx"
+                            class="flex items-center gap-3"
+                        >
+                            <div
+                                class="w-12 text-xs text-gray-500 tabular-nums"
+                            >
+                                {{ String(s?.date || "").slice(5) }}
+                            </div>
+                            <div class="flex-1">
+                                <div
+                                    class="h-2 rounded-full bg-gray-100 overflow-hidden"
+                                >
+                                    <div
+                                        class="h-2 rounded-full bg-cyan-500"
+                                        :style="{
+                                            width: trendWidth(
+                                                s?.liters,
+                                                'milk',
+                                                'liters',
+                                            ),
+                                        }"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div
+                                class="w-24 text-right text-xs font-medium text-gray-700 tabular-nums"
+                            >
+                                {{
+                                    Number.isFinite(Number(s?.liters ?? 0))
+                                        ? Number(
+                                              s?.liters ?? 0,
+                                          ).toLocaleString()
+                                        : "0"
+                                }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Revenue Trend Card -->
+                <div class="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
+                    <div class="border-b border-gray-200 px-4 py-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-900">
+                                    Revenue Trend
+                                </h3>
+                                <p class="mt-0.5 text-xs text-gray-500">
+                                    Daily milk sales
+                                </p>
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                {{ (safeTrend("revenue") || []).length }}
+                                day(s)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <div
+                            v-if="(safeTrend('revenue') || []).length === 0"
+                            class="py-10 text-center text-sm text-gray-500"
+                        >
+                            No trend data for this period.
+                        </div>
+                        <div
+                            v-for="(s, idx) in safeTrend('revenue')"
+                            :key="idx"
+                            class="flex items-center gap-3"
+                        >
+                            <div
+                                class="w-12 text-xs text-gray-500 tabular-nums"
+                            >
+                                {{ String(s?.date || "").slice(5) }}
+                            </div>
+                            <div class="flex-1">
+                                <div
+                                    class="h-2 rounded-full bg-gray-100 overflow-hidden"
+                                >
+                                    <div
+                                        class="h-2 rounded-full bg-emerald-500"
+                                        :style="{
+                                            width: trendWidth(
+                                                s?.amount,
+                                                'revenue',
+                                                'amount',
+                                            ),
+                                        }"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div
+                                class="w-24 text-right text-xs font-medium text-gray-700 tabular-nums"
+                            >
+                                {{ money(s?.amount ?? 0) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feeding Trend Card -->
+                <div class="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
+                    <div class="border-b border-gray-200 px-4 py-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-900">
+                                    Feeding Trend
+                                </h3>
+                                <p class="mt-0.5 text-xs text-gray-500">
+                                    Daily feeding count
+                                </p>
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                {{ (safeTrend("feedings") || []).length }}
+                                day(s)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <div
+                            v-if="(safeTrend('feedings') || []).length === 0"
+                            class="py-10 text-center text-sm text-gray-500"
+                        >
+                            No trend data for this period.
+                        </div>
+                        <div
+                            v-for="(s, idx) in safeTrend('feedings')"
+                            :key="idx"
+                            class="flex items-center gap-3"
+                        >
+                            <div
+                                class="w-12 text-xs text-gray-500 tabular-nums"
+                            >
+                                {{ String(s?.date || "").slice(5) }}
+                            </div>
+                            <div class="flex-1">
+                                <div
+                                    class="h-2 rounded-full bg-gray-100 overflow-hidden"
+                                >
+                                    <div
+                                        class="h-2 rounded-full bg-amber-500"
+                                        :style="{
+                                            width: trendWidth(
+                                                s?.count,
+                                                'feedings',
+                                                'count',
+                                            ),
+                                        }"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div
+                                class="w-24 text-right text-xs font-medium text-gray-700 tabular-nums"
+                            >
+                                {{
+                                    Number.isFinite(Number(s?.count ?? 0))
+                                        ? Number(s?.count ?? 0).toLocaleString()
+                                        : "0"
+                                }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Tables -->
@@ -390,130 +619,20 @@ function safeTrend(series, key) {
     return props.trends?.[series] || [];
 }
 
-/**
- * Local components (kept in-file for speed and consistency)
- */
-const KpiCard = {
-    props: {
-        label: { type: String, required: true },
-        value: { type: String, required: true },
-        suffix: { type: String, default: "" },
-        tone: { type: String, default: "slate" },
-    },
-    computed: {
-        toneClasses() {
-            const map = {
-                cyan: "bg-cyan-50 text-cyan-700 ring-cyan-100",
-                indigo: "bg-indigo-50 text-indigo-700 ring-indigo-100",
-                emerald: "bg-emerald-50 text-emerald-700 ring-emerald-100",
-                rose: "bg-rose-50 text-rose-700 ring-rose-100",
-                amber: "bg-amber-50 text-amber-700 ring-amber-100",
-                red: "bg-red-50 text-red-700 ring-red-100",
-                violet: "bg-violet-50 text-violet-700 ring-violet-100",
-                slate: "bg-slate-50 text-slate-700 ring-slate-100",
-            };
-            return map[this.tone] ?? map.slate;
-        },
-    },
-    template: `
-        <div class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200">
-            <div class="flex items-start justify-between gap-3">
-                <div>
-                    <div class="text-xs font-medium uppercase tracking-wide text-gray-500">{{ label }}</div>
-                    <div class="mt-2 text-2xl font-semibold text-gray-900">
-                        {{ value }}<span v-if="suffix" class="ml-1 text-sm font-semibold text-gray-500">{{ suffix }}</span>
-                    </div>
-                </div>
-                <div class="rounded-lg p-2 ring-1" :class="toneClasses" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1H3a1 1 0 01-1-1v-6zM7 7a1 1 0 011-1h2a1 1 0 011 1v10a1 1 0 01-1 1H8a1 1 0 01-1-1V7zM12 4a1 1 0 011-1h2a1 1 0 011 1v13a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-                    </svg>
-                </div>
-            </div>
-        </div>
-    `,
-};
+function trendMaxValue(series, key) {
+    const data = safeTrend(series) || [];
+    if (!data.length) return 1;
+    const max = Math.max(0, ...data.map((s) => Number(s?.[key] ?? 0)));
+    return max > 0 ? max : 1;
+}
 
-const TrendCard = {
-    props: {
-        title: { type: String, required: true },
-        subtitle: { type: String, default: "" },
-        series: { type: Array, default: () => [] },
-        valueKey: { type: String, required: true },
-        tone: { type: String, default: "slate" },
-        format: { type: Function, default: null },
-    },
-    computed: {
-        maxValue() {
-            const vals = (this.series || []).map((s) =>
-                Number(s?.[this.valueKey] ?? 0),
-            );
-            const max = Math.max(0, ...vals);
-            return max > 0 ? max : 1;
-        },
-        toneBar() {
-            const map = {
-                cyan: "bg-cyan-500",
-                emerald: "bg-emerald-500",
-                amber: "bg-amber-500",
-                slate: "bg-slate-500",
-            };
-            return map[this.tone] ?? map.slate;
-        },
-    },
-    methods: {
-        labelFor(d) {
-            if (!d) return "—";
-            // show MM-DD
-            return String(d).slice(5);
-        },
-        valueFor(v) {
-            const n = Number(v ?? 0);
-            if (!Number.isFinite(n)) return 0;
-            return n;
-        },
-        displayValue(v) {
-            if (this.format) return this.format(v);
-            const n = Number(v ?? 0);
-            return Number.isFinite(n) ? n.toLocaleString() : "0";
-        },
-        widthPct(v) {
-            const n = this.valueFor(v);
-            return Math.max(2, Math.round((n / this.maxValue) * 100));
-        },
-    },
-    template: `
-        <div class="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
-            <div class="border-b border-gray-200 px-4 py-3">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-sm font-semibold text-gray-900">{{ title }}</h3>
-                        <p v-if="subtitle" class="mt-0.5 text-xs text-gray-500">{{ subtitle }}</p>
-                    </div>
-                    <div class="text-xs text-gray-500">{{ (series || []).length }} day(s)</div>
-                </div>
-            </div>
+function trendWidth(value, series, key) {
+    const max = trendMaxValue(series, key);
+    const n = Number(value ?? 0);
+    return Math.max(2, Math.round((n / max) * 100)) + "%";
+}
 
-            <div class="p-4 space-y-2">
-                <div v-if="(series || []).length === 0" class="py-10 text-center text-sm text-gray-500">
-                    No trend data for this period.
-                </div>
-
-                <div v-for="(s, idx) in series" :key="idx" class="flex items-center gap-3">
-                    <div class="w-12 text-xs text-gray-500 tabular-nums">{{ labelFor(s.date) }}</div>
-                    <div class="flex-1">
-                        <div class="h-2 rounded-full bg-gray-100 overflow-hidden">
-                            <div class="h-2 rounded-full" :class="toneBar" :style="{ width: widthPct(s[valueKey]) + '%' }"></div>
-                        </div>
-                    </div>
-                    <div class="w-24 text-right text-xs font-medium text-gray-700 tabular-nums">
-                        {{ displayValue(s[valueKey]) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    `,
-};
+// Component definitions removed - using direct template rendering instead for better compatibility
 </script>
 
 <style scoped>
