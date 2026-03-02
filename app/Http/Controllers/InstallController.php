@@ -16,20 +16,11 @@ class InstallController extends Controller
 {
     public function __construct()
     {
-        // Guard against multiple executions and heavy I/O operations
-        // Only run permission setup once per installation session
+        // Ensure logs directory exists and permissions are applied
+        // Run on every request to ensure permissions are set correctly
         try {
-            static $permissionsApplied = false;
-
-            if (!$permissionsApplied) {
-                // Ensure logs directory exists (critical for error logging)
-                $this->ensureLogsDirectory();
-
-                // Apply file permissions on installation
-                $this->applyPermissions();
-
-                $permissionsApplied = true;
-            }
+            $this->ensureLogsDirectory();
+            $this->applyPermissions();
         } catch (\Throwable $e) {
             // Log permission errors but don't fail the request
             error_log('InstallController: Permission setup error: ' . $e->getMessage());
@@ -668,7 +659,7 @@ ENV;
 
     /**
      * Ensure logs directory and file exist
-     * Creates storage/logs/laravel.log if missing
+     * Creates storage/logs/laravel.log if missing and applies proper permissions
      */
     private function ensureLogsDirectory(): void
     {
@@ -678,40 +669,60 @@ ENV;
 
             // Create logs directory if it doesn't exist
             if (!is_dir($logsDir)) {
-                $mkdirSuccess = @mkdir($logsDir, 0775, true);
+                $savedUmask = umask(0);
+                $mkdirSuccess = @mkdir($logsDir, 0777, true);
+                umask($savedUmask);
+
                 if (!$mkdirSuccess && !is_dir($logsDir)) {
-                    // Directory creation failed and it still doesn't exist, give up gracefully
+                    error_log("Failed to create logs directory: {$logsDir}");
                     return;
                 }
             }
 
             // Create laravel.log file if it doesn't exist
             if (!file_exists($logFile)) {
+                $savedUmask = umask(0);
                 $logHandle = @fopen($logFile, 'a');
                 if ($logHandle) {
                     @fclose($logHandle);
                 }
+                umask($savedUmask);
             }
 
-            // Set proper permissions (non-blocking operations)
+            // Set proper permissions to directory
             if (is_dir($logsDir)) {
-                @chmod($logsDir, 0775);
-            }
-            if (file_exists($logFile)) {
-                @chmod($logFile, 0664);
+                $chmodLogsDir = @chmod($logsDir, 0777);
+                if (!$chmodLogsDir) {
+                    error_log("Failed to chmod {$logsDir} to 0777");
+                }
             }
 
-            // Try to change ownership to www-data (non-blocking)
+            // Set proper permissions to file
+            if (file_exists($logFile)) {
+                $chmodLogFile = @chmod($logFile, 0666);
+                if (!$chmodLogFile) {
+                    error_log("Failed to chmod {$logFile} to 0666");
+                }
+            }
+
+            // Try to change ownership to www-data if we have posix support
+            // This will only succeed if running as root
             if (function_exists('posix_getpwnam')) {
                 $wwwDataUid = posix_getpwnam('www-data');
                 if ($wwwDataUid !== false) {
-                    @chown($logsDir, $wwwDataUid['uid']);
-                    @chown($logFile, $wwwDataUid['uid']);
+                    $chownDir = @chown($logsDir, $wwwDataUid['uid']);
+                    $chownFile = @chown($logFile, $wwwDataUid['uid']);
+
+                    if (!$chownDir) {
+                        error_log("Note: Could not chown {$logsDir} to www-data (may require root)");
+                    }
+                    if (!$chownFile) {
+                        error_log("Note: Could not chown {$logFile} to www-data (may require root)");
+                    }
                 }
             }
         } catch (\Throwable $e) {
-            // Gracefully handle any errors - logging setup should not break the installer
-            // just continue without it
+            error_log('ensureLogsDirectory error: ' . $e->getMessage());
         }
     }
 
@@ -760,7 +771,13 @@ ENV;
             // Apply chmod to directory only (non-recursive first)
             // Skip if directory is already writable to avoid unnecessary I/O
             if (!is_writable($path)) {
-                @chmod($path, $mode);
+                $chmod_success = @chmod($path, $mode);
+                // Log critical directory permission changes
+                if (in_array($path, [$basePath . '/storage', $basePath . '/bootstrap/cache'])) {
+                    if (!$chmod_success) {
+                        error_log("Failed to chmod {$path} to " . decoct($mode));
+                    }
+                }
             }
 
             // Only recursively chmod writable directories on first request
@@ -776,7 +793,9 @@ ENV;
             $uid = posix_getuid();
             if ($uid === 0) { // Running as root
                 // Change ownership recursively for critical directories
+                error_log("Running as root, applying ownership to www-data");
                 $this->chownRecursive($basePath . '/storage', 'www-data');
+
                 $this->chownRecursive($basePath . '/bootstrap/cache', 'www-data');
                 $this->changeOwnershipToWwwData($basePath);
             }
