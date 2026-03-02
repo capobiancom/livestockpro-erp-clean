@@ -706,14 +706,19 @@ ENV;
             $basePath . '/bootstrap/cache'     => 0775,
         ];
 
-        // Apply chmod to directories (doesn't require root)
+        // Create and apply permissions to directories
         foreach ($permissions as $path => $mode) {
-            if (is_dir($path)) {
-                @chmod($path, $mode);
-                // Recursively apply to subdirectories for writable paths
-                if (in_array($path, [$basePath . '/storage', $basePath . '/bootstrap/cache'])) {
-                    $this->chmodRecursive($path, $mode);
-                }
+            // Create directory if it doesn't exist
+            if (!is_dir($path)) {
+                @mkdir($path, $mode, true);
+            }
+
+            // Apply chmod to directory
+            @chmod($path, $mode);
+
+            // Recursively apply to subdirectories for writable paths
+            if (in_array($path, [$basePath . '/storage', $basePath . '/bootstrap/cache'])) {
+                $this->chmodRecursive($path, $mode);
             }
         }
 

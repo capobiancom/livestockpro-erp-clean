@@ -36,6 +36,14 @@ ENV;
     file_put_contents($baseDir . '.env', $minimalEnv);
 }
 
+// Ensure bootstrap/cache directory exists (required by PackageManifest during bootstrap)
+// This must happen before bootstrap so Laravel can cache compiled service providers
+$bootstrapCacheDir = $baseDir . 'bootstrap/cache';
+if (!is_dir($bootstrapCacheDir)) {
+    @mkdir($bootstrapCacheDir, 0775, true);
+}
+@chmod($bootstrapCacheDir, 0775);
+
 // Bootstrap Laravel and handle the request...
 (require_once __DIR__ . '/../bootstrap/app.php')
     ->handleRequest(Request::capture());
