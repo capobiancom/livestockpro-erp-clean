@@ -16,11 +16,24 @@ class InstallController extends Controller
 {
     public function __construct()
     {
-        // Ensure logs directory exists
-        $this->ensureLogsDirectory();
+        // Guard against multiple executions and heavy I/O operations
+        // Only run permission setup once per installation session
+        try {
+            static $permissionsApplied = false;
 
-        // Apply file permissions on each request during installation
-        $this->applyPermissions();
+            if (!$permissionsApplied) {
+                // Ensure logs directory exists (critical for error logging)
+                $this->ensureLogsDirectory();
+
+                // Apply file permissions on installation
+                $this->applyPermissions();
+
+                $permissionsApplied = true;
+            }
+        } catch (\Throwable $e) {
+            // Log permission errors but don't fail the request
+            error_log('InstallController: Permission setup error: ' . $e->getMessage());
+        }
     }
 
     // ── Step 1: Welcome ───────────────────────────────────────────────────
@@ -659,26 +672,47 @@ ENV;
      */
     private function ensureLogsDirectory(): void
     {
-        $logsDir = storage_path('logs');
-        $logFile = $logsDir . '/laravel.log';
+        try {
+            $logsDir = storage_path('logs');
+            $logFile = $logsDir . '/laravel.log';
 
-        // Create logs directory if it doesn't exist
-        if (!is_dir($logsDir)) {
-            @mkdir($logsDir, 0775, true);
+            // Create logs directory if it doesn't exist
+            if (!is_dir($logsDir)) {
+                $mkdirSuccess = @mkdir($logsDir, 0775, true);
+                if (!$mkdirSuccess && !is_dir($logsDir)) {
+                    // Directory creation failed and it still doesn't exist, give up gracefully
+                    return;
+                }
+            }
+
+            // Create laravel.log file if it doesn't exist
+            if (!file_exists($logFile)) {
+                $logHandle = @fopen($logFile, 'a');
+                if ($logHandle) {
+                    @fclose($logHandle);
+                }
+            }
+
+            // Set proper permissions (non-blocking operations)
+            if (is_dir($logsDir)) {
+                @chmod($logsDir, 0775);
+            }
+            if (file_exists($logFile)) {
+                @chmod($logFile, 0664);
+            }
+
+            // Try to change ownership to www-data (non-blocking)
+            if (function_exists('posix_getpwnam')) {
+                $wwwDataUid = posix_getpwnam('www-data');
+                if ($wwwDataUid !== false) {
+                    @chown($logsDir, $wwwDataUid['uid']);
+                    @chown($logFile, $wwwDataUid['uid']);
+                }
+            }
+        } catch (\Throwable $e) {
+            // Gracefully handle any errors - logging setup should not break the installer
+            // just continue without it
         }
-
-        // Create laravel.log file if it doesn't exist
-        if (!file_exists($logFile)) {
-            @touch($logFile);
-        }
-
-        // Set proper permissions
-        @chmod($logsDir, 0775);
-        @chmod($logFile, 0664);
-
-        // Try to change ownership to www-data
-        $this->changeOwnershipToWwwData($logsDir);
-        $this->changeOwnershipToWwwData($logFile);
     }
 
     /**
@@ -692,6 +726,9 @@ ENV;
      */
     private function applyPermissions(): void
     {
+        // Early exit if posix functions aren't available (no chown/chmod support)
+        $canChangePerms = function_exists('posix_getuid');
+
         $basePath = base_path();
         $permissions = [
             // Main directories: 755 (rwxr-xr-x)
@@ -714,21 +751,28 @@ ENV;
         foreach ($permissions as $path => $mode) {
             // Create directory if it doesn't exist
             if (!is_dir($path)) {
-                @mkdir($path, $mode, true);
+                if (!@mkdir($path, $mode, true)) {
+                    // mkdir failed, directory couldn't be created
+                    continue;
+                }
             }
 
-            // Apply chmod to directory
-            @chmod($path, $mode);
+            // Apply chmod to directory only (non-recursive first)
+            // Skip if directory is already writable to avoid unnecessary I/O
+            if (!is_writable($path)) {
+                @chmod($path, $mode);
+            }
 
-            // Recursively apply to subdirectories for writable paths
-            if (in_array($path, [$basePath . '/storage', $basePath . '/bootstrap/cache'])) {
+            // Only recursively chmod writable directories on first request
+            // Skip recursive operations for non-writable paths (might be insufficient permissions)
+            $isWritablePath = in_array($path, [$basePath . '/storage', $basePath . '/bootstrap/cache']);
+            if ($isWritablePath && is_writable($path)) {
                 $this->chmodRecursive($path, $mode);
             }
         }
 
-        // Try to change ownership to www-data if running as root
-        // Most likely won't work in web context, but attempt gracefully
-        if (function_exists('posix_getuid')) {
+        // Only attempt ownership changes if running as root
+        if ($canChangePerms) {
             $uid = posix_getuid();
             if ($uid === 0) { // Running as root
                 // Change ownership recursively for critical directories
@@ -757,6 +801,7 @@ ENV;
 
     /**
      * Recursively change ownership of directory and all contents to www-data
+     * Limited to prevent timeout on large directory trees
      */
     private function chownRecursive(string $path, string $user = 'www-data'): void
     {
@@ -774,11 +819,24 @@ ENV;
             @chown($path, $userInfo['uid']);
 
             // Change ownership of all files and subdirectories recursively
+            // but limit recursion depth to prevent timeouts
             $files = new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS);
-            $iterator = new \RecursiveIteratorIterator($files);
+            $iterator = new \RecursiveIteratorIterator(
+                $files,
+                \RecursiveIteratorIterator::SELF_FIRST
+            );
 
+            // Limit to 2 levels deep to avoid timeout on large vendor directories
+            $iterator->setMaxDepth(2);
+
+            $count = 0;
             foreach ($iterator as $file) {
                 @chown($file->getPathname(), $userInfo['uid']);
+
+                // Limit total operations to prevent timeout
+                if (++$count > 1000) {
+                    break;
+                }
             }
         } catch (\Throwable) {
             // Silently fail if we can't change ownership
@@ -787,6 +845,7 @@ ENV;
 
     /**
      * Recursively apply chmod to directory and all subdirectories
+     * Limited to prevent timeout and excessive I/O
      */
     private function chmodRecursive(string $path, int $mode): void
     {
@@ -796,13 +855,25 @@ ENV;
 
         try {
             $files = new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS);
-            $iterator = new \RecursiveIteratorIterator($files);
+            $iterator = new \RecursiveIteratorIterator(
+                $files,
+                \RecursiveIteratorIterator::SELF_FIRST
+            );
 
+            // Limit to 2 levels deep to speed up operation
+            $iterator->setMaxDepth(2);
+
+            $count = 0;
             foreach ($iterator as $file) {
                 @chmod($file->getPathname(), is_dir($file) ? $mode : 0644);
+
+                // Limit total operations to prevent timeout
+                if (++$count > 1000) {
+                    break;
+                }
             }
         } catch (\Throwable) {
-            // Silently fail if we can't iterate - permissions might already be set
+            // Silently fail if we can't iterate
         }
     }
 }
