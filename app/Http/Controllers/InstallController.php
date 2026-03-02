@@ -170,6 +170,142 @@ class InstallController extends Controller
                     '--force' => true,
                     '--no-interaction' => true,
                 ]);
+            } else {
+                // Import schema from SQL file
+                $schemaFile = database_path('schema/sqlite-schema.sql');
+                if (! file_exists($schemaFile)) {
+                    throw new \RuntimeException("No migrations found and schema file missing at: {$schemaFile}");
+                }
+
+                $sql = file_get_contents($schemaFile);
+
+                // Always split statements for proper error handling
+                $sqlStatements = array_filter(array_map('trim', preg_split('/;\s*\n/', $sql)));
+
+                if ($connection === 'sqlite') {
+                    // SQLite - execute statements individually with error handling for duplicate indices
+                    foreach ($sqlStatements as $stmt) {
+                        if (empty($stmt)) {
+                            continue;
+                        }
+
+                        // Skip migrations table inserts (not using Laravel migration system during install)
+                        if (preg_match('/^INSERT INTO.*migrations/i', $stmt)) {
+                            continue;
+                        }
+
+                        try {
+                            DB::connection($connection)->unprepared($stmt . ';');
+                        } catch (Throwable $e) {
+                            $msg = $e->getMessage();
+
+                            // SQLite error for "index already exists" or table already exists
+                            if (str_contains($msg, 'already exists') || str_contains($msg, 'duplicate')) {
+                                continue;
+                            }
+
+                            throw $e;
+                        }
+                    }
+                } else {
+                    // MySQL: convert the SQLite-oriented schema to MySQL-friendly SQL.
+                    $convertedStatements = [];
+
+                    foreach ($sqlStatements as $stmt) {
+                        if (empty($stmt)) {
+                            continue;
+                        }
+
+                        // Skip migrations table inserts
+                        if (preg_match('/^INSERT INTO.*migrations/i', $stmt)) {
+                            continue;
+                        }
+
+                        $mysqlSql = $stmt;
+
+                        // Remove SQLite double quotes around identifiers
+                        $mysqlSql = str_replace('"', '`', $mysqlSql);
+
+                        // Remove CHECK constraints (MySQL parsing differs; keep it simple for install)
+                        $mysqlSql = preg_replace('/\s+check\(`[^`]+`\s+in\([^)]+\)\)\s*/i', ' ', $mysqlSql);
+
+                        // Type conversions - handle primary key integers first
+                        $mysqlSql = preg_replace('/integer\s+primary\s+key\s+autoincrement\s+not\s+null/i', 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY', $mysqlSql);
+                        $mysqlSql = preg_replace('/integer\s+primary\s+key\s+autoincrement/i', 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY', $mysqlSql);
+
+                        // IMPORTANT: Convert all remaining integers to BIGINT UNSIGNED for FK compatibility
+                        $mysqlSql = preg_replace('/\binteger\b/i', 'BIGINT UNSIGNED', $mysqlSql);
+
+                        // Ensure any remaining BIGINT columns are also UNSIGNED
+                        $mysqlSql = preg_replace('/\bBIGINT\b(?!\s+UNSIGNED)/i', 'BIGINT UNSIGNED', $mysqlSql);
+
+                        // Ensure case consistency for NOT NULL
+                        $mysqlSql = preg_replace('/\s+not\s+null/i', ' NOT NULL', $mysqlSql);
+
+                        // Other type conversions
+                        $mysqlSql = preg_replace('/tinyint\(1\)/i', 'TINYINT(1)', $mysqlSql);
+                        $mysqlSql = preg_replace('/datetime/i', 'DATETIME', $mysqlSql);
+                        $mysqlSql = preg_replace('/\bdate\b/i', 'DATE', $mysqlSql);
+                        $mysqlSql = preg_replace('/\btime\b/i', 'TIME', $mysqlSql);
+                        $mysqlSql = preg_replace('/numeric/i', 'DECIMAL(18,2)', $mysqlSql);
+                        $mysqlSql = preg_replace('/\bfloat\b/i', 'DOUBLE', $mysqlSql);
+                        $mysqlSql = preg_replace('/\btext\b/i', 'LONGTEXT', $mysqlSql);
+
+                        // MySQL requires a length for VARCHAR
+                        $mysqlSql = preg_replace('/varchar(?!\s*\()/i', 'VARCHAR(255)', $mysqlSql);
+
+                        $convertedStatements[] = $mysqlSql;
+                    }
+
+                    // Reorder statements: TABLEs → INDEXes → INSERTs
+                    $createTableStmts = [];
+                    $createIndexStmts = [];
+                    $insertStmts = [];
+                    $otherStmts = [];
+
+                    foreach ($convertedStatements as $stmt) {
+                        if (preg_match('/^\s*CREATE\s+TABLE/i', $stmt)) {
+                            $createTableStmts[] = $stmt;
+                        } elseif (preg_match('/^\s*CREATE\s+(UNIQUE\s+)?INDEX/i', $stmt)) {
+                            $createIndexStmts[] = $stmt;
+                        } elseif (preg_match('/^\s*INSERT/i', $stmt)) {
+                            $insertStmts[] = $stmt;
+                        } else {
+                            $otherStmts[] = $stmt;
+                        }
+                    }
+
+                    $orderedStatements = array_merge($createTableStmts, $createIndexStmts, $insertStmts, $otherStmts);
+
+                    DB::connection($connection)->statement('SET FOREIGN_KEY_CHECKS=0');
+                    DB::connection($connection)->statement('SET SQL_MODE=""');
+
+                    foreach ($orderedStatements as $stmt) {
+                        if (empty($stmt)) {
+                            continue;
+                        }
+
+                        try {
+                            DB::connection($connection)->unprepared($stmt . ';');
+                        } catch (Throwable $e) {
+                            $msg = $e->getMessage();
+
+                            // Skip duplicate index/key errors
+                            if (
+                                str_contains($msg, 'Duplicate key name') ||
+                                str_contains($msg, 'SQLSTATE[42000]: Syntax error or access violation: 1061') ||
+                                (str_contains($msg, 'SQLSTATE[42000]') && str_contains($msg, '1061'))
+                            ) {
+                                continue;
+                            }
+
+                            throw $e;
+                        }
+                    }
+
+                    DB::connection($connection)->statement('SET FOREIGN_KEY_CHECKS=1');
+                    DB::connection($connection)->statement('SET SQL_MODE=DEFAULT');
+                }
             }
 
             // Seeders expect tables to exist now.
