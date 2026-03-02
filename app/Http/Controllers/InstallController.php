@@ -205,6 +205,10 @@ class InstallController extends Controller
                     $mysqlSql = preg_replace('/\bfloat\b/i', 'DOUBLE', $mysqlSql);
                     $mysqlSql = preg_replace('/\btext\b/i', 'LONGTEXT', $mysqlSql);
 
+                    // MySQL requires a length for VARCHAR. SQLite allows bare "varchar".
+                    // Use a safe default length for installer schema import.
+                    $mysqlSql = preg_replace('/\bvarchar\b(?!\s*\()/i', 'VARCHAR(255)', $mysqlSql);
+
                     // SQLite uses default CURRENT_TIMESTAMP without parentheses; MySQL accepts it, keep.
                     // Remove INSERTs into migrations table (we are not using Laravel migrator here)
                     $mysqlSql = preg_replace('/^INSERT INTO `migrations`.*?;\s*$/mi', '', $mysqlSql);
