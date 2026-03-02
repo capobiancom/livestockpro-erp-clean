@@ -157,12 +157,73 @@ class InstallController extends Controller
 
             // Always start from a clean schema during installation.
             // This prevents "table already exists" errors when the installer is re-run.
-            Artisan::call('migrate:fresh', [
-                '--database' => $connection,
-                '--force' => true,
-                '--no-interaction' => true,
-            ]);
+            //
+            // NOTE: This project ships without Laravel migration files (database/migrations),
+            // so migrate:fresh would do nothing and tables like `users` would not exist.
+            // In that case, we fall back to importing the shipped SQL schema.
+            $migrationsPath = database_path('migrations');
+            $hasLaravelMigrations = is_dir($migrationsPath) && count(glob($migrationsPath . '/*.php') ?: []) > 0;
 
+            if ($hasLaravelMigrations) {
+                Artisan::call('migrate:fresh', [
+                    '--database' => $connection,
+                    '--force' => true,
+                    '--no-interaction' => true,
+                ]);
+            } else {
+                // Import schema from SQL file
+                $schemaFile = database_path('schema/sqlite-schema.sql');
+                if (! file_exists($schemaFile)) {
+                    throw new \RuntimeException("No migrations found and schema file missing at: {$schemaFile}");
+                }
+
+                $sql = file_get_contents($schemaFile);
+
+                if ($connection === 'sqlite') {
+                    // SQLite can execute the schema as-is
+                    DB::connection($connection)->unprepared($sql);
+                } else {
+                    // MySQL: convert the SQLite-oriented schema to MySQL-friendly SQL.
+                    // This is a best-effort conversion for installer usage.
+                    $mysqlSql = $sql;
+
+                    // Remove SQLite double quotes around identifiers
+                    $mysqlSql = str_replace('"', '`', $mysqlSql);
+
+                    // Remove CHECK constraints (MySQL parsing differs; keep it simple for install)
+                    $mysqlSql = preg_replace('/\s+check\(`[^`]+`\s+in\([^)]+\)\)\s*/i', ' ', $mysqlSql);
+
+                    // Type conversions
+                    $mysqlSql = preg_replace('/\binteger primary key autoincrement not null\b/i', 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY', $mysqlSql);
+                    $mysqlSql = preg_replace('/\binteger primary key autoincrement\b/i', 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY', $mysqlSql);
+                    $mysqlSql = preg_replace('/\binteger\b/i', 'BIGINT', $mysqlSql);
+                    $mysqlSql = preg_replace('/\btinyint\(1\)\b/i', 'TINYINT(1)', $mysqlSql);
+                    $mysqlSql = preg_replace('/\bdatetime\b/i', 'DATETIME', $mysqlSql);
+                    $mysqlSql = preg_replace('/\bdate\b/i', 'DATE', $mysqlSql);
+                    $mysqlSql = preg_replace('/\btime\b/i', 'TIME', $mysqlSql);
+                    $mysqlSql = preg_replace('/\bnumeric\b/i', 'DECIMAL(18,2)', $mysqlSql);
+                    $mysqlSql = preg_replace('/\bfloat\b/i', 'DOUBLE', $mysqlSql);
+                    $mysqlSql = preg_replace('/\btext\b/i', 'LONGTEXT', $mysqlSql);
+
+                    // SQLite uses default CURRENT_TIMESTAMP without parentheses; MySQL accepts it, keep.
+                    // Remove INSERTs into migrations table (we are not using Laravel migrator here)
+                    $mysqlSql = preg_replace('/^INSERT INTO `migrations`.*?;\s*$/mi', '', $mysqlSql);
+
+                    // Split statements and execute one by one (safer for MySQL)
+                    $statements = array_filter(array_map('trim', preg_split('/;\s*\n/', $mysqlSql)));
+
+                    DB::connection($connection)->statement('SET FOREIGN_KEY_CHECKS=0');
+                    foreach ($statements as $stmt) {
+                        if ($stmt === '') {
+                            continue;
+                        }
+                        DB::connection($connection)->unprepared($stmt . ';');
+                    }
+                    DB::connection($connection)->statement('SET FOREIGN_KEY_CHECKS=1');
+                }
+            }
+
+            // Seeders expect tables to exist now.
             Artisan::call('db:seed', [
                 '--database' => $connection,
                 '--force' => true,
