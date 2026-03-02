@@ -135,12 +135,9 @@ class InstallController extends Controller
             DB::purge($connection);
             DB::reconnect($connection);
 
-            // If using SQLite, ensure the database file exists.
+            // If using SQLite, ensure the database file exists before reconnecting.
             // Do NOT delete it: users may want the sqlite file to persist in /database.
             if ($connection === 'sqlite') {
-                // Disconnect first to release any locks
-                DB::disconnect($connection);
-
                 $dbPath = config('database.connections.sqlite.database');
 
                 if (! is_dir(dirname($dbPath))) {
@@ -154,7 +151,10 @@ class InstallController extends Controller
                 // Ensure the file is writable by the web server / CLI user
                 @chmod($dbPath, 0666);
 
-                // Reconnect so migrations can run
+                // Disconnect first to release any locks (in case a prior connection exists)
+                DB::disconnect($connection);
+
+                // Reconnect so migrations can run without the "file not found" error
                 DB::reconnect($connection);
             }
 
@@ -466,7 +466,7 @@ class InstallController extends Controller
         $appKey     = 'base64:' . base64_encode(random_bytes(32));
 
         $dbBlock = $connection === 'sqlite'
-            ? "DB_CONNECTION=sqlite\nDB_DATABASE=" . database_path('database.sqlite')
+            ? "DB_CONNECTION=sqlite\n"
             : implode("\n", [
                 'DB_CONNECTION=mysql',
                 'DB_HOST=' . session('install.db_host', '127.0.0.1'),
