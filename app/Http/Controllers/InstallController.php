@@ -194,18 +194,23 @@ class InstallController extends Controller
                     $mysqlSql = preg_replace('/\s+check\(`[^`]+`\s+in\([^)]+\)\)\s*/i', ' ', $mysqlSql);
 
                     // Type conversions
-                    $mysqlSql = preg_replace('/\binteger primary key autoincrement not null\b/i', 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY', $mysqlSql);
-                    $mysqlSql = preg_replace('/\binteger primary key autoincrement\b/i', 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY', $mysqlSql);
+                    // Convert primary key integers first
+                    $mysqlSql = preg_replace('/\binteger\s+primary\s+key\s+autoincrement\s+not\s+null\b/i', 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY', $mysqlSql);
+                    $mysqlSql = preg_replace('/\binteger\s+primary\s+key\s+autoincrement\b/i', 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY', $mysqlSql);
 
                     // IMPORTANT: In the shipped SQLite schema, all foreign keys reference `id` columns
                     // that are created as "integer primary key autoincrement" => BIGINT UNSIGNED.
                     // Therefore, any non-PK integer columns that participate in FKs must also be UNSIGNED,
                     // otherwise MySQL 8 throws error 3780 (incompatible columns).
+                    // Use negative lookbehind/lookahead to avoid matches we've already made
                     $mysqlSql = preg_replace('/\binteger\b/i', 'BIGINT UNSIGNED', $mysqlSql);
 
                     // Ensure any remaining BIGINT columns are also UNSIGNED so FK columns match PKs.
                     // (Some earlier conversions or schema fragments may already contain BIGINT.)
-                    $mysqlSql = preg_replace('/\bBIGINT\b(?!\s+UNSIGNED)/i', 'BIGINT UNSIGNED', $mysqlSql);
+                    $mysqlSql = preg_replace('/\bBIGINT(?!\s+UNSIGNED)\b/i', 'BIGINT UNSIGNED', $mysqlSql);
+
+                    // Ensure case consistency for NOT NULL
+                    $mysqlSql = preg_replace('/\s+not\s+null\b/i', ' NOT NULL', $mysqlSql);
 
                     $mysqlSql = preg_replace('/\btinyint\(1\)\b/i', 'TINYINT(1)', $mysqlSql);
                     $mysqlSql = preg_replace('/\bdatetime\b/i', 'DATETIME', $mysqlSql);
