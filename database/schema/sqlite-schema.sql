@@ -1113,7 +1113,7 @@ CREATE TABLE IF NOT EXISTS "animals"(
   foreign key("herd_id") references herds("id") on delete set null on update no action,
   foreign key("supplier_id") references "suppliers"("id") on delete set null
 );
-CREATE INDEX "milk_sales_sale_transaction_source_type_sale_transaction_source_id_index" on "milk_sales"(
+CREATE INDEX "ms_sts_type_id_idx" on "milk_sales"(
   "sale_transaction_source_type",
   "sale_transaction_source_id"
 );
@@ -1137,7 +1137,7 @@ CREATE TABLE IF NOT EXISTS "sale_transactions"(
   foreign key("customer_id") references customers("id") on delete cascade on update no action,
   foreign key("sale_id") references sales("id") on delete set null on update no action
 );
-CREATE INDEX "sale_transactions_sale_transaction_source_type_sale_transaction_source_id_index" on "sale_transactions"(
+CREATE INDEX "st_sts_type_id_idx" on "sale_transactions"(
   "sale_transaction_source_type",
   "sale_transaction_source_id"
 );
