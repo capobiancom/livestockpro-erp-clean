@@ -376,7 +376,7 @@ class DashboardController extends Controller
             $date = Carbon::today()->subDays($i);
             $revenueTrend[] = [
                 'date' => $date->format('M d'),
-                'amount' => Sale::where('farm_id', $farm->id)->whereDate('sold_at', $date)->sum('price') + MilkSale::where('farm_id', $farm->id)->whereDate('sale_date', $date)->sum('total_price'),
+                'amount' => Sale::where('farm_id', $farm->id)->whereDate('invoice_date', $date)->sum('total_amount') + MilkSale::where('farm_id', $farm->id)->whereDate('sale_date', $date)->sum('total_price'),
             ];
         }
 
@@ -386,7 +386,7 @@ class DashboardController extends Controller
             $date = Carbon::now()->subMonths($i);
             $monthlyComparison[] = [
                 'month' => $date->format('M'),
-                'revenue' => Sale::where('farm_id', $farm->id)->whereYear('sold_at', $date->year)->whereMonth('sold_at', $date->month)->sum('price') + MilkSale::where('farm_id', $farm->id)->whereYear('sale_date', $date->year)->whereMonth('sale_date', $date->month)->sum('total_price'),
+                'revenue' => Sale::where('farm_id', $farm->id)->whereYear('invoice_date', $date->year)->whereMonth('invoice_date', $date->month)->sum('total_amount') + MilkSale::where('farm_id', $farm->id)->whereYear('sale_date', $date->year)->whereMonth('sale_date', $date->month)->sum('total_price'),
                 'expenses' => Expense::where('farm_id', $farm->id)->whereYear('incurred_on', $date->year)->whereMonth('incurred_on', $date->month)->sum('amount'),
             ];
         }
