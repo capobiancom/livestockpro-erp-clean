@@ -130,7 +130,7 @@ class DashboardController extends Controller
             'total_staff' => StaffProfile::where('farm_id', $farm->id)->count(),
             'total_farms' => Farm::where('id', $farm->id)->count(), // Only count the current farm
             'low_stock_items' => InventoryItem::where('farm_id', $farm->id)->whereColumn('quantity', '<=', 'min_quantity')->count(),
-            'feedings_today' => FeedingRecord::where('farm_id', $farm->id)->whereDate('fed_date', today())->count(),
+            'feedings_today' => FeedingRecord::where('farm_id', $farm->id)->whereDate('feeding_date', today())->count(),
             'vaccinations_due' => VaccinationRecord::where('farm_id', $farm->id)->where('next_due_at', '<=', now()->addDays(7))->count(),
             'active_health_issues' => HealthIssue::where('farm_id', $farm->id)->where('status', 'active')->count(),
         ];
@@ -316,7 +316,7 @@ class DashboardController extends Controller
         // Recent Activities
         $recentFeedings = FeedingRecord::with(['animal'])
             ->where('farm_id', $farm->id)
-            ->orderBy('fed_date', 'desc')
+            ->orderBy('feeding_date', 'desc')
             ->limit(5)
             ->get();
 
@@ -345,7 +345,7 @@ class DashboardController extends Controller
             $date = Carbon::today()->subDays($i);
             $feedingTrend[] = [
                 'date' => $date->format('M d'),
-                'count' => FeedingRecord::where('farm_id', $farm->id)->whereDate('fed_date', $date)->count(),
+                'count' => FeedingRecord::where('farm_id', $farm->id)->whereDate('feeding_date', $date)->count(),
             ];
         }
 
