@@ -12,7 +12,7 @@
 
     <h2 class="text-3xl font-bold text-gray-800 mb-3">🎉 Installation Complete!</h2>
     <p class="text-gray-500 mb-8 max-w-lg mx-auto">
-        LivestockPro ERP has been successfully installed. Your application is ready to use.
+        LivestockPro ERP SaaS has been successfully installed. Your application is ready to use.
     </p>
 
     {{-- Credentials Summary --}}

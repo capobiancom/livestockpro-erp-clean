@@ -80,7 +80,7 @@ class JournalEntryPolicy
      */
     public function financialReport(User $user): bool
     {
-        return ($user->hasRole('farm owner') && $user->farm_id !== null) || $user->hasPermissionTo('journal-entries.financial_report');
+        return ($user->hasRole('farm owner') && $user->farm_id !== null) || $user->hasPermissionTo('journal-entries.financial_reports');
     }
 
     /**

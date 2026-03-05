@@ -1,0 +1,2772 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>LivestockPro ERP — Full Menu & Process Guide</title>
+        <style>
+            /* Match index.html design system */
+            .hero {
+                background: linear-gradient(135deg, #16a34a, #2563eb);
+                color: #fff;
+                border-radius: 1rem;
+                padding: 3rem;
+                margin-bottom: 2.5rem;
+            }
+            .hero h2 {
+                font-size: 2rem;
+                font-weight: 800;
+                margin-bottom: 0.5rem;
+            }
+            .hero p {
+                opacity: 0.85;
+                font-size: 1rem;
+            }
+            .badge {
+                display: inline-block;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 0.375rem;
+                padding: 0.2rem 0.6rem;
+                font-size: 0.75rem;
+                margin-right: 0.5rem;
+                margin-top: 0.75rem;
+            }
+            .card {
+                background: #fff;
+                border: 1px solid #e5e7eb;
+                border-radius: 0.75rem;
+                padding: 1.25rem;
+            }
+            .card h4 {
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: #1f2937;
+                margin-bottom: 0.4rem;
+            }
+            .card p {
+                font-size: 0.8rem;
+                color: #6b7280;
+                margin: 0;
+            }
+            .alert-success {
+                background: #f0fdf4;
+                border-left: 4px solid #16a34a;
+                color: #14532d;
+            }
+            .steps {
+                counter-reset: step;
+                margin: 0.75rem 0;
+            }
+            .step {
+                display: flex;
+                gap: 1rem;
+                margin-bottom: 1rem;
+                align-items: flex-start;
+            }
+            .step-num {
+                counter-increment: step;
+                background: #2563eb;
+                color: #fff;
+                min-width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                font-size: 0.85rem;
+                flex-shrink: 0;
+            }
+            .step-content h4 {
+                font-weight: 600;
+                color: #1f2937;
+                font-size: 0.9rem;
+                margin-bottom: 0.2rem;
+            }
+            .step-content p {
+                font-size: 0.85rem;
+                color: #6b7280;
+                margin: 0;
+            }
+            .screenshot {
+                background: #fff;
+                border: 1px solid #e5e7eb;
+                border-radius: 0.75rem;
+                padding: 0.75rem;
+                margin: 0.75rem 0;
+            }
+            .screenshot img {
+                width: 100%;
+                height: auto;
+                display: block;
+                border-radius: 0.5rem;
+                border: 1px solid #f1f5f9;
+            }
+            .screenshot .caption {
+                font-size: 0.8rem;
+                color: #6b7280;
+                margin-top: 0.5rem;
+            }
+            .toc-note {
+                font-size: 0.85rem;
+                color: #6b7280;
+                margin-top: 0.5rem;
+            }
+            .pill {
+                display: inline-block;
+                background: #f1f5f9;
+                color: #0f172a;
+                border: 1px solid #e5e7eb;
+                border-radius: 999px;
+                padding: 0.15rem 0.6rem;
+                font-size: 0.75rem;
+                margin-right: 0.35rem;
+                margin-top: 0.35rem;
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                color: #1f2937;
+                background: #f9fafb;
+                line-height: 1.6;
+            }
+            a {
+                color: #2563eb;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            .wrapper {
+                display: flex;
+                min-height: 100vh;
+            }
+            .sidebar {
+                width: 260px;
+                background: #1e293b;
+                color: #cbd5e1;
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                overflow-y: auto;
+                padding: 0 0 2rem;
+            }
+            .sidebar-logo {
+                padding: 1.5rem 1.25rem;
+                border-bottom: 1px solid #334155;
+                background: #0f172a;
+            }
+            .sidebar-logo h1 {
+                color: #fff;
+                font-size: 1.1rem;
+                font-weight: 700;
+            }
+            .sidebar-logo p {
+                color: #64748b;
+                font-size: 0.75rem;
+                margin-top: 0.25rem;
+            }
+            .sidebar nav ul {
+                list-style: none;
+                padding: 0.5rem 0;
+            }
+            .sidebar nav ul li a {
+                display: block;
+                padding: 0.5rem 1.25rem;
+                color: #94a3b8;
+                font-size: 0.85rem;
+                transition: all 0.15s;
+            }
+            .sidebar nav ul li a:hover,
+            .sidebar nav ul li a.active {
+                color: #fff;
+                background: #334155;
+            }
+            .sidebar nav .section-label {
+                padding: 0.75rem 1.25rem 0.25rem;
+                font-size: 0.7rem;
+                font-weight: 600;
+                color: #475569;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+            }
+            .main {
+                margin-left: 260px;
+                flex: 1;
+                padding: 2.5rem 3rem;
+                max-width: 1100px;
+            }
+            .section {
+                margin-bottom: 3rem;
+            }
+            h2.section-title {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: #111827;
+                margin-bottom: 0.75rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid #e5e7eb;
+            }
+            h3 {
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: #374151;
+                margin: 1.25rem 0 0.5rem;
+            }
+            p {
+                margin-bottom: 0.75rem;
+                color: #4b5563;
+            }
+            ul,
+            ol {
+                padding-left: 1.5rem;
+                margin-bottom: 0.75rem;
+                color: #4b5563;
+            }
+            li {
+                margin-bottom: 0.35rem;
+            }
+            code {
+                background: #f1f5f9;
+                color: #0f172a;
+                padding: 0.15rem 0.4rem;
+                border-radius: 0.3rem;
+                font-family: "Courier New", monospace;
+                font-size: 0.85em;
+            }
+            pre {
+                background: #1e293b;
+                color: #e2e8f0;
+                padding: 1.25rem;
+                border-radius: 0.75rem;
+                overflow-x: auto;
+                margin: 0.75rem 0;
+                font-size: 0.85rem;
+                line-height: 1.7;
+            }
+            .alert {
+                border-radius: 0.75rem;
+                padding: 1rem 1.25rem;
+                margin: 0.75rem 0;
+                font-size: 0.875rem;
+            }
+            .alert-info {
+                background: #eff6ff;
+                border-left: 4px solid #2563eb;
+                color: #1e40af;
+            }
+            .alert-warn {
+                background: #fffbeb;
+                border-left: 4px solid #f59e0b;
+                color: #92400e;
+            }
+            .card-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 1rem;
+                margin: 0.75rem 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <aside class="sidebar">
+                <div class="sidebar-logo">
+                    <h1>🐄 LivestockPro ERP</h1>
+                    <p>Full Menu & Process Guide</p>
+                </div>
+                <nav>
+                    <ul>
+                        <li class="section-label">Overview</li>
+                        <li><a href="#overview">About This Guide</a></li>
+                        <li><a href="#menu-map">Menu Map (All Links)</a></li>
+
+                        <li class="section-label">Farm Owner Modules</li>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li>
+                            <a href="#farm-productivity">Farm Productivity</a>
+                        </li>
+
+                        <li class="section-label">Animals</li>
+                        <li><a href="#animals">Animals</a></li>
+                        <li><a href="#breeds">Breeds</a></li>
+                        <li><a href="#herds">Herds</a></li>
+                        <li>
+                            <a href="#reproduction-records"
+                                >Reproduction Records</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#artificial-inseminations"
+                                >Artificial Inseminations</a
+                            >
+                        </li>
+                        <li><a href="#pregnancies">Pregnancy Records</a></li>
+                        <li>
+                            <a href="#pregnancy-checkups">Pregnancy Checkups</a>
+                        </li>
+                        <li><a href="#calving-records">Calving Records</a></li>
+                        <li><a href="#calves">Newborn Calves</a></li>
+
+                        <li class="section-label">Health</li>
+                        <li><a href="#health-issues">Health Issues</a></li>
+                        <li><a href="#health-events">Health Events</a></li>
+                        <li><a href="#diseases">Diseases</a></li>
+                        <li>
+                            <a href="#disease-treatments">Disease Treatments</a>
+                        </li>
+                        <li><a href="#treatments">Treatments</a></li>
+                        <li><a href="#vaccinations">Vaccinations</a></li>
+                        <li><a href="#event-types">Event Types</a></li>
+
+                        <li class="section-label">Feeding</li>
+                        <li><a href="#feeding-records">Feeding Records</a></li>
+
+                        <li class="section-label">Production</li>
+                        <li><a href="#milk-records">Milk Records</a></li>
+                        <li><a href="#milk-sales">Milk Sales</a></li>
+
+                        <li class="section-label">Finance</li>
+                        <li><a href="#sales">Sales</a></li>
+                        <li><a href="#purchases">Purchases</a></li>
+
+                        <li class="section-label">Customers</li>
+                        <li><a href="#customers">Manage Customers</a></li>
+                        <li>
+                            <a href="#customer-payments">Customer Payments</a>
+                        </li>
+
+                        <li class="section-label">Inventory</li>
+                        <li><a href="#inventory-items">Inventory Items</a></li>
+                        <li><a href="#medicine-items">Medicine Items</a></li>
+                        <li><a href="#categories">Categories</a></li>
+                        <li><a href="#suppliers">Suppliers</a></li>
+                        <li>
+                            <a href="#supplier-payments">Supplier Payments</a>
+                        </li>
+                        <li><a href="#medicine-groups">Medicine Groups</a></li>
+                        <li><a href="#stock-movements">Stock Movements</a></li>
+
+                        <li class="section-label">Operations</li>
+                        <li><a href="#logistics">Logistics</a></li>
+                        <li><a href="#farms">Farms</a></li>
+
+                        <li class="section-label">HR & Payroll</li>
+                        <li><a href="#departments">Departments</a></li>
+                        <li><a href="#designations">Designations</a></li>
+                        <li><a href="#employees">Employees</a></li>
+                        <li>
+                            <a href="#employee-documents">Employee Documents</a>
+                        </li>
+                        <li><a href="#shifts">Shifts</a></li>
+                        <li><a href="#assign-shifts">Assign Shifts</a></li>
+                        <li><a href="#attendances">Attendances</a></li>
+                        <li><a href="#leave-types">Leave Types</a></li>
+                        <li><a href="#leave-requests">Leave Requests</a></li>
+                        <li>
+                            <a href="#salary-structures">Salary Structures</a>
+                        </li>
+                        <li><a href="#payroll-runs">Payroll Runs</a></li>
+                        <li><a href="#payroll-items">Payroll Items</a></li>
+
+                        <li class="section-label">Accounts</li>
+                        <li>
+                            <a href="#cash-accounts">Cash & Bank Management</a>
+                        </li>
+                        <li>
+                            <a href="#chart-of-accounts">Chart of Accounts</a>
+                        </li>
+                        <li><a href="#journal-entries">Journal Entries</a></li>
+                        <li>
+                            <a href="#journal-voucher-report"
+                                >Journal Voucher Report</a
+                            >
+                        </li>
+                        <li><a href="#balance-sheet">Balance Sheet</a></li>
+                        <li><a href="#profit-loss">Profit & Loss</a></li>
+                        <li><a href="#cash-flow">Cash Flow</a></li>
+                        <li><a href="#trial-balance">Trial Balance</a></li>
+                        <li>
+                            <a href="#fixed-assets">Fixed Assets Register</a>
+                        </li>
+
+                        <li class="section-label">Reports</li>
+                        <li><a href="#reports">Reports (Overview)</a></li>
+                        <li>
+                            <a href="#animal-health-reports"
+                                >Animal Health Reports</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#feeding-cost-analysis"
+                                >Feeding Cost Analysis</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#vaccination-due-reports"
+                                >Vaccination Due Reports</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#financial-reports">Financial Reports</a>
+                        </li>
+                        <li>
+                            <a href="#conception-success-rate"
+                                >Conception Success Rate</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#pregnancy-loss-analysis"
+                                >Pregnancy Loss Analysis</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#ai-vs-natural-breeding-success"
+                                >AI vs Natural Breeding Success</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#calving-interval-reports"
+                                >Calving Interval Reports</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#fertility-performance-per-cow"
+                                >Fertility Performance per Cow</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#treatment-cost-per-animal"
+                                >Treatment Cost per Animal</a
+                            >
+                        </li>
+
+                        <li class="section-label">Inventory Reports</li>
+                        <li>
+                            <a href="#current-stock-by-item"
+                                >Current Stock by Item</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#low-stock-alerts">Low-stock Alerts</a>
+                        </li>
+                        <li>
+                            <a href="#expired-medicine-report"
+                                >Expired Medicine Report</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#feed-consumed-per-animal"
+                                >Feed Consumed per Animal</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#cost-of-feed-per-cow"
+                                >Cost of Feed per Cow</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#medicine-used-per-disease"
+                                >Medicine Used per Disease</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#monthly-consumption-summary"
+                                >Monthly Consumption Summary</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#wastage-loss-report"
+                                >Wastage & Loss Report</a
+                            >
+                        </li>
+
+                        <li class="section-label">Admin (SaaS)</li>
+                        <li><a href="#admin">Administration</a></li>
+                        <li><a href="#admin-dashboard">Admin Dashboard</a></li>
+                        <li><a href="#collections">Collections</a></li>
+                        <li><a href="#farms-directory">Farms Directory</a></li>
+                        <li>
+                            <a href="#website-settings">Website Settings</a>
+                        </li>
+                        <li><a href="#email-settings">Email Settings</a></li>
+                        <li><a href="#demo-requests">Demo Requests</a></li>
+                        <li><a href="#roles">Roles</a></li>
+                        <li><a href="#permissions">Permissions</a></li>
+                        <li><a href="#users">Users</a></li>
+                        <li><a href="#assign-roles">Assign Roles</a></li>
+                        <li><a href="#plans-features">Plans & Features</a></li>
+                        <li><a href="#manage-plans">Manage Plans</a></li>
+                        <li><a href="#manage-features">Manage Features</a></li>
+
+                        <li class="section-label">Farm Owner (SaaS)</li>
+                        <li><a href="#plan">Plan</a></li>
+                        <li><a href="#billing">Subscription & Billing</a></li>
+
+                        <li class="section-label">Account</li>
+                        <li><a href="#profile">Profile</a></li>
+                        <li><a href="#settings">Settings</a></li>
+                        <li>
+                            <a href="#payment-gateways">Payment Gateways</a>
+                        </li>
+
+                        <li class="section-label">Maintenance</li>
+                        <li><a href="#installation">Installation</a></li>
+                        <li><a href="#backup">Backup & Restore</a></li>
+                        <li><a href="#updates">Updates</a></li>
+                        <li><a href="#troubleshooting">Troubleshooting</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            <main class="main">
+                <div class="hero">
+                    <h2>Full Menu & Process Guide</h2>
+                    <p>
+                        This guide documents
+                        <strong>every sidebar menu link</strong> and explains
+                        the <strong>module workflows</strong> (process) used in
+                        LivestockPro ERP. It follows the same design language as
+                        <code>documentation/index.html</code>.
+                    </p>
+                    <div>
+                        <span class="badge">Menu-by-menu</span>
+                        <span class="badge">Workflows</span>
+                        <span class="badge">Screenshots-ready</span>
+                        <span class="badge">Laravel + Vue (Inertia)</span>
+                    </div>
+                    <p class="toc-note">
+                        Screenshots folder is currently empty:
+                        <code>documentation/screenshots/</code>. This file
+                        includes screenshot blocks that will automatically show
+                        images once you add them.
+                    </p>
+                </div>
+
+                <section class="section" id="overview">
+                    <h2 class="section-title">About This Guide</h2>
+                    <p>
+                        This document describes every menu link and the primary
+                        workflows (processes) in LivestockPro ERP. It mirrors
+                        the application sidebar (see
+                        <code>resources/js/Pages/Layout/AppLayout.vue</code>).
+                    </p>
+                    <div class="alert alert-info">
+                        Each section includes: what the screen is for, common
+                        tasks, and a recommended workflow. Where applicable, it
+                        also lists the related URL path and typical records
+                        involved.
+                    </div>
+                    <div class="alert alert-warn">
+                        <strong>SaaS vs Single License:</strong> Some menus
+                        appear only in SaaS mode or only for Super Admin/Admin.
+                        Farm Owner menus are hidden in single-license mode.
+                    </div>
+                </section>
+
+                <section class="section" id="menu-map">
+                    <h2 class="section-title">Menu Map (All Links)</h2>
+                    <p>
+                        This is a quick reference of the sidebar structure and
+                        where each link takes you. Use it to confirm you have
+                        documented every module.
+                    </p>
+
+                    <div class="card-grid">
+                        <div class="card">
+                            <h4>Farm Owner</h4>
+                            <p>
+                                Dashboard, Farm Productivity, Plan, Subscription
+                                & Billing, Settings
+                            </p>
+                        </div>
+                        <div class="card">
+                            <h4>Animals</h4>
+                            <p>
+                                Animals, Breeds, Herds, Reproduction Records,
+                                AI, Pregnancies, Checkups, Calvings, Calves
+                            </p>
+                        </div>
+                        <div class="card">
+                            <h4>Health</h4>
+                            <p>
+                                Health Issues, Health Events, Diseases, Disease
+                                Treatments, Treatments, Vaccinations, Event
+                                Types
+                            </p>
+                        </div>
+                        <div class="card">
+                            <h4>Feeding & Production</h4>
+                            <p>Feeding Records, Milk Records, Milk Sales</p>
+                        </div>
+                        <div class="card">
+                            <h4>Finance & Customers</h4>
+                            <p>
+                                Sales, Purchases, Customers, Customer Payments
+                            </p>
+                        </div>
+                        <div class="card">
+                            <h4>Inventory</h4>
+                            <p>
+                                Inventory Items, Medicine Items, Categories,
+                                Suppliers, Supplier Payments, Medicine Groups,
+                                Stock Movements
+                            </p>
+                        </div>
+                        <div class="card">
+                            <h4>HR & Payroll</h4>
+                            <p>
+                                Departments, Designations, Employees, Documents,
+                                Shifts, Assign Shifts, Attendances, Leave,
+                                Salary, Payroll
+                            </p>
+                        </div>
+                        <div class="card">
+                            <h4>Accounts</h4>
+                            <p>
+                                Cash/Bank, COA, Journals, Voucher Report,
+                                Balance Sheet, P&L, Cash Flow, Trial Balance,
+                                Fixed Assets
+                            </p>
+                        </div>
+                        <div class="card">
+                            <h4>Reports</h4>
+                            <p>
+                                Animal Health, Feeding Cost, Vaccination Due,
+                                Financial, Conception, Pregnancy Loss, AI vs
+                                Natural, Calving Interval, Fertility, Treatment
+                                Cost
+                            </p>
+                        </div>
+                        <div class="card">
+                            <h4>Inventory Reports</h4>
+                            <p>
+                                Current Stock, Low Stock, Expired Medicine, Feed
+                                Consumed, Cost of Feed, Medicine Used, Monthly
+                                Summary, Wastage & Loss
+                            </p>
+                        </div>
+                        <div class="card">
+                            <h4>Admin (SaaS)</h4>
+                            <p>
+                                Admin Dashboard, Collections, Farms Directory,
+                                Settings, Demo Requests, Roles, Permissions,
+                                Users, Assign Roles, Plans & Features
+                            </p>
+                        </div>
+                        <div class="card">
+                            <h4>Account</h4>
+                            <p>Profile, Payment Gateways</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="dashboard">
+                    <h2 class="section-title">Dashboard</h2>
+                    <p>
+                        <span class="pill">Path: /dashboard</span>
+                        The farm owner dashboard provides an at-a-glance summary
+                        of KPIs such as herd size, milk production, upcoming
+                        vaccinations, recent sales, and cash balances.
+                    </p>
+
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/dashboard.png"
+                            alt="Dashboard screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Dashboard overview (add file:
+                            <code>documentation/screenshots/dashboard.png</code
+                            >)
+                        </div>
+                    </div>
+
+                    <h3>Common Tasks</h3>
+                    <ul>
+                        <li>
+                            Review alerts and upcoming tasks (vaccinations,
+                            checkups, low stock)
+                        </li>
+                        <li>
+                            Use quick actions to add animals, record milk, or
+                            create invoices
+                        </li>
+                        <li>
+                            Open linked reports from widgets to investigate
+                            anomalies
+                        </li>
+                    </ul>
+
+                    <h3>Workflow: Daily Check</h3>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-num">1</div>
+                            <div class="step-content">
+                                <h4>Review alerts</h4>
+                                <p>
+                                    Open Dashboard and check any warning/overdue
+                                    items first.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">2</div>
+                            <div class="step-content">
+                                <h4>Confirm today’s operations</h4>
+                                <p>
+                                    Check vaccinations due, pregnancy checkups,
+                                    and feeding/milk entries.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">3</div>
+                            <div class="step-content">
+                                <h4>Drill down</h4>
+                                <p>
+                                    Click widgets to open detailed lists/reports
+                                    when something looks unusual.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="farm-productivity">
+                    <h2 class="section-title">Farm Productivity</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /farm-productivity-dashboard</span
+                        >
+                        Farm Productivity dashboard is available in SaaS mode
+                        (feature key: <code>farmproductivity</code>). It focuses
+                        on productivity KPIs and trends for the farm.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/farm-productivity.png"
+                            alt="Farm Productivity screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Farm Productivity dashboard (add file:
+                            <code
+                                >documentation/screenshots/farm-productivity.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Weekly Review</h3>
+                    <ol>
+                        <li>Open Farm Productivity and review weekly trends</li>
+                        <li>
+                            Compare milk yield vs feed cost and health events
+                        </li>
+                        <li>
+                            Export/share insights with management (if
+                            applicable)
+                        </li>
+                    </ol>
+                </section>
+
+                <section class="section" id="animals">
+                    <h2 class="section-title">Animals</h2>
+                    <p>
+                        <span class="pill">Path: /animals</span>
+                        Animal profiles are the core of the system. Each animal
+                        stores identifiers (tag), breed, herd, status, and links
+                        to reproduction, health, feeding, and production
+                        records.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/animals.png"
+                            alt="Animals list screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Animals list (add file:
+                            <code>documentation/screenshots/animals.png</code>)
+                        </div>
+                    </div>
+
+                    <h3>Common Tasks</h3>
+                    <ul>
+                        <li>Create animals and maintain accurate tag IDs</li>
+                        <li>
+                            Update status (active/sold/dead) and herd assignment
+                        </li>
+                        <li>
+                            Open an animal to review timeline: health,
+                            reproduction, milk, feeding
+                        </li>
+                    </ul>
+
+                    <h3>Workflow: Add New Animal</h3>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-num">1</div>
+                            <div class="step-content">
+                                <h4>Open create form</h4>
+                                <p>
+                                    Menu → Animals → <strong>Animals</strong> →
+                                    Add new record.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">2</div>
+                            <div class="step-content">
+                                <h4>Fill identity & grouping</h4>
+                                <p>
+                                    Enter Tag ID, name, breed, sex, DOB, herd,
+                                    and status.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">3</div>
+                            <div class="step-content">
+                                <h4>Save and verify</h4>
+                                <p>
+                                    Save and confirm the animal appears in the
+                                    list and dashboard counts.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Tips</h3>
+                    <ul>
+                        <li>
+                            Use consistent tag formats (example:
+                            <code>FARM-0001</code>)
+                        </li>
+                        <li>Attach photos/documents for traceability</li>
+                    </ul>
+                </section>
+
+                <section class="section" id="breeds">
+                    <h2 class="section-title">Breeds</h2>
+                    <p>
+                        <span class="pill">Path: /breeds</span>
+                        Manage breed master data used when creating animals and
+                        running breed distribution reports.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/breeds.png"
+                            alt="Breeds screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Breeds list (add file:
+                            <code>documentation/screenshots/breeds.png</code>)
+                        </div>
+                    </div>
+                    <h3>Workflow: Add Breed</h3>
+                    <ol>
+                        <li>Open Breeds → Add</li>
+                        <li>Enter breed name and details</li>
+                        <li>Save; breed becomes selectable in Animals</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="herds">
+                    <h2 class="section-title">Herds</h2>
+                    <p>
+                        <span class="pill">Path: /herds</span>
+                        Herds are logical groupings of animals (Dairy, Heifers,
+                        Calves). Use herds to filter operations, assign feeding
+                        schedules, and run herd-level reports.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/herds.png"
+                            alt="Herds screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Herds list (add file:
+                            <code>documentation/screenshots/herds.png</code>)
+                        </div>
+                    </div>
+                    <h3>Workflow: Create Herd</h3>
+                    <ol>
+                        <li>Open Herds → Add</li>
+                        <li>Enter herd name/code and description</li>
+                        <li>
+                            Save; assign animals to the herd from Animals or
+                            Herd screen
+                        </li>
+                    </ol>
+                </section>
+
+                <section class="section" id="reproduction-records">
+                    <h2 class="section-title">Reproduction Records</h2>
+                    <p>
+                        <span class="pill">Path: /reproduction-records</span>
+                        Central list of reproduction events and records used to
+                        track breeding history.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/reproduction-records.png"
+                            alt="Reproduction Records screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Reproduction records list (add file:
+                            <code
+                                >documentation/screenshots/reproduction-records.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Record Breeding Event</h3>
+                    <ol>
+                        <li>Open Reproduction Records → Add</li>
+                        <li>Select animal, date, method, and notes</li>
+                        <li>
+                            Save; follow up with AI/Pregnancy modules as needed
+                        </li>
+                    </ol>
+                </section>
+
+                <section class="section" id="artificial-inseminations">
+                    <h2 class="section-title">Artificial Inseminations</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /artificial-inseminations</span
+                        >
+                        Record AI details (sire/bull, technician, semen batch if
+                        used) and outcomes.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/artificial-inseminations.png"
+                            alt="Artificial Inseminations screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: AI records (add file:
+                            <code
+                                >documentation/screenshots/artificial-inseminations.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Add AI Record</h3>
+                    <ol>
+                        <li>Open Artificial Inseminations → Add</li>
+                        <li>Select animal and date; enter sire/notes</li>
+                        <li>Save; schedule pregnancy checkup</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="pregnancies">
+                    <h2 class="section-title">Pregnancy Records</h2>
+                    <p>
+                        <span class="pill">Path: /pregnancies</span>
+                        Track pregnancy status, expected due dates, and link to
+                        checkups and calving.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/pregnancies.png"
+                            alt="Pregnancy Records screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Pregnancy records (add file:
+                            <code
+                                >documentation/screenshots/pregnancies.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Confirm Pregnancy</h3>
+                    <ol>
+                        <li>Open Pregnancy Records → Add/Update</li>
+                        <li>Select animal and confirmation date</li>
+                        <li>Set expected due date; save</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="pregnancy-checkups">
+                    <h2 class="section-title">Pregnancy Checkups</h2>
+                    <p>
+                        <span class="pill">Path: /pregnancy-checkups</span>
+                        Record checkup results during pregnancy (confirmed, not
+                        pregnant, complications).
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/pregnancy-checkups.png"
+                            alt="Pregnancy Checkups screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Pregnancy checkups (add file:
+                            <code
+                                >documentation/screenshots/pregnancy-checkups.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Add Checkup</h3>
+                    <ol>
+                        <li>Open Pregnancy Checkups → Add</li>
+                        <li>Select animal/pregnancy and date</li>
+                        <li>Enter result and notes; save</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="calving-records">
+                    <h2 class="section-title">Calving Records</h2>
+                    <p>
+                        <span class="pill">Path: /calving-records</span>
+                        Record calving events, outcomes, and link newborn calves
+                        to the mother.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/calving-records.png"
+                            alt="Calving Records screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Calving records (add file:
+                            <code
+                                >documentation/screenshots/calving-records.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Record Calving</h3>
+                    <ol>
+                        <li>Open Calving Records → Add</li>
+                        <li>Select mother, date, calving type/outcome</li>
+                        <li>Create/link calf record; save</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="calves">
+                    <h2 class="section-title">Newborn Calves</h2>
+                    <p>
+                        <span class="pill">Path: /calves</span>
+                        Manage calf profiles created from calving events or
+                        added manually.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/calves.png"
+                            alt="Calves screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Newborn calves list (add file:
+                            <code>documentation/screenshots/calves.png</code>)
+                        </div>
+                    </div>
+                    <h3>Workflow: Add Calf</h3>
+                    <ol>
+                        <li>Open Newborn Calves → Add</li>
+                        <li>
+                            Enter tag, gender, DOB, and link mother (if
+                            applicable)
+                        </li>
+                        <li>Save; calf appears in Animals/Calves lists</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="health-issues">
+                    <h2 class="section-title">Health Issues</h2>
+                    <p>
+                        <span class="pill">Path: /health-issues</span>
+                        Track diagnosed issues/conditions for animals and follow
+                        up with treatments.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/health-issues.png"
+                            alt="Health Issues screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Health issues list (add file:
+                            <code
+                                >documentation/screenshots/health-issues.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Log Health Issue</h3>
+                    <ol>
+                        <li>Open Health Issues → Add</li>
+                        <li>Select animal, date, symptoms/diagnosis</li>
+                        <li>Save; create treatment if required</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="health-events">
+                    <h2 class="section-title">Health Events</h2>
+                    <p>
+                        <span class="pill">Path: /health-events</span>
+                        Record health-related events (vet visit, checkup,
+                        incident) and costs.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/health-events.png"
+                            alt="Health Events screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Health events list (add file:
+                            <code
+                                >documentation/screenshots/health-events.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Add Health Event</h3>
+                    <ol>
+                        <li>Open Health Events → Add</li>
+                        <li>Select animal, event type, date, notes/cost</li>
+                        <li>Save; event appears in animal timeline</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="diseases">
+                    <h2 class="section-title">Diseases</h2>
+                    <p>
+                        <span class="pill">Path: /diseases</span>
+                        Maintain disease master list used in treatments and
+                        reports.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/diseases.png"
+                            alt="Diseases screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Diseases list (add file:
+                            <code>documentation/screenshots/diseases.png</code>)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="disease-treatments">
+                    <h2 class="section-title">Disease Treatments</h2>
+                    <p>
+                        <span class="pill">Path: /disease-treatments</span>
+                        Record treatment plans for diseases, including medicines
+                        used and costs.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/disease-treatments.png"
+                            alt="Disease Treatments screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Disease treatments list (add file:
+                            <code
+                                >documentation/screenshots/disease-treatments.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Create Treatment Plan</h3>
+                    <ol>
+                        <li>Open Disease Treatments → Add</li>
+                        <li>Select animal and disease; add medicines/doses</li>
+                        <li>
+                            Save; inventory consumption may be recorded
+                            depending on configuration
+                        </li>
+                    </ol>
+                </section>
+
+                <section class="section" id="treatments">
+                    <h2 class="section-title">Treatments</h2>
+                    <p>
+                        <span class="pill">Path: /treatments</span>
+                        General treatment records (not necessarily
+                        disease-specific) for animals.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/treatments.png"
+                            alt="Treatments screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Treatments list (add file:
+                            <code>documentation/screenshots/treatments.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="vaccinations">
+                    <h2 class="section-title">Vaccinations</h2>
+                    <p>
+                        <span class="pill">Path: /vaccinations</span>
+                        Schedule vaccinations, record administration, and track
+                        next due dates.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/vaccinations.png"
+                            alt="Vaccinations screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Vaccinations (add file:
+                            <code
+                                >documentation/screenshots/vaccinations.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Schedule and Record Vaccination</h3>
+                    <ol>
+                        <li>Open Vaccinations → Create schedule</li>
+                        <li>
+                            Select animals/herd, vaccine type, next due date
+                        </li>
+                        <li>
+                            After administration: mark as given, record
+                            batch/dose
+                        </li>
+                    </ol>
+                </section>
+
+                <section class="section" id="event-types">
+                    <h2 class="section-title">Event Types</h2>
+                    <p>
+                        <span class="pill">Path: /event-types</span>
+                        Configure event types used in Health Events (e.g., Vet
+                        Visit, Injury, Checkup).
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/event-types.png"
+                            alt="Event Types screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Event types (add file:
+                            <code
+                                >documentation/screenshots/event-types.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="feeding-records">
+                    <h2 class="section-title">Feeding Records</h2>
+                    <p>
+                        <span class="pill">Path: /feedings</span>
+                        Feeding module manages feed types, ration plans, and
+                        daily feeding logs per animal or herd.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/feedings.png"
+                            alt="Feeding Records screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Feeding records (add file:
+                            <code>documentation/screenshots/feedings.png</code>)
+                        </div>
+                    </div>
+                    <h3>Workflow: Record Daily Feeding</h3>
+                    <ol>
+                        <li>Open Feeding Records → Add</li>
+                        <li>Select herd/animal, feed type, quantity, cost</li>
+                        <li>
+                            Save; consumption updates reports (and inventory if
+                            linked)
+                        </li>
+                    </ol>
+                </section>
+
+                <section class="section" id="milk-records">
+                    <h2 class="section-title">Milk Records</h2>
+                    <p>
+                        <span class="pill">Path: /milk-records</span>
+                        Record daily milk yield per animal and analyze
+                        production trends.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/milk-records.png"
+                            alt="Milk Records screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Milk records (add file:
+                            <code
+                                >documentation/screenshots/milk-records.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Record Milk</h3>
+                    <ol>
+                        <li>Open Milk Records → Add</li>
+                        <li>Select animal/date and enter quantity</li>
+                        <li>Save; dashboard and reports update</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="milk-sales">
+                    <h2 class="section-title">Milk Sales</h2>
+                    <p>
+                        <span class="pill">Path: /milk-sales</span>
+                        Create milk sale entries/invoices and track payments.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/milk-sales.png"
+                            alt="Milk Sales screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Milk sales (add file:
+                            <code>documentation/screenshots/milk-sales.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Record Milk Sale</h3>
+                    <ol>
+                        <li>Open Milk Sales → Add</li>
+                        <li>Select customer, date, quantity, rate</li>
+                        <li>Save; payment tracking updates</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="inventory-items">
+                    <h2 class="section-title">Inventory Items</h2>
+                    <p>
+                        <span class="pill">Path: /inventory</span>
+                        Inventory covers feed, spare parts, and other farm
+                        items. Stock movements update quantities and valuation.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/inventory.png"
+                            alt="Inventory Items screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Inventory items (add file:
+                            <code>documentation/screenshots/inventory.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="medicine-items">
+                    <h2 class="section-title">Medicine Items</h2>
+                    <p>
+                        <span class="pill">Path: /medicines</span>
+                        Medicine inventory with batch/expiry tracking (used by
+                        treatments and vaccinations).
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/medicines.png"
+                            alt="Medicine Items screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Medicine items (add file:
+                            <code>documentation/screenshots/medicines.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="categories">
+                    <h2 class="section-title">Categories</h2>
+                    <p>
+                        <span class="pill">Path: /categories</span>
+                        Categorize inventory items for reporting and
+                        organization.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/categories.png"
+                            alt="Categories screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Categories (add file:
+                            <code>documentation/screenshots/categories.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="suppliers">
+                    <h2 class="section-title">Suppliers</h2>
+                    <p>
+                        <span class="pill">Path: /suppliers</span>
+                        Manage suppliers used in purchases and inventory
+                        receipts.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/suppliers.png"
+                            alt="Suppliers screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Suppliers (add file:
+                            <code>documentation/screenshots/suppliers.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="supplier-payments">
+                    <h2 class="section-title">Supplier Payments</h2>
+                    <p>
+                        <span class="pill">Path: /supplier-payments</span>
+                        Track payments made to suppliers and outstanding
+                        balances.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/supplier-payments.png"
+                            alt="Supplier Payments screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Supplier payments (add file:
+                            <code
+                                >documentation/screenshots/supplier-payments.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="medicine-groups">
+                    <h2 class="section-title">Medicine Groups</h2>
+                    <p>
+                        <span class="pill">Path: /medicine-groups</span>
+                        Group medicines for easier selection and reporting.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/medicine-groups.png"
+                            alt="Medicine Groups screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Medicine groups (add file:
+                            <code
+                                >documentation/screenshots/medicine-groups.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="stock-movements">
+                    <h2 class="section-title">Stock Movements</h2>
+                    <p>
+                        <span class="pill">Path: /stock-movements</span>
+                        Record stock in/out adjustments, receipts, and
+                        consumption. FIFO logic is used for valuation.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/stock-movements.png"
+                            alt="Stock Movements screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Stock movements (add file:
+                            <code
+                                >documentation/screenshots/stock-movements.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Receive Stock</h3>
+                    <ol>
+                        <li>Open Stock Movements → Add (Stock In)</li>
+                        <li>
+                            Select item, quantity, unit cost, supplier (if
+                            applicable)
+                        </li>
+                        <li>Save; inventory levels update</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="purchases">
+                    <h2 class="section-title">Purchases</h2>
+                    <p>
+                        <span class="pill">Path: /purchases</span>
+                        Record purchases from suppliers. Purchases typically
+                        increase inventory and create payables.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/purchases.png"
+                            alt="Purchases screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Purchases list (add file:
+                            <code>documentation/screenshots/purchases.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Record a Purchase</h3>
+                    <ol>
+                        <li>Open Purchases → Add</li>
+                        <li>
+                            Select supplier, add items, quantities, unit prices
+                        </li>
+                        <li>Save; inventory updates and payable is recorded</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="sales">
+                    <h2 class="section-title">Sales</h2>
+                    <p>
+                        <span class="pill">Path: /sales</span>
+                        Create sales invoices and track payments and outstanding
+                        balances.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/sales.png"
+                            alt="Sales screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Sales list (add file:
+                            <code>documentation/screenshots/sales.png</code>)
+                        </div>
+                    </div>
+                    <h3>Workflow: Create Invoice</h3>
+                    <ol>
+                        <li>Open Sales → Add</li>
+                        <li>
+                            Select customer, add items/services, taxes/discounts
+                        </li>
+                        <li>Save; record payment when received</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="customers">
+                    <h2 class="section-title">Manage Customers</h2>
+                    <p>
+                        <span class="pill">Path: /customers</span>
+                        Maintain customer master data used in Sales and Milk
+                        Sales.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/customers.png"
+                            alt="Customers screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Customers list (add file:
+                            <code>documentation/screenshots/customers.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="customer-payments">
+                    <h2 class="section-title">Customer Payments</h2>
+                    <p>
+                        <span class="pill">Path: /customer-payments</span>
+                        Record payments received from customers and reconcile
+                        invoices.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/customer-payments.png"
+                            alt="Customer Payments screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Customer payments (add file:
+                            <code
+                                >documentation/screenshots/customer-payments.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="departments">
+                    <h2 class="section-title">Departments</h2>
+                    <p>
+                        <span class="pill">Path: /departments</span> Manage
+                        departments for HR structure.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/departments.png"
+                            alt="Departments screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Departments (add file:
+                            <code
+                                >documentation/screenshots/departments.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="designations">
+                    <h2 class="section-title">Designations</h2>
+                    <p>
+                        <span class="pill">Path: /designations</span> Manage job
+                        titles/designations.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/designations.png"
+                            alt="Designations screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Designations (add file:
+                            <code
+                                >documentation/screenshots/designations.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="employees">
+                    <h2 class="section-title">Employees</h2>
+                    <p>
+                        <span class="pill">Path: /employees</span> Employee
+                        master records, employment details, and assignments.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/employees.png"
+                            alt="Employees screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Employees (add file:
+                            <code>documentation/screenshots/employees.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Add Employee</h3>
+                    <ol>
+                        <li>Open Employees → Add</li>
+                        <li>Enter personal details, department, designation</li>
+                        <li>Save; attach documents if needed</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="employee-documents">
+                    <h2 class="section-title">Employee Documents</h2>
+                    <p>
+                        <span class="pill">Path: /employee-documents</span>
+                        Store employee attachments (ID, contract, certificates).
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/employee-documents.png"
+                            alt="Employee Documents screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Employee documents (add file:
+                            <code
+                                >documentation/screenshots/employee-documents.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="shifts">
+                    <h2 class="section-title">Shifts</h2>
+                    <p>
+                        <span class="pill">Path: /shifts</span> Define shift
+                        templates (start/end times).
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/shifts.png"
+                            alt="Shifts screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Shifts (add file:
+                            <code>documentation/screenshots/shifts.png</code>)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="assign-shifts">
+                    <h2 class="section-title">Assign Shifts</h2>
+                    <p>
+                        <span class="pill">Path: /employee-shifts</span> Assign
+                        shifts to employees.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/employee-shifts.png"
+                            alt="Assign Shifts screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Assign shifts (add file:
+                            <code
+                                >documentation/screenshots/employee-shifts.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="attendances">
+                    <h2 class="section-title">Attendances</h2>
+                    <p>
+                        <span class="pill">Path: /attendances</span> Track daily
+                        check-in/out and attendance status.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/attendances.png"
+                            alt="Attendances screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Attendances (add file:
+                            <code
+                                >documentation/screenshots/attendances.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Mark Attendance</h3>
+                    <ol>
+                        <li>Open Attendances → Add</li>
+                        <li>Select employee/date and check-in/out times</li>
+                        <li>Save; payroll calculations can use this data</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="leave-types">
+                    <h2 class="section-title">Leave Types</h2>
+                    <p>
+                        <span class="pill">Path: /leave-types</span> Configure
+                        leave categories (paid/unpaid, limits).
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/leave-types.png"
+                            alt="Leave Types screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Leave types (add file:
+                            <code
+                                >documentation/screenshots/leave-types.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="leave-requests">
+                    <h2 class="section-title">Leave Requests</h2>
+                    <p>
+                        <span class="pill">Path: /leave-requests</span>
+                        Employees request leave; managers approve/reject.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/leave-requests.png"
+                            alt="Leave Requests screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Leave requests (add file:
+                            <code
+                                >documentation/screenshots/leave-requests.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="salary-structures">
+                    <h2 class="section-title">Salary Structures</h2>
+                    <p>
+                        <span class="pill">Path: /salary-structures</span>
+                        Define salary components and rules.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/salary-structures.png"
+                            alt="Salary Structures screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Salary structures (add file:
+                            <code
+                                >documentation/screenshots/salary-structures.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="payroll-runs">
+                    <h2 class="section-title">Payroll Runs</h2>
+                    <p>
+                        <span class="pill">Path: /payroll-runs</span> Process
+                        payroll for a period and generate payslips.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/payroll-runs.png"
+                            alt="Payroll Runs screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Payroll runs (add file:
+                            <code
+                                >documentation/screenshots/payroll-runs.png</code
+                            >)
+                        </div>
+                    </div>
+                    <h3>Workflow: Create Payroll Run</h3>
+                    <ol>
+                        <li>Open Payroll Runs → New Run</li>
+                        <li>Select period and employees; verify components</li>
+                        <li>Process/lock; mark payments as paid</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="payroll-items">
+                    <h2 class="section-title">Payroll Items</h2>
+                    <p>
+                        <span class="pill">Path: /payroll-items</span> Configure
+                        payroll items (allowances, deductions).
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/payroll-items.png"
+                            alt="Payroll Items screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Payroll items (add file:
+                            <code
+                                >documentation/screenshots/payroll-items.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="cash-accounts">
+                    <h2 class="section-title">Cash & Bank Management</h2>
+                    <p>
+                        <span class="pill">Path: /cash-accounts</span> Manage
+                        cash/bank/mobile accounts and transactions.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/cash-accounts.png"
+                            alt="Cash Accounts screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Cash accounts (add file:
+                            <code
+                                >documentation/screenshots/cash-accounts.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="chart-of-accounts">
+                    <h2 class="section-title">Chart of Accounts</h2>
+                    <p>
+                        <span class="pill">Path: /chart-of-accounts</span>
+                        Configure the accounting structure (assets, liabilities,
+                        income, expense).
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/chart-of-accounts.png"
+                            alt="Chart of Accounts screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Chart of accounts (add file:
+                            <code
+                                >documentation/screenshots/chart-of-accounts.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="journal-entries">
+                    <h2 class="section-title">Journal Entries</h2>
+                    <p>
+                        <span class="pill">Path: /journal-entries</span> Record
+                        manual journal entries and review postings.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/journal-entries.png"
+                            alt="Journal Entries screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Journal entries (add file:
+                            <code
+                                >documentation/screenshots/journal-entries.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="journal-voucher-report">
+                    <h2 class="section-title">Journal Voucher Report</h2>
+                    <p>
+                        <span class="pill">Path: /journal-voucher-report</span>
+                        Printable voucher-style report for journal entries.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/journal-voucher-report.png"
+                            alt="Journal Voucher Report screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Journal voucher report (add file:
+                            <code
+                                >documentation/screenshots/journal-voucher-report.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="balance-sheet">
+                    <h2 class="section-title">Balance Sheet</h2>
+                    <p>
+                        <span class="pill">Path: /balance-sheet</span> View
+                        assets, liabilities, and equity for a period.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/balance-sheet.png"
+                            alt="Balance Sheet screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Balance sheet (add file:
+                            <code
+                                >documentation/screenshots/balance-sheet.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="profit-loss">
+                    <h2 class="section-title">Profit & Loss</h2>
+                    <p>
+                        <span class="pill">Path: /profit-loss</span> View income
+                        vs expenses and net profit for a period.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/profit-loss.png"
+                            alt="Profit & Loss screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Profit & loss (add file:
+                            <code
+                                >documentation/screenshots/profit-loss.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="cash-flow">
+                    <h2 class="section-title">Cash Flow</h2>
+                    <p>
+                        <span class="pill">Path: /cash-flow</span> View cash
+                        inflows/outflows for a period.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/cash-flow.png"
+                            alt="Cash Flow screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Cash flow (add file:
+                            <code>documentation/screenshots/cash-flow.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="trial-balance">
+                    <h2 class="section-title">Trial Balance</h2>
+                    <p>
+                        <span class="pill">Path: /trial-balance</span> Verify
+                        debits/credits balance for a period.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/trial-balance.png"
+                            alt="Trial Balance screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Trial balance (add file:
+                            <code
+                                >documentation/screenshots/trial-balance.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="fixed-assets">
+                    <h2 class="section-title">Fixed Assets Register</h2>
+                    <p>
+                        <span class="pill">Path: /fixed-assets</span> Track
+                        fixed assets, depreciation, and asset status.
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="screenshots/fixed-assets.png"
+                            alt="Fixed Assets screenshot"
+                            onerror="
+                                this.closest('.screenshot').style.display =
+                                    'none'
+                            "
+                        />
+                        <div class="caption">
+                            Screenshot: Fixed assets (add file:
+                            <code
+                                >documentation/screenshots/fixed-assets.png</code
+                            >)
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" id="reports">
+                    <h2 class="section-title">Reports (Overview)</h2>
+                    <p>
+                        Reports provide analytics across health, feeding,
+                        reproduction, inventory, and finance. Many report pages
+                        are optimized for printing (header/sidebar hidden).
+                    </p>
+                    <div class="alert alert-info">
+                        Tip: Use date filters and herd/animal filters to narrow
+                        results before printing/exporting.
+                    </div>
+                </section>
+
+                <section class="section" id="animal-health-reports">
+                    <h2 class="section-title">Animal Health Reports</h2>
+                    <p>
+                        <span class="pill">Path: /reports/animal-health</span>
+                        Summary of health events/issues and trends.
+                    </p>
+                </section>
+
+                <section class="section" id="feeding-cost-analysis">
+                    <h2 class="section-title">Feeding Cost Analysis</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /reports/feeding-cost-analysis</span
+                        >
+                        Analyze feeding cost patterns.
+                    </p>
+                </section>
+
+                <section class="section" id="vaccination-due-reports">
+                    <h2 class="section-title">Vaccination Due Reports</h2>
+                    <p>
+                        <span class="pill">Path: /reports/vaccination-due</span>
+                        List of vaccinations due/overdue.
+                    </p>
+                </section>
+
+                <section class="section" id="financial-reports">
+                    <h2 class="section-title">Financial Reports</h2>
+                    <p>
+                        <span class="pill">Path: /reports/financial</span>
+                        Financial reporting hub (links to statements).
+                    </p>
+                </section>
+
+                <section class="section" id="conception-success-rate">
+                    <h2 class="section-title">Conception Success Rate</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /reports/conception-success-rate</span
+                        >
+                        Conception success analytics.
+                    </p>
+                </section>
+
+                <section class="section" id="pregnancy-loss-analysis">
+                    <h2 class="section-title">Pregnancy Loss Analysis</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /reports/pregnancy-loss-analysis</span
+                        >
+                        Pregnancy loss trends and breakdown.
+                    </p>
+                </section>
+
+                <section class="section" id="ai-vs-natural-breeding-success">
+                    <h2 class="section-title">
+                        AI vs Natural Breeding Success
+                    </h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /reports/ai-vs-natural-breeding-success</span
+                        >
+                        Compare breeding methods.
+                    </p>
+                </section>
+
+                <section class="section" id="calving-interval-reports">
+                    <h2 class="section-title">Calving Interval Reports</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /reports/calving-interval</span
+                        >
+                        Calving interval analytics.
+                    </p>
+                </section>
+
+                <section class="section" id="fertility-performance-per-cow">
+                    <h2 class="section-title">Fertility Performance per Cow</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /reports/fertility-performance-per-cow</span
+                        >
+                        Fertility KPIs per cow.
+                    </p>
+                </section>
+
+                <section class="section" id="treatment-cost-per-animal">
+                    <h2 class="section-title">Treatment Cost per Animal</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /reports/treatment-cost-per-animal</span
+                        >
+                        Treatment cost analytics.
+                    </p>
+                </section>
+
+                <section class="section" id="current-stock-by-item">
+                    <h2 class="section-title">Current Stock by Item</h2>
+                    <p>
+                        <span class="pill"
+                            >Path:
+                            /reports/inventory/current-stock-by-item</span
+                        >
+                        Current stock levels by item.
+                    </p>
+                </section>
+
+                <section class="section" id="low-stock-alerts">
+                    <h2 class="section-title">Low-stock Alerts</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /reports/inventory/low-stock-alerts</span
+                        >
+                        Items below reorder level.
+                    </p>
+                </section>
+
+                <section class="section" id="expired-medicine-report">
+                    <h2 class="section-title">Expired Medicine Report</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /reports/inventory/expired-medicine</span
+                        >
+                        Expired/near-expiry medicines.
+                    </p>
+                </section>
+
+                <section class="section" id="feed-consumed-per-animal">
+                    <h2 class="section-title">Feed Consumed per Animal</h2>
+                    <p>
+                        <span class="pill"
+                            >Path:
+                            /reports/inventory/feed-consumed-per-animal</span
+                        >
+                        Feed consumption per animal.
+                    </p>
+                </section>
+
+                <section class="section" id="cost-of-feed-per-cow">
+                    <h2 class="section-title">Cost of Feed per Cow</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /reports/inventory/cost-of-feed-per-cow</span
+                        >
+                        Feed cost per cow.
+                    </p>
+                </section>
+
+                <section class="section" id="medicine-used-per-disease">
+                    <h2 class="section-title">Medicine Used per Disease</h2>
+                    <p>
+                        <span class="pill"
+                            >Path:
+                            /reports/inventory/medicine-used-per-disease</span
+                        >
+                        Medicine usage by disease.
+                    </p>
+                </section>
+
+                <section class="section" id="monthly-consumption-summary">
+                    <h2 class="section-title">Monthly Consumption Summary</h2>
+                    <p>
+                        <span class="pill"
+                            >Path:
+                            /reports/inventory/monthly-consumption-summary</span
+                        >
+                        Monthly consumption summary.
+                    </p>
+                </section>
+
+                <section class="section" id="wastage-loss-report">
+                    <h2 class="section-title">Wastage & Loss Report</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /reports/inventory/wastage-loss</span
+                        >
+                        Wastage and loss analysis.
+                    </p>
+                </section>
+
+                <section class="section" id="admin">
+                    <h2 class="section-title">
+                        Administration (Super Admin / Admin)
+                    </h2>
+                    <p>
+                        Admin menus are visible to
+                        <strong>Super Admin</strong> and
+                        <strong>Admin</strong> roles. Some items are hidden in
+                        single-license mode.
+                    </p>
+                </section>
+
+                <section class="section" id="admin-dashboard">
+                    <h2 class="section-title">Admin Dashboard</h2>
+                    <p>
+                        <span class="pill">Path: /admin/dashboard</span> Admin
+                        overview for platform operations.
+                    </p>
+                </section>
+
+                <section class="section" id="collections">
+                    <h2 class="section-title">Collections</h2>
+                    <p>
+                        <span class="pill">Path: /admin/collections</span> View
+                        subscription/payment collections (SaaS).
+                    </p>
+                </section>
+
+                <section class="section" id="farms-directory">
+                    <h2 class="section-title">Farms Directory</h2>
+                    <p>
+                        <span class="pill">Path: /admin/farms</span> Super Admin
+                        directory of all farms (SaaS).
+                    </p>
+                </section>
+
+                <section class="section" id="website-settings">
+                    <h2 class="section-title">Website Settings</h2>
+                    <p>
+                        <span class="pill">Path: /admin/settings/website</span>
+                        Configure site title, logo, currency, etc.
+                    </p>
+                </section>
+
+                <section class="section" id="email-settings">
+                    <h2 class="section-title">Email Settings</h2>
+                    <p>
+                        <span class="pill">Path: /admin/settings/email</span>
+                        Configure SMTP and email sender settings.
+                    </p>
+                </section>
+
+                <section class="section" id="demo-requests">
+                    <h2 class="section-title">Demo Requests</h2>
+                    <p>
+                        <span class="pill">Path: /admin/demo-requests</span>
+                        Manage demo requests submitted from landing pages.
+                    </p>
+                </section>
+
+                <section class="section" id="roles">
+                    <h2 class="section-title">Roles</h2>
+                    <p>
+                        <span class="pill">Path: /admin/roles</span> Create
+                        roles and assign permissions.
+                    </p>
+                </section>
+
+                <section class="section" id="permissions">
+                    <h2 class="section-title">Permissions</h2>
+                    <p>
+                        <span class="pill">Path: /admin/permissions</span>
+                        Manage permission definitions.
+                    </p>
+                </section>
+
+                <section class="section" id="users">
+                    <h2 class="section-title">Users</h2>
+                    <p>
+                        <span class="pill">Path: /admin/users</span> Create and
+                        manage platform users.
+                    </p>
+                    <h3>Workflow: Add a New User</h3>
+                    <ol>
+                        <li>Open Users → Create</li>
+                        <li>Enter name/email and assign role</li>
+                        <li>Send temporary password or use password reset</li>
+                    </ol>
+                </section>
+
+                <section class="section" id="assign-roles">
+                    <h2 class="section-title">Assign Roles</h2>
+                    <p>
+                        <span class="pill">Path: /admin/assign-roles</span>
+                        Assign roles to users.
+                    </p>
+                </section>
+
+                <section class="section" id="plans-features">
+                    <h2 class="section-title">Plans & Features (SaaS)</h2>
+                    <p>
+                        In SaaS mode, subscription plans control which modules
+                        are enabled for each farm. This is enforced via feature
+                        keys (example: <code>animals</code>,
+                        <code>healths</code>, <code>reports</code>).
+                    </p>
+                </section>
+
+                <section class="section" id="manage-plans">
+                    <h2 class="section-title">Manage Plans</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /admin/subscription-plans</span
+                        >
+                        Create plans and pricing.
+                    </p>
+                </section>
+
+                <section class="section" id="manage-features">
+                    <h2 class="section-title">Manage Features</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /admin/subscription-features</span
+                        >
+                        Define feature flags used by plans.
+                    </p>
+                </section>
+
+                <section class="section" id="plan">
+                    <h2 class="section-title">Plan (Farm Owner)</h2>
+                    <p>
+                        <span class="pill">Path: /plan</span> View current
+                        subscription plan and included features (SaaS only).
+                    </p>
+                </section>
+
+                <section class="section" id="billing">
+                    <h2 class="section-title">
+                        Subscription & Billing (Farm Owner)
+                    </h2>
+                    <p>
+                        <span class="pill">Path: /billing</span> Manage
+                        subscription payments and billing history (SaaS only).
+                    </p>
+                </section>
+
+                <section class="section" id="profile">
+                    <h2 class="section-title">Profile</h2>
+                    <p>
+                        <span class="pill">Path: /profile</span> Update user
+                        profile and password.
+                    </p>
+                </section>
+
+                <section class="section" id="settings">
+                    <h2 class="section-title">Settings (Farm Owner)</h2>
+                    <p>
+                        <span class="pill">Path: /settings</span> Farm-level
+                        settings (visible to farm owner).
+                    </p>
+                </section>
+
+                <section class="section" id="payment-gateways">
+                    <h2 class="section-title">Payment Gateways</h2>
+                    <p>
+                        <span class="pill"
+                            >Path: /settings/payment-gateways</span
+                        >
+                        Configure payment gateways (Admin/Super Admin, SaaS
+                        only).
+                    </p>
+                </section>
+
+                <section class="section" id="logistics">
+                    <h2 class="section-title">Logistics</h2>
+                    <p>
+                        <span class="pill">Path: /logistics</span> Manage
+                        logistics records (operations).
+                    </p>
+                </section>
+
+                <section class="section" id="farms">
+                    <h2 class="section-title">Farms</h2>
+                    <p>
+                        <span class="pill">Path: /farms</span> Farm
+                        list/management (operations).
+                    </p>
+                </section>
+
+                <section class="section" id="installation">
+                    <h2 class="section-title">Installation</h2>
+                    <p>
+                        High-level installation steps (web installer and CLI).
+                        For the full installer walkthrough, see
+                        <code>documentation/index.html</code>.
+                    </p>
+                    <div class="alert alert-info">
+                        Web installer URL: <code>/install</code>
+                    </div>
+                    <h3>Prerequisites</h3>
+                    <ul>
+                        <li>PHP 8.2+ and required extensions</li>
+                        <li>MySQL/SQLite configured</li>
+                        <li>
+                            Writable: <code>storage/</code>,
+                            <code>bootstrap/cache/</code>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="section" id="backup">
+                    <h2 class="section-title">Backup & Restore</h2>
+                    <p>
+                        Best practices for backups: export database and archive
+                        <code>storage/</code> and <code>public/</code> uploads.
+                        Keep copies off-site and test restores periodically.
+                    </p>
+                    <h3>Commands</h3>
+                    <pre><code># MySQL dump example
+mysqldump -u dbuser -p livestockpro > livestockpro.sql
+
+# Tar backup of uploads and storage
+tar -czf backup-storage-$(date +%F).tar.gz storage public/uploads</code></pre>
+                </section>
+
+                <section class="section" id="updates">
+                    <h2 class="section-title">Updates</h2>
+                    <p>
+                        Updating the application involves replacing code files
+                        (or pulling new release), running composer, migrations,
+                        and clearing caches.
+                    </p>
+                    <h3>Typical Update Steps</h3>
+                    <ol>
+                        <li>Backup DB and storage</li>
+                        <li>
+                            Upload new files (do not overwrite
+                            <code>.env</code> or <code>storage</code>)
+                        </li>
+                        <li>
+                            SSH:
+                            <code
+                                >composer install --no-dev
+                                --optimize-autoloader</code
+                            >
+                        </li>
+                        <li>
+                            SSH:
+                            <code
+                                >php artisan migrate --force && php artisan
+                                optimize:clear</code
+                            >
+                        </li>
+                    </ol>
+                </section>
+
+                <section class="section" id="troubleshooting">
+                    <h2 class="section-title">Troubleshooting</h2>
+                    <p>Common issues and how to resolve them:</p>
+                    <h3>Installer Failures</h3>
+                    <ul>
+                        <li>
+                            Missing <code>.env</code>: index.html installer
+                            creates a default; ensure web server can write to
+                            webroot
+                        </li>
+                        <li>
+                            Permission errors: run
+                            <code>sudo php artisan app:fix-permissions</code> or
+                            adjust with chown/chmod as documented in index.html
+                        </li>
+                    </ul>
+                    <h3>500 Errors</h3>
+                    <ul>
+                        <li>
+                            Enable <code>APP_DEBUG=true</code> in
+                            <code>.env</code> (development only) and check
+                            <code>storage/logs/laravel.log</code>
+                        </li>
+                        <li>
+                            Check PHP error logs on the server (Apache/Nginx)
+                        </li>
+                    </ul>
+                    <h3>Performance</h3>
+                    <ul>
+                        <li>
+                            Use PHP-FPM with tuned worker settings, enable
+                            opcache
+                        </li>
+                        <li>
+                            Use Redis for cache/queue in high-traffic setups
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="section" id="appendix">
+                    <h2 class="section-title">
+                        Appendix — Helpful Commands & Notes
+                    </h2>
+                    <ul>
+                        <li>
+                            <strong>Clear caches:</strong>
+                            <code
+                                >php artisan optimize:clear && php artisan
+                                optimize</code
+                            >
+                        </li>
+                        <li>
+                            <strong>Queue worker:</strong>
+                            <code
+                                >php artisan queue:work --sleep=3
+                                --tries=3</code
+                            >
+                        </li>
+                        <li>
+                            <strong>Scheduler:</strong> add cron
+                            <code
+                                >* * * * * php /path/to/artisan
+                                schedule:run</code
+                            >
+                        </li>
+                        <li>
+                            <strong>Fix permissions:</strong>
+                            <code>sudo php artisan app:fix-permissions</code>
+                        </li>
+                    </ul>
+                    <div class="alert alert-success">
+                        Screenshot support is built-in: add PNG/JPG files into
+                        <code>documentation/screenshots/</code> using the
+                        filenames referenced in each section (example:
+                        <code>dashboard.png</code>). Missing images are
+                        automatically hidden.
+                    </div>
+                </section>
+            </main>
+        </div>
+        <script>
+            const sections = document.querySelectorAll("section[id]");
+            const links = document.querySelectorAll(".sidebar nav a");
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            links.forEach((l) => l.classList.remove("active"));
+                            const active = document.querySelector(
+                                `.sidebar nav a[href="#${entry.target.id}"]`,
+                            );
+                            if (active) active.classList.add("active");
+                        }
+                    });
+                },
+                { threshold: 0.3 },
+            );
+            sections.forEach((s) => observer.observe(s));
+        </script>
+    </body>
+</html>

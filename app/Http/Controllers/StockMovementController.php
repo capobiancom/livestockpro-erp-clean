@@ -17,6 +17,64 @@ class StockMovementController extends Controller
         $this->authorizeResource(StockMovement::class, 'stock_movement');
     }
 
+    public function unitDetails(Request $request, string $unit)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        // Reuse existing authorization: if user can view stock movements list, allow drilldown.
+        $this->authorize('viewAny', StockMovement::class);
+
+        $movementType = $request->string('movement_type')->toString(); // in|out|''
+
+        $base = StockMovement::query()
+            ->with(['item', 'source', 'user'])
+            ->when($user->hasRole('farm_owner'), fn($q) => $q->where('farm_id', $user->farm_id));
+
+        // Filter by unit across InventoryItem + Medicine
+        $base->where(function ($q) use ($unit) {
+            $q->where(function ($q) use ($unit) {
+                $q->where('item_type', InventoryItem::class)
+                    ->whereIn('item_id', function ($sub) use ($unit) {
+                        $sub->from('inventory_items')
+                            ->select('id')
+                            ->where('unit', $unit);
+                    });
+            })->orWhere(function ($q) use ($unit) {
+                $q->where('item_type', Medicine::class)
+                    ->whereIn('item_id', function ($sub) use ($unit) {
+                        $sub->from('medicines')
+                            ->select('id')
+                            ->where('unit', $unit);
+                    });
+            });
+        });
+
+        if (in_array($movementType, ['in', 'out'], true)) {
+            $base->where('movement_type', $movementType);
+        }
+
+        $movements = $base
+            ->latest('movement_date')
+            ->paginate(15)
+            ->withQueryString();
+
+        $summary = [
+            'unit' => $unit,
+            'total_in' => (clone $base)->where('movement_type', 'in')->sum('quantity'),
+            'total_out' => (clone $base)->where('movement_type', 'out')->sum('quantity'),
+            'count' => (clone $base)->count(),
+        ];
+
+        return response()->json([
+            'summary' => $summary,
+            'movements' => $movements,
+        ]);
+    }
+
     public function index(Request $request)
     {
         /** @var User $user */ // Type hint the user
@@ -50,12 +108,6 @@ class StockMovementController extends Controller
             ->latest('movement_date')
             ->paginate(20)
             ->withQueryString();
-
-        // Calculate statistics
-        $baseQuery = StockMovement::query();
-        if ($user->hasRole('farm_owner')) {
-            $baseQuery->where('farm_id', $user->farm_id);
-        }
 
         // Calculate statistics
         $baseQuery = StockMovement::query();
@@ -101,7 +153,7 @@ class StockMovementController extends Controller
 
         return Inertia::render('StockMovements/Index', [
             'stockMovements' => $stockMovements,
-            'filters' => $request->only('q'),
+            'filters' => $request->only('q', 'unit'),
             'statistics' => $statistics,
         ]);
     }

@@ -49,7 +49,7 @@ class DiseaseTreatmentPolicy
      */
     public function treatmentCostPerCowReport(User $user): bool
     {
-        return $user->hasRole('farm owner') && $user->farm_id !== null || $user->hasPermissionTo('disease-treatments.treatmentCostPerCowReport');
+        return $user->hasRole('farm owner') && $user->farm_id !== null || $user->hasPermissionTo('disease-treatments.treatment_cost_per_cow_reports');
     }
 
     /**

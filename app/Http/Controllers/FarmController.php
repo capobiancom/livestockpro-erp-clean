@@ -21,7 +21,8 @@ class FarmController extends Controller
 
         $farms = Farm::withCount(['animals', 'staff', 'herds'])
             ->when($user->hasRole('farm owner'), function ($query) use ($user) {
-                $query->where('id', $user->farm_id);
+                // Farm owners can manage multiple farms; list farms they own.
+                $query->where('user_id', $user->id);
             })
             ->when($q, fn($qb) => $qb->where('name', 'like', "%$q%"))
             ->latest()
@@ -49,8 +50,15 @@ class FarmController extends Controller
             'contact_phone' => 'nullable|string',
         ]);
 
-        $data = FarmData::fromValidated($validated);
-        Farm::create($data->toArray());
+        $data = FarmData::from($validated);
+
+        // Ensure the creating user becomes the owner of the farm.
+        $payload = array_merge($data->toArray(), [
+            'user_id' => $request->user()->id,
+        ]);
+
+        Farm::create($payload);
+
         return redirect()->route('farms.index')->with('success', 'Farm created');
     }
 
@@ -75,7 +83,7 @@ class FarmController extends Controller
             'contact_phone' => 'nullable|string',
         ]);
 
-        $data = FarmData::fromValidated($validated);
+        $data = FarmData::from($validated);
         $farm->update($data->toArray());
         return redirect()->route('farms.index')->with('success', 'Farm updated');
     }

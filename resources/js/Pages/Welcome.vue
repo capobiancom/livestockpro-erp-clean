@@ -131,7 +131,7 @@ const demoForm = useForm({
     preferred_time: "",
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Dhaka",
     message:
-        "Hello AgroSass team,\n\nI would like to request a product demo. Please contact me with available time slots.\n\nThanks,\n",
+        "Hello AgroSaas team,\n\nI would like to request a product demo. Please contact me with available time slots.\n\nThanks,\n",
 });
 
 function submitDemoRequest() {
@@ -146,7 +146,7 @@ function submitDemoRequest() {
 
 const faqs = [
     {
-        q: "Is AgroSass suitable for small farms?",
+        q: "Is AgroSaas suitable for small farms?",
         a: "Yes. Start with the modules you need and scale as your operation grows.",
     },
     {
@@ -162,7 +162,7 @@ const faqs = [
 
 <template>
     <Head
-        :title="`${props.websiteSettings?.site_title || 'AgroSass'} — Farm Management Platform`"
+        :title="`${props.websiteSettings?.site_title || 'LivestockPro SaaS'} — Farm Management Platform`"
     />
 
     <div class="min-h-screen bg-slate-950 text-slate-100">
@@ -203,7 +203,8 @@ const faqs = [
                         />
                         <span class="text-base font-semibold tracking-wide">
                             {{
-                                props.websiteSettings?.site_title || "AgroSass"
+                                props.websiteSettings?.site_title ||
+                                "LivestockPro ERP SaaS"
                             }}
                         </span>
                     </Link>
@@ -282,28 +283,25 @@ const faqs = [
                         <p class="mt-5 text-base/7 text-white/75">
                             {{
                                 props.websiteSettings?.site_description ||
-                                "AgroSass helps you run your farm with clarity: livestock lifecycle, feeding, health, inventory, finance, HR, and reporting—built for speed and control."
+                                "AgroSaas helps you run your farm with clarity: livestock lifecycle, feeding, health, inventory, finance, HR, and reporting—built for speed and control."
                             }}
                         </p>
 
                         <div class="mt-8 flex flex-wrap items-center gap-3">
                             <button
                                 type="button"
-                                v-if="!$page.props.auth.user"
                                 @click="showDemoModal = true"
                                 class="rounded-2xl bg-gradient-to-r from-emerald-400 to-sky-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_20px_60px_-30px_rgba(16,185,129,0.45)] transition hover:from-emerald-300 hover:to-sky-300"
                             >
                                 Request a demo
                             </button>
                             <Link
-                                v-if="canRegister && !$page.props.auth.user"
                                 :href="route('register')"
                                 class="rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-[0_20px_60px_-30px_rgba(255,255,255,0.35)] transition hover:bg-slate-100"
                             >
                                 Get started
                             </Link>
                             <Link
-                                v-if="!$page.props.auth.user"
                                 :href="route('login')"
                                 class="rounded-2xl bg-white/10 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/15"
                             >
@@ -518,7 +516,7 @@ const faqs = [
                 >
                     <div>
                         <h2 class="text-2xl font-semibold text-white">
-                            Why teams choose AgroSass
+                            Why teams choose AgroSaas
                         </h2>
                         <p class="mt-2 text-sm text-white/70">
                             A clean UI, consistent workflows, and the controls
@@ -813,7 +811,7 @@ const faqs = [
                             class="h-8 w-auto text-white/80"
                         />
                         <span>{{
-                            props.websiteSettings?.site_title || "AgroSass"
+                            props.websiteSettings?.site_title || "AgroSaas"
                         }}</span>
                     </div>
 

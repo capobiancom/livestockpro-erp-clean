@@ -40,10 +40,10 @@ import { Link } from "@inertiajs/inertia-vue3";
                     <div class="relative z-10 max-w-md">
                         <Link href="/" class="inline-flex items-center gap-3">
                             <ApplicationLogo
-                                class="h-14 w-auto text-white drop-shadow"
+                                class="h-14 w-auto text-white drop-shadow mt-5"
                             />
                             <span class="text-lg font-semibold tracking-wide"
-                                >AgroSass</span
+                                >LivestockPro ERP SaaS</span
                             >
                         </Link>
 

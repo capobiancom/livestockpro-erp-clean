@@ -41,7 +41,7 @@ class AttendanceController extends Controller
                     ->orWhere('last_name', 'like', "%$q%");
             })->orWhere('date', 'like', "%$q%"))
             ->orderBy('date', 'desc')
-            ->paginate(15)
+            ->paginate(10)
             ->withQueryString();
 
         return Inertia::render('Attendances/Index', [
@@ -214,7 +214,11 @@ class AttendanceController extends Controller
         $overtimeMinutes = 0;
 
         if (!$checkIn) {
-            return compact('status', 'workingMinutes', 'overtimeMinutes');
+            return [
+                'status' => $status,
+                'working_minutes' => $workingMinutes,
+                'overtime_minutes' => $overtimeMinutes,
+            ];
         }
 
         $employeeShift = EmployeeShift::with('shift')
@@ -223,16 +227,41 @@ class AttendanceController extends Controller
             ->whereDate('effective_to', '>=', $date)
             ->first();
 
-        $checkInTime = Carbon::parse($checkIn);
+        // Build full datetime for the given date + time inputs.
+        // The UI sends "HH:mm" (no date), so parsing without the date can lead to wrong diffs.
+        $checkInTime = Carbon::parse($date . ' ' . $checkIn);
 
-        if (!$employeeShift) {
+        if (!$employeeShift || !$employeeShift->shift) {
+            // If no shift is assigned, fall back to raw diff between check-in/out (if available)
+            // so Working Minutes doesn't stay 0 for biometric/imported records.
             $status = AttendanceStatus::Present->value;
-            return compact('status', 'workingMinutes', 'overtimeMinutes');
+
+            if ($checkOut) {
+                $checkOutTime = Carbon::parse($date . ' ' . $checkOut);
+
+                // Handle overnight (check-out after midnight)
+                if ($checkOutTime->lessThan($checkInTime)) {
+                    $checkOutTime->addDay();
+                }
+
+                $workingMinutes = $checkInTime->diffInMinutes($checkOutTime);
+            }
+
+            return [
+                'status' => $status,
+                'working_minutes' => $workingMinutes,
+                'overtime_minutes' => $overtimeMinutes,
+            ];
         }
 
         $shift = $employeeShift->shift;
-        $shiftStart = Carbon::parse($shift->start_time);
-        $shiftEnd   = Carbon::parse($shift->end_time);
+        $shiftStart = Carbon::parse($date . ' ' . $shift->start_time);
+        $shiftEnd   = Carbon::parse($date . ' ' . $shift->end_time);
+
+        // Handle overnight shifts (e.g., 22:00 -> 06:00)
+        if ($shiftEnd->lessThanOrEqualTo($shiftStart)) {
+            $shiftEnd->addDay();
+        }
         $grace      = $shift->grace_minutes ?? 0;
 
         /** STATUS */
@@ -243,10 +272,19 @@ class AttendanceController extends Controller
         }
 
         if (!$checkOut) {
-            return compact('status', 'workingMinutes', 'overtimeMinutes');
+            return [
+                'status' => $status,
+                'working_minutes' => $workingMinutes,
+                'overtime_minutes' => $overtimeMinutes,
+            ];
         }
 
-        $checkOutTime = Carbon::parse($checkOut);
+        $checkOutTime = Carbon::parse($date . ' ' . $checkOut);
+
+        // Handle overnight (check-out after midnight)
+        if ($checkOutTime->lessThan($checkInTime)) {
+            $checkOutTime->addDay();
+        }
 
         /** WORKING MINUTES (bounded by shift) */
         $actualStart = $checkInTime->greaterThan($shiftStart)

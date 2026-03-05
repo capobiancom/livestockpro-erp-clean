@@ -48,7 +48,7 @@ class ReproductionRecordPolicy
      */
     public function conseptionSuccessRateReport(User $user): bool
     {
-        return $user->hasRole('farm owner') && $user->farm_id !== null || $user->hasPermissionTo('reproduction-records.conseptionSuccessRateReport');
+        return $user->hasRole('farm owner') && $user->farm_id !== null || $user->hasPermissionTo('reproduction-records.conseption_success_rate_reports');
     }
 
     /**

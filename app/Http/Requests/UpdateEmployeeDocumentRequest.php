@@ -28,7 +28,7 @@ class UpdateEmployeeDocumentRequest extends FormRequest
             'document_type' => ['required', 'string', 'in:NID,License,Certificate'],
             'document_number' => ['nullable', 'string', 'max:255'],
             'expiry_date' => ['nullable', 'date'],
-            'file_path' => ['required', 'string', 'max:255'],
+            'file_path' => ['nullable', 'string', 'max:255'],
         ];
     }
 

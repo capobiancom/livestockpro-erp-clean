@@ -25,6 +25,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'subscription.active' => \App\Http\Middleware\EnsureFarmSubscriptionIsActive::class,
             'subscription.feature' => \App\Http\Middleware\EnsureFarmHasFeature::class,
 
+            // SaaS-only routes (blocked in single-license mode)
+            'saas.only' => \App\Http\Middleware\SaasOnly::class,
+
             // Installation wizard — blocks access once storage/installed file exists
             'not.installed' => \App\Http\Middleware\RedirectIfInstalled::class,
         ]);

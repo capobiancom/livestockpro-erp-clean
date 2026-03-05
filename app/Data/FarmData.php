@@ -4,7 +4,7 @@ namespace App\Data;
 
 use Spatie\LaravelData\Data;
 
-class FarmData extends \App\Data\BaseData
+class FarmData extends Data
 {
     public function __construct(
         public string $name,

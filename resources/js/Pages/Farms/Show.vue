@@ -6,7 +6,7 @@
                 <div class="flex gap-3">
                     <Link
                         :href="route('farms.edit', farm.id)"
-                        class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition duration-200"
+                        class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white ml-5 px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition duration-200"
                     >
                         Edit Farm
                     </Link>
@@ -103,7 +103,9 @@
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-gray-600 font-semibold">Herds</p>
+                            <p class="text-sm text-gray-600 font-semibold">
+                                Herds
+                            </p>
                             <p class="text-3xl font-bold text-green-700 mt-2">
                                 {{ farm.herds_count || 0 }}
                             </p>

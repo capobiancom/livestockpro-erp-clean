@@ -24,8 +24,8 @@ class FarmPolicy
      */
     public function viewAny(User $user): bool
     {
-        // A farm owner can view their own farm. Super Admin can view all.
-        return ($user->hasRole('farm owner') && $user->farm_id !== null) || $user->hasPermissionTo('farms.manage');
+        // Farm owners can view farms they own. Super Admin can view all (via before()).
+        return $user->hasRole('farm owner') || $user->hasPermissionTo('farms.manage');
     }
 
     /**
@@ -33,7 +33,7 @@ class FarmPolicy
      */
     public function view(User $user, Farm $farm): bool
     {
-        return ($user->hasRole('farm owner') && $user->farm_id === $farm->id) || $user->hasPermissionTo('farms.view');
+        return ($user->hasRole('farm owner') && $farm->user_id === $user->id) || $user->hasPermissionTo('farms.view');
     }
 
     /**
@@ -41,9 +41,8 @@ class FarmPolicy
      */
     public function create(User $user): bool
     {
-        // Only Super Admin or a user with specific permission can create new farms.
-        // A farm owner typically manages their existing farm, not creates new ones.
-        return ($user->hasRole('farm owner') && $user->farm_id !== null) || $user->hasPermissionTo('farms.create');
+        // Farm owners should not be able to create farms
+        return !$user->hasRole('farm owner');
     }
 
     /**
@@ -51,7 +50,7 @@ class FarmPolicy
      */
     public function update(User $user, Farm $farm): bool
     {
-        return ($user->hasRole('farm owner') && $user->farm_id === $farm->id) || $user->hasPermissionTo('farms.update');
+        return ($user->hasRole('farm owner') && $farm->user_id === $user->id) || $user->hasPermissionTo('farms.update');
     }
 
     /**
@@ -59,7 +58,8 @@ class FarmPolicy
      */
     public function delete(User $user, Farm $farm): bool
     {
-        return ($user->hasRole('farm owner') && $user->farm_id === $farm->id) || $user->hasPermissionTo('farms.delete');
+        // Super Admin can delete farms they own
+        return $user->hasRole('Super Admin') || $user->hasPermissionTo('farms.delete');
     }
 
     /**
@@ -67,7 +67,7 @@ class FarmPolicy
      */
     public function restore(User $user, Farm $farm): bool
     {
-        return ($user->hasRole('farm owner') && $user->farm_id === $farm->id) || $user->hasPermissionTo('farms.restore');
+        return $user->hasRole('Super Admin') || $user->hasPermissionTo('farms.restore');
     }
 
     /**
@@ -75,6 +75,6 @@ class FarmPolicy
      */
     public function forceDelete(User $user, Farm $farm): bool
     {
-        return ($user->hasRole('farm owner') && $user->farm_id === $farm->id) || $user->hasPermissionTo('farms.forceDelete');
+        return $user->hasRole('Super Admin') || $user->hasPermissionTo('farms.forceDelete');
     }
 }

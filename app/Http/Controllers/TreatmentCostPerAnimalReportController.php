@@ -15,7 +15,7 @@ class TreatmentCostPerAnimalReportController extends Controller
 {
     public function index(Request $request)
     {
-        $this->authorize('treatmentCostPerAnimalReport', DiseaseTreatment::class);
+        $this->authorize('treatmentCostPerCowReport', DiseaseTreatment::class);
 
         $validated = $request->validate([
             'from' => ['nullable', 'date'],

@@ -37,14 +37,24 @@ class AuthenticatedSessionController extends Controller
 
         // Redirect based on role
         if ($user && $user->hasAnyRole(['Super Admin', 'admin'])) {
-            return redirect()->intended(route('admin.dashboard', absolute: false));
+            if (!config('app.saas_mode', true)) {
+                // In SaaS mode, send admins to the admin dashboard
+                return redirect()->route('admin.settings.website.edit');
+            } else {
+                // In single-license mode, send all users to the profile page (hide admin dashboard
+                return redirect()->intended(route('admin.dashboard', absolute: false));
+            }
         }
 
         // Farm owner: if no active subscription, force billing first.
         if ($user && $user->hasRole('farm owner')) {
             $farmId = $user->farm_id ?? null;
-
             if ($farmId) {
+
+                if (!config('app.saas_mode', true)) {
+                    // In SaaS mode, send admins to the admin dashboard
+                    return redirect()->route('dashboard');
+                }
 
                 $activeSubscription = \App\Models\FarmSubscription::query()
                     ->where('farm_id', $farmId)
@@ -56,6 +66,8 @@ class AuthenticatedSessionController extends Controller
                 if (!$activeSubscription) {
                     return redirect()->route('billing.index');
                 }
+
+                return redirect()->route('dashboard');
             }
 
             // Subscription is active: send farm owner to the app dashboard.

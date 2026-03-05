@@ -13,6 +13,7 @@ use App\Http\Controllers\HerdController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\VaccineTypeController;
+use App\Http\Controllers\FarmSwitchController;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -130,34 +131,36 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'subscription.active'])->group(function () {
 
-    Route::get('/admin/dashboard', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])
-        ->middleware('role:admin|Super Admin')
-        ->name('admin.dashboard');
+    Route::middleware('saas.only')->group(function () {
+        Route::get('/admin/dashboard', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])
+            ->middleware('role:admin|Super Admin')
+            ->name('admin.dashboard');
 
-    Route::get('/admin/collections', [\App\Http\Controllers\Admin\AdminCollectionsController::class, 'index'])
-        ->middleware('role:admin|Super Admin')
-        ->name('admin.collections');
+        Route::get('/admin/collections', [\App\Http\Controllers\Admin\AdminCollectionsController::class, 'index'])
+            ->middleware('role:admin|Super Admin')
+            ->name('admin.collections');
 
-    Route::post('/admin/collections/invoices/{invoice}/collect', [\App\Http\Controllers\Admin\AdminCollectionsController::class, 'collectInvoice'])
-        ->middleware('role:admin|Super Admin')
-        ->name('admin.collections.invoices.collect');
+        Route::post('/admin/collections/invoices/{invoice}/collect', [\App\Http\Controllers\Admin\AdminCollectionsController::class, 'collectInvoice'])
+            ->middleware('role:admin|Super Admin')
+            ->name('admin.collections.invoices.collect');
 
-    Route::post('/admin/farms/{farm}/subscription/toggle', [\App\Http\Controllers\Admin\AdminFarmSubscriptionController::class, 'toggle'])
-        ->middleware('role:admin|Super Admin')
-        ->name('admin.farms.subscriptions.toggle');
+        Route::post('/admin/farms/{farm}/subscription/toggle', [\App\Http\Controllers\Admin\AdminFarmSubscriptionController::class, 'toggle'])
+            ->middleware('role:admin|Super Admin')
+            ->name('admin.farms.subscriptions.toggle');
 
-    Route::post('/admin/farms/{farm}/notifications/send', [\App\Http\Controllers\Admin\AdminFarmNotificationController::class, 'send'])
-        ->middleware('role:admin|Super Admin')
-        ->name('admin.farms.notifications.send');
+        Route::post('/admin/farms/{farm}/notifications/send', [\App\Http\Controllers\Admin\AdminFarmNotificationController::class, 'send'])
+            ->middleware('role:admin|Super Admin')
+            ->name('admin.farms.notifications.send');
 
-    // Super Admin: Farms directory (list + details with user login identifiers/roles)
-    Route::get('/admin/farms', [AdminFarmsController::class, 'index'])
-        ->middleware('role:Super Admin')
-        ->name('admin.farms.index');
+        // Super Admin: Farms directory (list + details with user login identifiers/roles)
+        Route::get('/admin/farms', [AdminFarmsController::class, 'index'])
+            ->middleware('role:Super Admin')
+            ->name('admin.farms.index');
 
-    Route::get('/admin/farms/{farm}', [AdminFarmsController::class, 'show'])
-        ->middleware('role:Super Admin')
-        ->name('admin.farms.show');
+        Route::get('/admin/farms/{farm}', [AdminFarmsController::class, 'show'])
+            ->middleware('role:Super Admin')
+            ->name('admin.farms.show');
+    });
 
     // Super Admin: Website settings (affects public website only)
     Route::get('/admin/settings/website', [\App\Http\Controllers\Admin\SuperAdminSettingsController::class, 'edit'])
@@ -202,8 +205,9 @@ Route::middleware(['auth', 'subscription.active'])->group(function () {
             ->middleware(['auth', 'verified', 'role:farm owner'])
             ->name('dashboard');
 
+        // SaaS mode only (hide/disable in single-license mode)
         Route::get('/farm-productivity-dashboard', [FarmProductivityDashboardController::class, 'index'])
-            ->middleware(['auth', 'verified', 'role:farm owner'])
+            ->middleware(['auth', 'verified', 'role:farm owner', 'saas.only'])
             ->name('farm-productivity-dashboard.index');
     });
 
@@ -258,6 +262,8 @@ Route::middleware(['auth', 'subscription.active'])->group(function () {
         Route::resource('categories', \App\Http\Controllers\InventoryCategoryController::class);
         Route::resource('medicines', \App\Http\Controllers\MedicineController::class);
         Route::resource('medicine-groups', \App\Http\Controllers\MedicineGroupController::class);
+        Route::get('stock-movements/unit/{unit}', [\App\Http\Controllers\StockMovementController::class, 'unitDetails'])
+            ->name('stock-movements.unit-details');
         Route::resource('stock-movements', \App\Http\Controllers\StockMovementController::class);
         Route::resource('suppliers', \App\Http\Controllers\SupplierController::class);
 
@@ -287,6 +293,9 @@ Route::middleware(['auth', 'subscription.active'])->group(function () {
         Route::resource('logistics', \App\Http\Controllers\LogisticController::class);
         Route::resource('farms', \App\Http\Controllers\FarmController::class);
         Route::resource('staff', \App\Http\Controllers\StaffController::class);
+
+        Route::post('/farm/switch', [FarmSwitchController::class, 'store'])
+            ->name('farm.switch');
     });
 
     Route::middleware(['subscription.feature:productions'])->group(function () {
@@ -528,13 +537,15 @@ Route::middleware(['auth', 'subscription.active'])->group(function () {
         ->middleware('role:farm owner')
         ->name('plan.index');
 
-    // Payment gateway settings (configure API keys + default gateway)
-    Route::get('/settings/payment-gateways', [\App\Http\Controllers\PaymentGatewaySettingsController::class, 'index'])
-        ->middleware('role:admin|Super Admin')
-        ->name('settings.payment-gateways.index');
-    Route::post('/settings/payment-gateways', [\App\Http\Controllers\PaymentGatewaySettingsController::class, 'update'])
-        ->middleware('role:admin|Super Admin')
-        ->name('settings.payment-gateways.update');
+    // Payment gateway settings (configure API keys + default gateway) - SaaS mode only
+    Route::middleware('saas.only')->group(function () {
+        Route::get('/settings/payment-gateways', [\App\Http\Controllers\PaymentGatewaySettingsController::class, 'index'])
+            ->middleware('role:admin|Super Admin')
+            ->name('settings.payment-gateways.index');
+        Route::post('/settings/payment-gateways', [\App\Http\Controllers\PaymentGatewaySettingsController::class, 'update'])
+            ->middleware('role:admin|Super Admin')
+            ->name('settings.payment-gateways.update');
+    });
 
     // Settings routes
     Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])

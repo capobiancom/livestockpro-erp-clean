@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Farm;
 use App\Models\FarmSubscription;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -94,7 +95,7 @@ class HandleInertiaRequests extends Middleware
         if (!$isInstalling) {
             try {
                 if (Schema::hasTable('settings')) {
-                    $logoPath = Setting::first()?->logo_path;
+                    $logoPath = Setting::first()?->logo_path ?? Setting::first()?->website_logo_path ?? null;
                     $currencySymbol = Setting::first()?->currency_symbol ?? '$';
                     $websiteCurrencySymbol = Setting::first()?->website_currency_symbol ?? '$';
                 }
@@ -103,11 +104,45 @@ class HandleInertiaRequests extends Middleware
             }
         }
 
+        $selectedFarmId = $user ? ($request->session()->get('farm_id') ?: $user->farm_id) : null;
+
+        $availableFarms = [];
+        if (!$isInstalling && $user) {
+            // Current schema: farm owners are tied to a single farm via users.farm_id.
+            // Super Admin/Admin may need to switch between farms.
+            if ($user->hasRole('Super Admin') || $user->hasRole('admin')) {
+                $availableFarms = Farm::query()
+                    ->select(['id', 'name', 'code'])
+                    ->orderBy('name')
+                    ->get()
+                    ->map(fn($f) => ['id' => $f->id, 'name' => $f->name, 'code' => $f->code])
+                    ->toArray();
+            } elseif ($user->farm_id) {
+                $farm = Farm::query()->select(['id', 'name', 'code'])->find($user->farm_id);
+                if ($farm) {
+                    $availableFarms = [['id' => $farm->id, 'name' => $farm->name, 'code' => $farm->code]];
+                }
+            }
+        }
+
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $userResource,
             ],
+            'farm_context' => [
+                'selected_farm_id' => $selectedFarmId,
+                'available_farms' => $availableFarms,
+            ],
+
+            // App mode flags
+            'app_mode' => [
+                // true = SaaS/multi-tenant (subscription enforced)
+                // false = single-license (no subscription/billing UI)
+                'saas_mode' => (bool) config('app.saas_mode', true),
+                'single_license_mode' => ! (bool) config('app.saas_mode', true),
+            ],
+
             'subscription' => [
                 'active' => (bool) $subscription,
                 'details' => $subscription,

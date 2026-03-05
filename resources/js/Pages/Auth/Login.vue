@@ -112,7 +112,7 @@ const submit = () => {
                 </div>
                 <div class="relative flex justify-center text-xs">
                     <span class="bg-white px-2 text-slate-500">
-                        New to AgroSass?
+                        New to AgroSaaS?
                     </span>
                 </div>
             </div>

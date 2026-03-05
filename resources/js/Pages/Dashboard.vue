@@ -2476,10 +2476,12 @@
                         No stock movements to display.
                     </p>
                 </div>
-                <div
+                <Link
                     v-for="movement in stockMovementsByUnit"
                     :key="movement.unit"
-                    class="group bg-white rounded-xl shadow-lg hover:shadow-2xl p-6 border-l-4 border-purple-500 transform hover:-translate-y-1 transition-all duration-300"
+                    :href="route('stock-movements.index')"
+                    :data="{ unit: movement.unit }"
+                    class="group bg-white rounded-xl shadow-lg hover:shadow-2xl p-6 border-l-4 border-purple-500 transform hover:-translate-y-1 transition-all duration-300 text-left focus:outline-none focus:ring-2 focus:ring-purple-500/40"
                 >
                     <div class="flex items-center justify-between mb-3">
                         <div
@@ -2502,8 +2504,9 @@
                         </div>
                         <span
                             class="text-purple-600 text-xs font-semibold bg-purple-50 px-3 py-1 rounded-full"
-                            >{{ movement.unit.toUpperCase() }}</span
                         >
+                            {{ movement.unit.toUpperCase() }}
+                        </span>
                     </div>
                     <p class="text-sm text-gray-600 font-medium mb-1">
                         Total In / Out ({{ movement.unit }})
@@ -2512,10 +2515,26 @@
                         {{ formatNumber(movement.total_in) }} /
                         {{ formatNumber(movement.total_out) }}
                     </p>
-                    <p class="text-xs text-gray-500 mt-2">
-                        Unit-wise stock movement
+                    <p
+                        class="text-xs text-gray-500 mt-2 flex items-center gap-1"
+                    >
+                        <span>Click to view details</span>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4 text-gray-400 group-hover:text-purple-600 transition"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 5l7 7-7 7"
+                            />
+                        </svg>
                     </p>
-                </div>
+                </Link>
             </div>
         </div>
 

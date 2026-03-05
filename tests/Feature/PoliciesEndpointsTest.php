@@ -54,8 +54,17 @@ class PoliciesEndpointsTest extends TestCase
         $user = User::factory()->create();
         $user->givePermissionTo($perm);
 
+        $farm = Farm::factory()->create();
+        $user->farm_id = $farm->id;
+        $user->save();
+
         $this->actingAs($user);
-        $response = $this->post(route('breeds.store'), ['name' => 'Test Breed']);
+        $response = $this->post(route('breeds.store'), [
+            'name' => 'Test Breed',
+            'origin' => 'local',
+            'animal_type' => 'cow',
+        ]);
+        $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDatabaseHas('breeds', ['name' => 'Test Breed']);
     }
@@ -70,12 +79,21 @@ class PoliciesEndpointsTest extends TestCase
 
     public function test_user_with_inventory_permission_can_create_item()
     {
-        $perm = Permission::firstOrCreate(['name' => 'inventory.manage']);
+        $perm = Permission::firstOrCreate(['name' => 'inventory.create']);
         $user = User::factory()->create();
         $user->givePermissionTo($perm);
 
+        $farm = Farm::factory()->create();
+        $user->farm_id = $farm->id;
+        $user->save();
+
         $this->actingAs($user);
-        $response = $this->post(route('inventory.store'), ['name' => 'Feed', 'quantity' => 10]);
+        $response = $this->post(route('inventory.store'), [
+            'name' => 'Feed',
+            'quantity' => 10,
+            'unit' => 'kg',
+        ]);
+        $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDatabaseHas('inventory_items', ['name' => 'Feed']);
     }
@@ -167,6 +185,16 @@ class PoliciesEndpointsTest extends TestCase
         $animal = \App\Models\Animal::factory()->create();
         $item = \App\Models\InventoryItem::factory()->create();
 
+        // Ensure required chart of accounts exist for this farm (FeedingRecordController posts to 5001 and uses 1005)
+        ChartOfAccount::query()->firstOrCreate(
+            ['farm_id' => $animal->farm_id, 'code' => '5001'],
+            ['user_id' => $user->id, 'name' => 'Feed Expense', 'type' => 'expense', 'is_active' => true]
+        );
+        ChartOfAccount::query()->firstOrCreate(
+            ['farm_id' => $animal->farm_id, 'code' => '1005'],
+            ['user_id' => $user->id, 'name' => 'Feed Inventory', 'type' => 'asset', 'is_active' => true]
+        );
+
         // Ensure there is stock to consume (FeedingRecordController consumes from StockMovement "in" batches)
         \App\Models\StockMovement::factory()->create([
             'item_type' => \App\Models\InventoryItem::class,
@@ -207,7 +235,7 @@ class PoliciesEndpointsTest extends TestCase
 
     public function test_user_with_vaccination_permission_can_record_vaccination()
     {
-        $perm = Permission::firstOrCreate(['name' => 'vaccinations.record']);
+        $perm = Permission::firstOrCreate(['name' => 'vaccinations.create']);
         $user = User::factory()->create();
         $user->givePermissionTo($perm);
 

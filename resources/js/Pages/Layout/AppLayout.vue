@@ -23,9 +23,10 @@
                     <ApplicationLogo
                         v-else
                         class="block h-9 w-auto fill-current text-gray-200"
-                    />
+                    >
+                    </ApplicationLogo>
                     <span class="text-xl font-semibold text-white"
-                        >{{ appSettings.app_title }}
+                        >LivestockPro
                     </span>
                 </Link>
             </div>
@@ -38,7 +39,7 @@
                     <!-- Dashboard (Farm Owner only) -->
                     <li
                         v-if="
-                            hasFeature('dashboard') &&
+                            hasFeatureOrSingle('dashboard') &&
                             user?.roles?.includes('farm owner')
                         "
                     >
@@ -66,7 +67,12 @@
                     </li>
 
                     <!-- Farm Productivity Dashboard -->
-                    <li v-if="hasFeature('farmproductivity')">
+                    <li
+                        v-if="
+                            !isSingleLicenseMode &&
+                            hasFeatureOrSingle('farmproductivity')
+                        "
+                    >
                         <Link
                             :href="route('farm-productivity-dashboard.index')"
                             :class="[
@@ -91,7 +97,14 @@
                     </li>
 
                     <!-- Animals Menu -->
-                    <li v-if="hasFeature('animals')">
+                    <li
+                        v-if="
+                            !page.props.value.auth?.user?.roles.includes(
+                                'Super Admin',
+                                'admin',
+                            ) && hasFeatureOrSingle('animals')
+                        "
+                    >
                         <button
                             @click="toggleMenu('animals')"
                             :class="[
@@ -103,7 +116,7 @@
                         >
                             <div
                                 class="flex items-center gap-3"
-                                v-if="hasFeature('animals')"
+                                v-if="hasFeatureOrSingle('animals')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -141,35 +154,35 @@
                             v-show="openMenus.animals"
                             class="ml-8 mt-1 space-y-1 overflow-hidden"
                         >
-                            <li v-if="hasFeature('animals')">
+                            <li v-if="hasFeatureOrSingle('animals')">
                                 <Link
                                     :href="route('animals.index')"
                                     :class="linkClass('/animals')"
                                     >Animals</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('animals')">
+                            <li v-if="hasFeatureOrSingle('animals')">
                                 <Link
                                     :href="route('breeds.index')"
                                     :class="linkClass('/breeds')"
                                     >Breeds</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('animals')">
+                            <li v-if="hasFeatureOrSingle('animals')">
                                 <Link
                                     :href="route('herds.index')"
                                     :class="linkClass('/herds')"
                                     >Herds</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('animals')">
+                            <li v-if="hasFeatureOrSingle('animals')">
                                 <Link
                                     :href="route('reproduction-records.index')"
                                     :class="linkClass('/reproduction-records')"
                                     >Reproduction</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('animals')">
+                            <li v-if="hasFeatureOrSingle('animals')">
                                 <Link
                                     :href="
                                         route('artificial-inseminations.index')
@@ -180,28 +193,28 @@
                                     >Artificial Inseminations</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('animals')">
+                            <li v-if="hasFeatureOrSingle('animals')">
                                 <Link
                                     :href="route('pregnancies.index')"
                                     :class="linkClass('/pregnancies')"
                                     >Pregnancy Records</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('animals')">
+                            <li v-if="hasFeatureOrSingle('animals')">
                                 <Link
                                     :href="route('pregnancy-checkups.index')"
                                     :class="linkClass('/pregnancy-checkups')"
                                     >Pregnancy Checkups</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('animals')">
+                            <li v-if="hasFeatureOrSingle('animals')">
                                 <Link
                                     :href="route('calving-records.index')"
                                     :class="linkClass('/calving-records')"
                                     >Calving Records</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('animals')">
+                            <li v-if="hasFeatureOrSingle('animals')">
                                 <Link
                                     :href="route('calves.index')"
                                     :class="linkClass('/calves')"
@@ -212,7 +225,14 @@
                     </li>
 
                     <!-- Health Menu -->
-                    <li v-if="hasFeature('healths')">
+                    <li
+                        v-if="
+                            !page.props.value.auth?.user?.roles.includes(
+                                'Super Admin',
+                                'admin',
+                            ) && hasFeatureOrSingle('healths')
+                        "
+                    >
                         <button
                             @click="toggleMenu('health')"
                             :class="[
@@ -224,7 +244,7 @@
                         >
                             <div
                                 class="flex items-center gap-3"
-                                v-if="hasFeature('healths')"
+                                v-if="hasFeatureOrSingle('healths')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -262,49 +282,49 @@
                             v-show="openMenus.health"
                             class="ml-8 mt-1 space-y-1"
                         >
-                            <li v-if="hasFeature('healths')">
+                            <li v-if="hasFeatureOrSingle('healths')">
                                 <Link
                                     :href="route('health-issues.index')"
                                     :class="linkClass('/health-issues')"
                                     >Health Issues</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('healths')">
+                            <li v-if="hasFeatureOrSingle('healths')">
                                 <Link
                                     :href="route('health-events.index')"
                                     :class="linkClass('/health-events')"
                                     >Health Events</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('healths')">
+                            <li v-if="hasFeatureOrSingle('healths')">
                                 <Link
                                     :href="route('diseases.index')"
                                     :class="linkClass('/diseases')"
                                     >Diseases</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('healths')">
+                            <li v-if="hasFeatureOrSingle('healths')">
                                 <Link
                                     :href="route('disease-treatments.index')"
                                     :class="linkClass('/disease-treatments')"
                                     >Disease Treatments</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('healths')">
+                            <li v-if="hasFeatureOrSingle('healths')">
                                 <Link
                                     :href="route('treatments.index')"
                                     :class="linkClass('/treatments')"
                                     >Treatments</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('healths')">
+                            <li v-if="hasFeatureOrSingle('healths')">
                                 <Link
                                     :href="route('vaccinations.index')"
                                     :class="linkClass('/vaccinations')"
                                     >Vaccinations</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('healths')">
+                            <li v-if="hasFeatureOrSingle('healths')">
                                 <Link
                                     :href="route('event-types.index')"
                                     :class="linkClass('/event-types')"
@@ -315,7 +335,14 @@
                     </li>
 
                     <!-- Feeding Menu -->
-                    <li v-if="hasFeature('feedings')">
+                    <li
+                        v-if="
+                            !page.props.value.auth?.user?.roles.includes(
+                                'Super Admin',
+                                'admin',
+                            ) && hasFeatureOrSingle('feedings')
+                        "
+                    >
                         <button
                             @click="toggleMenu('feeding')"
                             :class="[
@@ -327,7 +354,7 @@
                         >
                             <div
                                 class="flex items-center gap-3"
-                                v-if="hasFeature('feedings')"
+                                v-if="hasFeatureOrSingle('feedings')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -365,7 +392,7 @@
                             v-show="openMenus.feeding"
                             class="ml-8 mt-1 space-y-1"
                         >
-                            <li v-if="hasFeature('feedings')">
+                            <li v-if="hasFeatureOrSingle('feedings')">
                                 <Link
                                     :href="route('feedings.index')"
                                     :class="linkClass('/feedings')"
@@ -376,7 +403,14 @@
                     </li>
 
                     <!-- Production Menu -->
-                    <li v-if="hasFeature('productions')">
+                    <li
+                        v-if="
+                            !page.props.value.auth?.user?.roles.includes(
+                                'Super Admin',
+                                'admin',
+                            ) && hasFeatureOrSingle('productions')
+                        "
+                    >
                         <button
                             @click="toggleMenu('production')"
                             :class="[
@@ -388,7 +422,7 @@
                         >
                             <div
                                 class="flex items-center gap-3"
-                                v-if="hasFeature('productions')"
+                                v-if="hasFeatureOrSingle('productions')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -426,14 +460,14 @@
                             v-show="openMenus.production"
                             class="ml-8 mt-1 space-y-1"
                         >
-                            <li v-if="hasFeature('productions')">
+                            <li v-if="hasFeatureOrSingle('productions')">
                                 <Link
                                     :href="route('milk-records.index')"
                                     :class="linkClass('/milk-records')"
                                     >Milk Records</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('productions')">
+                            <li v-if="hasFeatureOrSingle('productions')">
                                 <Link
                                     :href="route('milk-sales.index')"
                                     :class="linkClass('/milk-sales')"
@@ -444,7 +478,14 @@
                     </li>
 
                     <!-- Accounts Menu -->
-                    <li v-if="hasFeature('accounting')">
+                    <li
+                        v-if="
+                            !page.props.value.auth?.user?.roles.includes(
+                                'Super Admin',
+                                'admin',
+                            ) && hasFeatureOrSingle('accounting')
+                        "
+                    >
                         <button
                             @click="toggleMenu('accounts')"
                             :class="[
@@ -456,7 +497,7 @@
                         >
                             <div
                                 class="flex items-center gap-3"
-                                v-if="hasFeature('accounting')"
+                                v-if="hasFeatureOrSingle('accounting')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -494,28 +535,28 @@
                             v-show="openMenus.accounts"
                             class="ml-8 mt-1 space-y-1"
                         >
-                            <li v-if="hasFeature('accounting')">
+                            <li v-if="hasFeatureOrSingle('accounting')">
                                 <Link
                                     :href="route('cash-accounts.index')"
                                     :class="linkClass('/cash-accounts')"
                                     >Cash & Bank Management</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('accounting')">
+                            <li v-if="hasFeatureOrSingle('accounting')">
                                 <Link
                                     :href="route('chart-of-accounts.index')"
                                     :class="linkClass('/chart-of-accounts')"
                                     >Chart of Accounts</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('accounting')">
+                            <li v-if="hasFeatureOrSingle('accounting')">
                                 <Link
                                     :href="route('journal-entries.index')"
                                     :class="linkClass('/journal-entries')"
                                     >Journal Entries</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('accounting')">
+                            <li v-if="hasFeatureOrSingle('accounting')">
                                 <Link
                                     :href="
                                         route('journal-voucher-report.index')
@@ -526,35 +567,35 @@
                                     >Journal Voucher Report</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('accounting')">
+                            <li v-if="hasFeatureOrSingle('accounting')">
                                 <Link
                                     :href="route('balance-sheet.index')"
                                     :class="linkClass('/balance-sheet')"
                                     >Balance Sheet</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('accounting')">
+                            <li v-if="hasFeatureOrSingle('accounting')">
                                 <Link
                                     :href="route('profit-loss.index')"
                                     :class="linkClass('/profit-loss')"
                                     >Profit & Loss</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('accounting')">
+                            <li v-if="hasFeatureOrSingle('accounting')">
                                 <Link
                                     :href="route('cash-flow.index')"
                                     :class="linkClass('/cash-flow')"
                                     >Cash Flow</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('accounting')">
+                            <li v-if="hasFeatureOrSingle('accounting')">
                                 <Link
                                     :href="route('trial-balance.index')"
                                     :class="linkClass('/trial-balance')"
                                     >Trial Balance</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('accounting')">
+                            <li v-if="hasFeatureOrSingle('accounting')">
                                 <Link
                                     :href="route('fixed-assets.index')"
                                     :class="linkClass('/fixed-assets')"
@@ -565,7 +606,14 @@
                     </li>
 
                     <!-- Finance Menu -->
-                    <li v-if="hasFeature('finance')">
+                    <li
+                        v-if="
+                            !page.props.value.auth?.user?.roles.includes(
+                                'Super Admin',
+                                'admin',
+                            ) && hasFeatureOrSingle('finance')
+                        "
+                    >
                         <button
                             @click="toggleMenu('finance')"
                             :class="[
@@ -577,7 +625,7 @@
                         >
                             <div
                                 class="flex items-center gap-3"
-                                v-if="hasFeature('finance')"
+                                v-if="hasFeatureOrSingle('finance')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -615,14 +663,14 @@
                             v-show="openMenus.finance"
                             class="ml-8 mt-1 space-y-1"
                         >
-                            <li v-if="hasFeature('finance')">
+                            <li v-if="hasFeatureOrSingle('finance')">
                                 <Link
                                     :href="route('sales.index')"
                                     :class="linkClass('/sales')"
                                     >Sales</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('finance')">
+                            <li v-if="hasFeatureOrSingle('finance')">
                                 <Link
                                     :href="route('purchases.index')"
                                     :class="linkClass('/purchases')"
@@ -633,7 +681,14 @@
                     </li>
 
                     <!-- Customers Menu -->
-                    <li v-if="hasFeature('customers')">
+                    <li
+                        v-if="
+                            !page.props.value.auth?.user?.roles.includes(
+                                'Super Admin',
+                                'admin',
+                            ) && hasFeatureOrSingle('customers')
+                        "
+                    >
                         <button
                             @click="toggleMenu('customers')"
                             :class="[
@@ -645,7 +700,7 @@
                         >
                             <div
                                 class="flex items-center gap-3"
-                                v-if="hasFeature('customers')"
+                                v-if="hasFeatureOrSingle('customers')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -683,14 +738,14 @@
                             v-show="openMenus.customers"
                             class="ml-8 mt-1 space-y-1"
                         >
-                            <li v-if="hasFeature('customers')">
+                            <li v-if="hasFeatureOrSingle('customers')">
                                 <Link
                                     :href="route('customers.index')"
                                     :class="linkClass('/customers')"
                                     >Manage Customers</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('customers')">
+                            <li v-if="hasFeatureOrSingle('customers')">
                                 <Link
                                     :href="route('customer-payments.index')"
                                     :class="linkClass('/customer-payments')"
@@ -701,7 +756,14 @@
                     </li>
 
                     <!-- Inventory Menu -->
-                    <li v-if="hasFeature('inventory')">
+                    <li
+                        v-if="
+                            !page.props.value.auth?.user?.roles.includes(
+                                'Super Admin',
+                                'admin',
+                            ) && hasFeatureOrSingle('inventory')
+                        "
+                    >
                         <button
                             @click="toggleMenu('inventory')"
                             :class="[
@@ -713,7 +775,7 @@
                         >
                             <div
                                 class="flex items-center gap-3"
-                                v-if="hasFeature('inventory')"
+                                v-if="hasFeatureOrSingle('inventory')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -751,49 +813,49 @@
                             v-show="openMenus.inventory"
                             class="ml-8 mt-1 space-y-1"
                         >
-                            <li v-if="hasFeature('inventory')">
+                            <li v-if="hasFeatureOrSingle('inventory')">
                                 <Link
                                     :href="route('inventory.index')"
                                     :class="linkClass('/inventory')"
                                     >Inventory Items</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('inventory')">
+                            <li v-if="hasFeatureOrSingle('inventory')">
                                 <Link
                                     :href="route('medicines.index')"
                                     :class="linkClass('/medicines')"
                                     >Medicine Items</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('inventory')">
+                            <li v-if="hasFeatureOrSingle('inventory')">
                                 <Link
                                     :href="route('categories.index')"
                                     :class="linkClass('/categories')"
                                     >Categories</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('inventory')">
+                            <li v-if="hasFeatureOrSingle('inventory')">
                                 <Link
                                     :href="route('suppliers.index')"
                                     :class="linkClass('/suppliers')"
                                     >Suppliers</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('inventory')">
+                            <li v-if="hasFeatureOrSingle('inventory')">
                                 <Link
                                     :href="route('supplier-payments.index')"
                                     :class="linkClass('/supplier-payments')"
                                     >Supplier Payments</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('inventory')">
+                            <li v-if="hasFeatureOrSingle('inventory')">
                                 <Link
                                     :href="route('medicine-groups.index')"
                                     :class="linkClass('/medicine-groups')"
                                     >Medicine Groups</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('inventory')">
+                            <li v-if="hasFeatureOrSingle('inventory')">
                                 <Link
                                     :href="route('stock-movements.index')"
                                     :class="linkClass('/stock-movements')"
@@ -804,7 +866,14 @@
                     </li>
 
                     <!-- Operations Menu -->
-                    <li v-if="hasFeature('operation')">
+                    <li
+                        v-if="
+                            !page.props.value.auth?.user?.roles.includes(
+                                'Super Admin',
+                                'admin',
+                            ) && hasFeatureOrSingle('operation')
+                        "
+                    >
                         <button
                             @click="toggleMenu('operations')"
                             :class="[
@@ -816,7 +885,7 @@
                         >
                             <div
                                 class="flex items-center gap-3"
-                                v-if="hasFeature('operation')"
+                                v-if="hasFeatureOrSingle('operation')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -860,14 +929,14 @@
                             v-show="openMenus.operations"
                             class="ml-8 mt-1 space-y-1"
                         >
-                            <li v-if="hasFeature('operation')">
+                            <li v-if="hasFeatureOrSingle('operation')">
                                 <Link
                                     :href="route('logistics.index')"
                                     :class="linkClass('/logistics')"
                                     >Logistics</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('operation')">
+                            <li v-if="hasFeatureOrSingle('operation')">
                                 <Link
                                     :href="route('farms.index')"
                                     :class="linkClass('/farms')"
@@ -878,7 +947,14 @@
                     </li>
 
                     <!-- Human Resource Menu -->
-                    <li v-if="hasFeature('hr')">
+                    <li
+                        v-if="
+                            !page.props.value.auth?.user?.roles.includes(
+                                'Super Admin',
+                                'admin',
+                            ) && hasFeatureOrSingle('hr')
+                        "
+                    >
                         <button
                             @click="toggleMenu('humanResource')"
                             :class="[
@@ -890,7 +966,7 @@
                         >
                             <div
                                 class="flex items-center gap-3"
-                                v-if="hasFeature('hr')"
+                                v-if="hasFeatureOrSingle('hr')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -928,84 +1004,85 @@
                             v-show="openMenus.humanResource"
                             class="ml-8 mt-1 space-y-1"
                         >
-                            <li v-if="hasFeature('hr')">
+                            <li v-if="hasFeatureOrSingle('hr')">
                                 <Link
                                     :href="route('departments.index')"
                                     :class="linkClass('/departments')"
                                     >Departments</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('hr')">
+                            <li v-if="hasFeatureOrSingle('hr')"></li>
+                            <li v-if="hasFeatureOrSingle('hr')">
                                 <Link
                                     :href="route('designations.index')"
                                     :class="linkClass('/designations')"
                                     >Designations</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('hr')">
+                            <li v-if="hasFeatureOrSingle('hr')">
                                 <Link
                                     :href="route('employees.index')"
                                     :class="linkClass('/employees')"
                                     >Employees</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('hr')">
+                            <li v-if="hasFeatureOrSingle('hr')">
                                 <Link
                                     :href="route('employee-documents.index')"
                                     :class="linkClass('/employee-documents')"
                                     >Employee Documents</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('hr')">
+                            <li v-if="hasFeatureOrSingle('hr')">
                                 <Link
                                     :href="route('shifts.index')"
                                     :class="linkClass('/shifts')"
                                     >Shifts</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('hr')">
+                            <li v-if="hasFeatureOrSingle('hr')">
                                 <Link
                                     :href="route('employee-shifts.index')"
                                     :class="linkClass('/employee-shifts')"
                                     >Assign Shifts</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('hr')">
+                            <li v-if="hasFeatureOrSingle('hr')">
                                 <Link
                                     :href="route('attendances.index')"
                                     :class="linkClass('/attendances')"
                                     >Attendances</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('hr')">
+                            <li v-if="hasFeatureOrSingle('hr')">
                                 <Link
                                     :href="route('leave-types.index')"
                                     :class="linkClass('/leave-types')"
                                     >Leave Types</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('hr')">
+                            <li v-if="hasFeatureOrSingle('hr')">
                                 <Link
                                     :href="route('leave-requests.index')"
                                     :class="linkClass('/leave-requests')"
                                     >Leave Requests</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('hr')">
+                            <li v-if="hasFeatureOrSingle('hr')">
                                 <Link
                                     :href="route('salary-structures.index')"
                                     :class="linkClass('/salary-structures')"
                                     >Salary Structures</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('hr')">
+                            <li v-if="hasFeatureOrSingle('hr')">
                                 <Link
                                     :href="route('payroll-runs.index')"
                                     :class="linkClass('/payroll-runs')"
                                     >Payroll Runs</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('hr')">
+                            <li v-if="hasFeatureOrSingle('hr')">
                                 <Link
                                     :href="route('payroll-items.index')"
                                     :class="linkClass('/payroll-items')"
@@ -1016,7 +1093,14 @@
                     </li>
 
                     <!-- Reports Menu -->
-                    <li v-if="hasFeature('reports')">
+                    <li
+                        v-if="
+                            !page.props.value.auth?.user?.roles.includes(
+                                'Super Admin',
+                                'admin',
+                            ) && hasFeatureOrSingle('reports')
+                        "
+                    >
                         <button
                             @click="toggleMenu('reports')"
                             :class="[
@@ -1028,7 +1112,7 @@
                         >
                             <div
                                 class="flex items-center gap-3"
-                                v-if="hasFeature('reports')"
+                                v-if="hasFeatureOrSingle('reports')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -1066,14 +1150,15 @@
                             v-show="openMenus.reports"
                             class="ml-8 mt-1 space-y-1"
                         >
-                            <li v-if="hasFeature('reports')">
+                            <li v-if="hasFeatureOrSingle('reports')">
                                 <Link
                                     :href="route('reports.animal-health.index')"
                                     :class="linkClass('/reports/animal-health')"
                                     >Animal Health Reports</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('reports')">
+                            <li v-if="hasFeatureOrSingle('reports')"></li>
+                            <li v-if="hasFeatureOrSingle('reports')">
                                 <Link
                                     :href="
                                         route(
@@ -1088,7 +1173,7 @@
                                     >Feeding Cost Analysis</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('reports')">
+                            <li v-if="hasFeatureOrSingle('reports')">
                                 <Link
                                     :href="
                                         route('reports.vaccination-due.index')
@@ -1099,14 +1184,14 @@
                                     >Vaccination Due Reports</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('reports')">
+                            <li v-if="hasFeatureOrSingle('reports')">
                                 <Link
                                     :href="route('reports.financial.index')"
                                     :class="linkClass('/reports/financial')"
                                     >Financial Reports</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('reports')">
+                            <li v-if="hasFeatureOrSingle('reports')">
                                 <Link
                                     :href="
                                         route(
@@ -1121,7 +1206,7 @@
                                     >Conception Success Rate</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('reports')">
+                            <li v-if="hasFeatureOrSingle('reports')">
                                 <Link
                                     :href="
                                         route(
@@ -1136,7 +1221,7 @@
                                     >Pregnancy Loss Analysis</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('reports')">
+                            <li v-if="hasFeatureOrSingle('reports')">
                                 <Link
                                     :href="
                                         route(
@@ -1151,7 +1236,7 @@
                                     >AI vs Natural Breeding Success</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('reports')">
+                            <li v-if="hasFeatureOrSingle('reports')">
                                 <Link
                                     :href="
                                         route('reports.calving-interval.index')
@@ -1162,7 +1247,7 @@
                                     >Calving Interval Reports</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('reports')">
+                            <li v-if="hasFeatureOrSingle('reports')">
                                 <Link
                                     :href="
                                         route(
@@ -1177,7 +1262,7 @@
                                     >Fertility Performance per Cow</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('reports')">
+                            <li v-if="hasFeatureOrSingle('reports')">
                                 <Link
                                     :href="
                                         route(
@@ -1196,7 +1281,14 @@
                     </li>
 
                     <!-- Inventory Reports Menu -->
-                    <li v-if="hasFeature('invreports')">
+                    <li
+                        v-if="
+                            !page.props.value.auth?.user?.roles.includes(
+                                'Super Admin',
+                                'admin',
+                            ) && hasFeatureOrSingle('invreports')
+                        "
+                    >
                         <button
                             @click="toggleMenu('inventoryReports')"
                             :class="[
@@ -1208,7 +1300,7 @@
                         >
                             <div
                                 class="flex items-center gap-3"
-                                v-if="hasFeature('invreports')"
+                                v-if="hasFeatureOrSingle('invreports')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -1246,7 +1338,7 @@
                             v-show="openMenus.inventoryReports"
                             class="ml-8 mt-1 space-y-1"
                         >
-                            <li v-if="hasFeature('invreports')">
+                            <li v-if="hasFeatureOrSingle('invreports')">
                                 <Link
                                     :href="
                                         route(
@@ -1261,7 +1353,8 @@
                                     >Current Stock by Item</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('invreports')">
+                            <li v-if="hasFeatureOrSingle('invreports')"></li>
+                            <li v-if="hasFeatureOrSingle('invreports')">
                                 <Link
                                     :href="
                                         route(
@@ -1276,7 +1369,7 @@
                                     >Low-stock Alerts</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('invreports')">
+                            <li v-if="hasFeatureOrSingle('invreports')">
                                 <Link
                                     :href="
                                         route(
@@ -1291,7 +1384,7 @@
                                     >Expired Medicine Report</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('invreports')">
+                            <li v-if="hasFeatureOrSingle('invreports')">
                                 <Link
                                     :href="
                                         route(
@@ -1306,7 +1399,7 @@
                                     >Feed Consumed per Animal</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('invreports')">
+                            <li v-if="hasFeatureOrSingle('invreports')">
                                 <Link
                                     :href="
                                         route(
@@ -1321,7 +1414,7 @@
                                     >Cost of Feed per Cow</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('invreports')">
+                            <li v-if="hasFeatureOrSingle('invreports')">
                                 <Link
                                     :href="
                                         route(
@@ -1336,7 +1429,7 @@
                                     >Medicine Used per Disease</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('invreports')">
+                            <li v-if="hasFeatureOrSingle('invreports')">
                                 <Link
                                     :href="
                                         route(
@@ -1351,7 +1444,7 @@
                                     >Monthly Consumption Summary</Link
                                 >
                             </li>
-                            <li v-if="hasFeature('invreports')">
+                            <li v-if="hasFeatureOrSingle('invreports')">
                                 <Link
                                     :href="
                                         route(
@@ -1368,9 +1461,10 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- Subscription Plans & Features Menu -->
+                    <!-- Subscription Plans & Features Menu (SaaS mode only) -->
                     <li
                         v-if="
+                            isSaasMode &&
                             page.props.value.auth?.user?.roles.includes(
                                 'Super Admin',
                                 'admin',
@@ -1507,14 +1601,14 @@
                             v-show="openMenus.admin"
                             class="ml-8 mt-1 space-y-1"
                         >
-                            <li>
+                            <li v-if="!isSingleLicenseMode">
                                 <Link
                                     :href="route('admin.dashboard')"
                                     :class="linkClass('/admin/dashboard')"
                                     >Dashboard</Link
                                 >
                             </li>
-                            <li>
+                            <li v-if="!isSingleLicenseMode">
                                 <Link
                                     :href="route('admin.collections')"
                                     :class="linkClass('/admin/collections')"
@@ -1525,6 +1619,7 @@
                             <!-- Super Admin only -->
                             <li
                                 v-if="
+                                    !isSingleLicenseMode &&
                                     page.props.value.auth?.user?.roles.includes(
                                         'Super Admin',
                                     )
@@ -1615,8 +1710,14 @@
                         </ul>
                     </li>
 
-                    <!-- Plan (Farm Owner only) -->
-                    <li class="pt-2" v-if="user?.roles?.includes('farm owner')">
+                    <!-- Plan (Farm Owner only) - hide in single-license mode -->
+                    <li
+                        class="pt-2"
+                        v-if="
+                            !isSingleLicenseMode &&
+                            user?.roles?.includes('farm owner')
+                        "
+                    >
                         <Link
                             :href="route('plan.index')"
                             :class="[
@@ -1640,10 +1741,11 @@
                         </Link>
                     </li>
 
-                    <!-- Billing (Farm Owner only) -->
+                    <!-- Billing (Farm Owner only) - hide in single-license mode -->
                     <li
                         class="pt-2"
                         v-if="
+                            !isSingleLicenseMode &&
                             page.props.value.auth?.user?.roles?.includes(
                                 'farm owner',
                             )
@@ -1740,6 +1842,7 @@
                     <li
                         class="pt-2"
                         v-if="
+                            !isSingleLicenseMode &&
                             page.props.value.auth?.user?.roles.includes(
                                 'Super Admin',
                                 'admin',
@@ -1828,6 +1931,7 @@
                         <!-- Admin Dashboard quick link (Super Admin/Admin only) -->
                         <Link
                             v-if="
+                                !isSingleLicenseMode &&
                                 page.props.value.auth?.user?.roles.includes(
                                     'Super Admin',
                                     'admin',
@@ -1881,6 +1985,7 @@ import { Inertia } from "@inertiajs/inertia";
 import { computed, reactive, onMounted, ref, watch } from "vue";
 import ToastNotification from "@/Components/ToastNotification.vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue"; // Import ApplicationLogo
+import FarmSwitcher from "@/Components/FarmSwitcher.vue";
 
 const page = usePage();
 const user = computed(() => page.props.value.auth?.user ?? null);
@@ -1891,6 +1996,18 @@ const appSettings = computed(() => usePage().props.value?.appSettings || {}); //
 const subscription = computed(() => usePage().props.value?.subscription || {});
 const enabledFeatures = computed(() => subscription.value?.features || []);
 const hasFeature = (key) => enabledFeatures.value.includes(key);
+
+// In single-license mode we bypass subscription feature gating entirely.
+const hasFeatureOrSingle = (key) =>
+    isSingleLicenseMode.value ? true : hasFeature(key);
+
+// App mode flags (provided by HandleInertiaRequests)
+const isSaasMode = computed(() => !!page.props.value?.app_mode?.saas_mode);
+const isSingleLicenseMode = computed(
+    () => !!page.props.value?.app_mode?.single_license_mode,
+);
+
+const farmContext = computed(() => page.props.value?.farm_context ?? {});
 
 const showingSidebar = ref(window.innerWidth >= 1024); // Show sidebar by default on larger screens
 

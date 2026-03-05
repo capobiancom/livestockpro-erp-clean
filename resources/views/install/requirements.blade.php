@@ -3,7 +3,7 @@
 
 @section('content')
 <h2 class="text-2xl font-bold text-gray-800 mb-2">Server Requirements</h2>
-<p class="text-gray-500 mb-6 text-sm">Checking that your server meets all requirements to run LivestockPro ERP.</p>
+<p class="text-gray-500 mb-6 text-sm">Checking that your server meets all requirements to run LivestockPro ERP SaaS.</p>
 
 <div class="space-y-2 mb-8">
     @foreach($checks as $check)

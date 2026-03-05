@@ -2,8 +2,9 @@
 import AppLayout from "@/Pages/Layout/AppLayout.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import Pagination from "@/Components/Pagination.vue";
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 import { Inertia } from "@inertiajs/inertia";
+import axios from "axios";
 
 const props = defineProps({
     stockMovements: {
@@ -69,6 +70,76 @@ const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
+
+const unitDrawerOpen = ref(false);
+const selectedUnit = ref(null);
+const unitDetailsLoading = ref(false);
+const unitDetailsError = ref("");
+const unitDetails = ref(null); // { summary, movements }
+
+const unitMovementType = ref("all"); // all|in|out
+
+const pageUnit = computed(() => props.filters?.unit || "");
+const openedFromDashboard = ref(false);
+
+onMounted(() => {
+    if (pageUnit.value) {
+        openedFromDashboard.value = true;
+        openUnitDetails(pageUnit.value);
+    }
+});
+
+const openUnitDetails = async (unit) => {
+    selectedUnit.value = unit;
+    unitDrawerOpen.value = true;
+    unitDetailsError.value = "";
+    unitDetails.value = null;
+    await fetchUnitDetails();
+};
+
+const closeUnitDetails = () => {
+    unitDrawerOpen.value = false;
+    selectedUnit.value = null;
+    unitDetails.value = null;
+    unitDetailsError.value = "";
+    unitMovementType.value = "all";
+};
+
+const fetchUnitDetails = async (url = null) => {
+    if (!selectedUnit.value) return;
+
+    unitDetailsLoading.value = true;
+    unitDetailsError.value = "";
+
+    try {
+        const endpoint =
+            url ??
+            route("stock-movements.unit-details", {
+                unit: selectedUnit.value,
+            });
+
+        const params = {};
+        if (
+            unitMovementType.value === "in" ||
+            unitMovementType.value === "out"
+        ) {
+            params.movement_type = unitMovementType.value;
+        }
+
+        const { data } = await axios.get(endpoint, { params });
+        unitDetails.value = data;
+    } catch (e) {
+        unitDetailsError.value =
+            e?.response?.data?.message ??
+            "Failed to load unit details. Please try again.";
+    } finally {
+        unitDetailsLoading.value = false;
+    }
+};
+
+watch(unitMovementType, () => {
+    if (unitDrawerOpen.value) fetchUnitDetails();
+});
 
 const confirmDelete = (item) => {
     itemToDelete.value = item;
@@ -224,10 +295,12 @@ const deleteItem = () => {
                         No unit-wise stock movements to display.
                     </p>
                 </div>
-                <div
+                <button
                     v-for="movement in statistics.unit_wise_movements"
                     :key="movement.unit"
-                    class="group bg-white rounded-xl shadow-lg hover:shadow-2xl p-3 border-l-4 border-purple-500 transform hover:-translate-y-1 transition-all duration-300"
+                    type="button"
+                    @click="openUnitDetails(movement.unit)"
+                    class="group bg-white rounded-xl shadow-lg hover:shadow-2xl p-3 border-l-4 border-purple-500 transform hover:-translate-y-1 transition-all duration-300 text-left focus:outline-none focus:ring-2 focus:ring-purple-500/40"
                 >
                     <div class="flex items-center justify-between mb-3">
                         <div
@@ -264,6 +337,353 @@ const deleteItem = () => {
                     <p class="text-xs text-gray-500 mt-2">
                         Unit-wise stock movement
                     </p>
+                </button>
+            </div>
+        </div>
+
+        <!-- Unit Details Drawer -->
+        <div
+            v-if="unitDrawerOpen"
+            class="fixed inset-0 z-50 flex"
+            aria-modal="true"
+            role="dialog"
+        >
+            <!-- Backdrop -->
+            <div
+                class="absolute inset-0 bg-gray-900/50 backdrop-blur-[1px]"
+                @click="closeUnitDetails"
+            ></div>
+
+            <!-- Panel -->
+            <div
+                class="relative ml-auto h-full w-full max-w-3xl bg-white shadow-2xl"
+            >
+                <div
+                    class="flex items-start justify-between border-b border-gray-200 px-6 py-5"
+                >
+                    <div>
+                        <p class="text-xs font-semibold text-purple-600">
+                            Unit Details
+                        </p>
+                        <h3 class="text-2xl font-bold text-gray-900">
+                            {{ selectedUnit?.toUpperCase() }}
+                        </h3>
+                        <p class="text-sm text-gray-500 mt-1">
+                            In/Out movements for this unit
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        @click="closeUnitDetails"
+                        class="inline-flex items-center justify-center rounded-lg p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition"
+                        title="Close"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="px-6 py-4 space-y-4">
+                    <!-- Summary cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div
+                            class="rounded-xl border border-gray-200 bg-gradient-to-br from-green-50 to-white p-4"
+                        >
+                            <p class="text-xs font-semibold text-green-700">
+                                Total IN
+                            </p>
+                            <p class="text-2xl font-extrabold text-gray-900">
+                                {{
+                                    formatNumber(
+                                        unitDetails?.summary?.total_in ?? 0,
+                                    )
+                                }}
+                            </p>
+                        </div>
+                        <div
+                            class="rounded-xl border border-gray-200 bg-gradient-to-br from-red-50 to-white p-4"
+                        >
+                            <p class="text-xs font-semibold text-red-700">
+                                Total OUT
+                            </p>
+                            <p class="text-2xl font-extrabold text-gray-900">
+                                {{
+                                    formatNumber(
+                                        unitDetails?.summary?.total_out ?? 0,
+                                    )
+                                }}
+                            </p>
+                        </div>
+                        <div
+                            class="rounded-xl border border-gray-200 bg-gradient-to-br from-indigo-50 to-white p-4"
+                        >
+                            <p class="text-xs font-semibold text-indigo-700">
+                                Records
+                            </p>
+                            <p class="text-2xl font-extrabold text-gray-900">
+                                {{ unitDetails?.summary?.count ?? 0 }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Filters -->
+                    <div
+                        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                    >
+                        <div class="inline-flex rounded-lg bg-gray-100 p-1">
+                            <button
+                                type="button"
+                                @click="unitMovementType = 'all'"
+                                :class="
+                                    unitMovementType === 'all'
+                                        ? 'bg-white shadow text-gray-900'
+                                        : 'text-gray-600 hover:text-gray-900'
+                                "
+                                class="px-3 py-1.5 rounded-md text-sm font-semibold transition"
+                            >
+                                All
+                            </button>
+                            <button
+                                type="button"
+                                @click="unitMovementType = 'in'"
+                                :class="
+                                    unitMovementType === 'in'
+                                        ? 'bg-white shadow text-gray-900'
+                                        : 'text-gray-600 hover:text-gray-900'
+                                "
+                                class="px-3 py-1.5 rounded-md text-sm font-semibold transition"
+                            >
+                                IN
+                            </button>
+                            <button
+                                type="button"
+                                @click="unitMovementType = 'out'"
+                                :class="
+                                    unitMovementType === 'out'
+                                        ? 'bg-white shadow text-gray-900'
+                                        : 'text-gray-600 hover:text-gray-900'
+                                "
+                                class="px-3 py-1.5 rounded-md text-sm font-semibold transition"
+                            >
+                                OUT
+                            </button>
+                        </div>
+
+                        <div class="text-sm text-gray-500">
+                            Showing
+                            <span class="font-semibold text-gray-700">{{
+                                unitDetails?.movements?.from ?? 0
+                            }}</span>
+                            -
+                            <span class="font-semibold text-gray-700">{{
+                                unitDetails?.movements?.to ?? 0
+                            }}</span>
+                            of
+                            <span class="font-semibold text-gray-700">{{
+                                unitDetails?.movements?.total ?? 0
+                            }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Loading / Error -->
+                    <div
+                        v-if="unitDetailsLoading"
+                        class="rounded-xl border border-gray-200 bg-white p-6"
+                    >
+                        <div class="animate-pulse space-y-3">
+                            <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+                            <div class="h-4 bg-gray-200 rounded w-full"></div>
+                            <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+                            <div class="h-4 bg-gray-200 rounded w-2/3"></div>
+                        </div>
+                    </div>
+
+                    <div
+                        v-else-if="unitDetailsError"
+                        class="rounded-xl border border-red-200 bg-red-50 p-4"
+                    >
+                        <p class="text-sm font-semibold text-red-700">
+                            {{ unitDetailsError }}
+                        </p>
+                        <button
+                            type="button"
+                            @click="fetchUnitDetails()"
+                            class="mt-3 inline-flex items-center rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700 transition"
+                        >
+                            Retry
+                        </button>
+                    </div>
+
+                    <!-- Table -->
+                    <div
+                        v-else
+                        class="rounded-xl border border-gray-200 overflow-hidden"
+                    >
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+                                        >
+                                            Item
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+                                        >
+                                            Type
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+                                        >
+                                            Qty
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+                                        >
+                                            Unit Cost
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+                                        >
+                                            Source
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+                                        >
+                                            Date
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="divide-y divide-gray-200 bg-white"
+                                >
+                                    <tr
+                                        v-if="
+                                            (unitDetails?.movements?.data ?? [])
+                                                .length === 0
+                                        "
+                                    >
+                                        <td
+                                            colspan="6"
+                                            class="px-4 py-10 text-center text-sm text-gray-500"
+                                        >
+                                            No movements found for this unit.
+                                        </td>
+                                    </tr>
+
+                                    <tr
+                                        v-for="m in unitDetails?.movements
+                                            ?.data ?? []"
+                                        :key="m.id"
+                                        class="hover:bg-gray-50"
+                                    >
+                                        <td class="px-4 py-3">
+                                            <div
+                                                class="text-sm font-semibold text-gray-900"
+                                            >
+                                                {{ m.item?.name ?? "N/A" }}
+                                            </div>
+                                            <div class="text-xs text-gray-500">
+                                                {{
+                                                    m.item_type
+                                                        .split("\\")
+                                                        .pop()
+                                                }}
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span
+                                                :class="
+                                                    m.movement_type === 'in'
+                                                        ? 'bg-green-100 text-green-800'
+                                                        : 'bg-red-100 text-red-800'
+                                                "
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold"
+                                            >
+                                                {{
+                                                    m.movement_type.toUpperCase()
+                                                }}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <div class="text-sm text-gray-900">
+                                                {{ $formatNumber(m.quantity) }}
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <div class="text-sm text-gray-900">
+                                                {{
+                                                    $formatCurrency(m.unit_cost)
+                                                }}
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <div class="text-sm text-gray-900">
+                                                {{
+                                                    m.source_event_type ?? "N/A"
+                                                }}
+                                            </div>
+                                            <div class="text-xs text-gray-500">
+                                                {{
+                                                    m.source_type
+                                                        .split("\\")
+                                                        .pop()
+                                                }}
+                                                #{{ m.source_id }}
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <div class="text-sm text-gray-900">
+                                                {{
+                                                    formatDate(m.movement_date)
+                                                }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Drawer Pagination -->
+                        <div
+                            v-if="
+                                (unitDetails?.movements?.links ?? []).length > 3
+                            "
+                            class="bg-gray-50 px-4 py-3 border-t border-gray-200"
+                        >
+                            <div class="flex flex-wrap justify-center gap-1">
+                                <button
+                                    v-for="(link, idx) in unitDetails.movements
+                                        .links"
+                                    :key="idx"
+                                    type="button"
+                                    :disabled="!link.url"
+                                    @click="fetchUnitDetails(link.url)"
+                                    v-html="link.label"
+                                    :class="[
+                                        'px-3 py-1.5 text-sm font-semibold rounded-lg transition',
+                                        link.active
+                                            ? 'bg-purple-600 text-white shadow'
+                                            : 'bg-white text-gray-700 hover:bg-gray-100',
+                                        !link.url &&
+                                            'opacity-50 cursor-not-allowed',
+                                    ]"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -404,7 +824,12 @@ const deleteItem = () => {
                                 <!-- Stock movements are typically not editable/deletable directly from this list -->
                                 <!-- Add view link if a detailed view is desired -->
                                 <Link
-                                    :href="route('stock-movements.show', movement.id)"
+                                    :href="
+                                        route(
+                                            'stock-movements.show',
+                                            movement.id,
+                                        )
+                                    "
                                     class="text-blue-600 hover:text-blue-800 font-semibold transition"
                                     title="View Details"
                                 >

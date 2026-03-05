@@ -13,7 +13,7 @@ class ConceptionSuccessRateReportController extends Controller
 {
     public function index(Request $request)
     {
-        $this->authorize('conceptionSuccessRateReport', ReproductionRecord::class);
+        $this->authorize('conseptionSuccessRateReport', ReproductionRecord::class);
 
         // NOTE: No dedicated policy exists yet for this report.
         // We keep it behind auth middleware via routes/web.php.

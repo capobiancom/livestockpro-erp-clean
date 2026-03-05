@@ -507,7 +507,7 @@ class InstallController extends Controller
             ]);
 
         $saasMode = session('install.saas_mode', 'true');
-        $appName  = addslashes(session('install.app_name', 'LivestockPro ERP'));
+        $appName  = addslashes(session('install.app_name', 'LivestockPro ERP SaaS'));
         $appUrl   = session('install.app_url', 'http://localhost');
         $timezone = session('install.timezone', 'UTC');
 
@@ -525,7 +525,7 @@ class InstallController extends Controller
 APP_NAME="{$appName}"
 APP_ENV=production
 APP_KEY={$appKey}
-APP_DEBUG=true
+APP_DEBUG=false
 APP_TIMEZONE={$timezone}
 APP_URL={$appUrl}
 

@@ -12,7 +12,7 @@
                 </div>
                 <Link
                     :href="route('farms.create')"
-                    class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition duration-200 flex items-center gap-2"
+                    class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white ml-5 px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition duration-200 flex items-center gap-2"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -68,12 +68,27 @@
                                 placeholder="Search by farm name..."
                                 class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                             />
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-5 w-5 absolute left-3 top-3 text-gray-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                />
                             </svg>
                         </div>
                     </div>
-                    <button v-if="searchQuery" @click="clearSearch" class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium">
+                    <button
+                        v-if="searchQuery"
+                        @click="clearSearch"
+                        class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+                    >
                         Clear
                     </button>
                 </div>
@@ -197,7 +212,8 @@
                     No Farms Found
                 </h3>
                 <p class="text-gray-500 mb-4">
-                    Start managing your farms by adding your first farm location.
+                    Start managing your farms by adding your first farm
+                    location.
                 </p>
                 <Link
                     :href="route('farms.create')"
@@ -286,7 +302,9 @@
                             <span v-else class="text-gray-400">—</span>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="text-sm text-gray-900 max-w-xs truncate">
+                            <div
+                                class="text-sm text-gray-900 max-w-xs truncate"
+                            >
                                 {{ farm.address || "—" }}
                             </div>
                         </td>
@@ -295,10 +313,19 @@
                                 <div v-if="farm.contact_name">
                                     {{ farm.contact_name }}
                                 </div>
-                                <div v-if="farm.contact_phone" class="text-gray-500">
+                                <div
+                                    v-if="farm.contact_phone"
+                                    class="text-gray-500"
+                                >
                                     {{ farm.contact_phone }}
                                 </div>
-                                <span v-if="!farm.contact_name && !farm.contact_phone">—</span>
+                                <span
+                                    v-if="
+                                        !farm.contact_name &&
+                                        !farm.contact_phone
+                                    "
+                                    >—</span
+                                >
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -373,7 +400,10 @@
         </div>
 
         <!-- Pagination -->
-        <div v-if="farms.links.length > 3" class="bg-gray-50 px-6 py-4 border-t border-gray-200 rounded-lg mt-6">
+        <div
+            v-if="farms.links.length > 3"
+            class="bg-gray-50 px-6 py-4 border-t border-gray-200 rounded-lg mt-6"
+        >
             <div class="flex justify-center gap-1">
                 <Link
                     v-for="(link, index) in farms.links"
@@ -457,31 +487,45 @@ const farmToDelete = ref(null);
 const searchQuery = ref(props.filters?.q || "");
 
 const handleSearch = () => {
-    Inertia.get("/farms", { q: searchQuery.value }, {
-        preserveState: true,
-        replace: true,
-    });
+    Inertia.get(
+        "/farms",
+        { q: searchQuery.value },
+        {
+            preserveState: true,
+            replace: true,
+        },
+    );
 };
 
 const clearSearch = () => {
     searchQuery.value = "";
-    Inertia.get("/farms", {}, {
-        preserveState: true,
-        replace: true,
-    });
+    Inertia.get(
+        "/farms",
+        {},
+        {
+            preserveState: true,
+            replace: true,
+        },
+    );
 };
 
 // Compute statistics
 const totalAnimals = computed(() => {
-    return props.farms.data.reduce((sum, farm) => sum + (farm.animals_count || 0), 0);
+    return props.farms.data.reduce(
+        (sum, farm) => sum + (farm.animals_count || 0),
+        0,
+    );
 });
 
 const totalStaff = computed(() => {
-    return props.farms.data.reduce((sum, farm) => sum + (farm.staff_count || 0), 0);
+    return props.farms.data.reduce(
+        (sum, farm) => sum + (farm.staff_count || 0),
+        0,
+    );
 });
 
 const getInitials = (name) => {
-    const words = name.split(' ');
+    const words = name.split(" ");
     if (words.length >= 2) {
         return (words[0].charAt(0) + words[1].charAt(0)).toUpperCase();
     }
