@@ -33,10 +33,11 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        // Skip database queries during installation (no .env, no database configured)
-        $isInstalling = (bool) preg_match('~^/install~', $request->path()) || !file_exists(base_path('.env'));
+        // Skip database queries during installation (no .env / no schema yet).
+        // IMPORTANT: calling $request->user() will hit the `users` table, which may not exist yet.
+        $isInstalling = (bool) preg_match('~^install~', $request->path()) || !file_exists(base_path('.env'));
 
-        $user = $request->user();
+        $user = $isInstalling ? null : $request->user();
 
         $userResource = null;
         if ($user) {

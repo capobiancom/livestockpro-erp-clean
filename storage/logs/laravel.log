@@ -4302,3 +4302,20 @@ Parse error near line 1462: index employees_farm_id_user_email_unique already ex
 #57 /Users/mohammedminuddin786/Desktop/dev/agro_saas_codecanyon/server.php(19): require_once('/Users/mohammed...')
 #58 {main}
 "} 
+[2026-03-06 19:02:08] production.ERROR: Command "install:remove-server" is not defined.
+
+Did you mean one of these?
+    install:api
+    install:broadcasting {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"install:remove-server\" is not defined.
+
+Did you mean one of these?
+    install:api
+    install:broadcasting at /Users/mohammedminuddin786/Desktop/dev/agro_saas_codecanyon/vendor/symfony/console/Application.php:759)
+[stacktrace]
+#0 /Users/mohammedminuddin786/Desktop/dev/agro_saas_codecanyon/vendor/symfony/console/Application.php(298): Symfony\\Component\\Console\\Application->find('install:remove-...')
+#1 /Users/mohammedminuddin786/Desktop/dev/agro_saas_codecanyon/vendor/symfony/console/Application.php(195): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 /Users/mohammedminuddin786/Desktop/dev/agro_saas_codecanyon/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 /Users/mohammedminuddin786/Desktop/dev/agro_saas_codecanyon/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 /Users/mohammedminuddin786/Desktop/dev/agro_saas_codecanyon/artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#5 {main}
+"} 
