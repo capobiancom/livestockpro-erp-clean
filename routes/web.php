@@ -117,7 +117,7 @@ Route::get('/', function () {
         'allPlans' => $allPlans,
         'websiteSettings' => [
             'site_title' => $setting?->site_title,
-            'site_description' => $setting?->site_description,
+            'site_description' => $setting?->website_description,
             'currency' => $setting?->website_currency,
             'logo_url' => $setting?->website_logo_path
                 ? \Illuminate\Support\Facades\Storage::url($setting?->website_logo_path)
@@ -125,6 +125,15 @@ Route::get('/', function () {
         ],
     ]);
 });
+
+// Public documentation (static HTML in /documentation)
+Route::get('/docs', function () {
+    return response()->file(base_path('documentation/index.html'));
+})->name('docs.index');
+
+Route::get('/docs/full-guide', function () {
+    return response()->file(base_path('documentation/full-guide.html'));
+})->name('docs.full-guide');
 
 
 
