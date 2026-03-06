@@ -135,7 +135,13 @@ class DiseaseTreatmentController extends Controller
             'discontinued' => (clone $baseQuery)->where('status', 'discontinued')->count(),
         ];
 
-        $totalCost = (clone $baseQuery)->sum('cost');
+        // The `disease_treatments` table no longer has a `cost` column.
+        // Total treatment cost is stored on associated medication records.  We
+        // aggregate `total_cost` from the join table so that the same query
+        // scoping rules (farm owner filtering) still apply.
+        $totalCost = (clone $baseQuery)
+            ->join('disease_treatment_medications', 'disease_treatments.id', '=', 'disease_treatment_medications.disease_treatment_id')
+            ->sum('disease_treatment_medications.total_cost');
 
         return Inertia::render('DiseaseTreatments/Index', [
             'treatments' => $treatments,
