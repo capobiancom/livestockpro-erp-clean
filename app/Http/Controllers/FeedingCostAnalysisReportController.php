@@ -31,9 +31,22 @@ class FeedingCostAnalysisReportController extends Controller
 
         $groupBy = $validated['group_by'] ?? 'day';
 
-        $items = InventoryItem::query()
-            ->select(['id', 'name', 'unit'])
-            ->orderBy('name')
+        // Some installations (older remote databases) may not have the `name`
+        // column on inventory_items.  Fall back to sku if necessary and avoid
+        // ordering/selecting a non‑existent field so the report doesn't blow up.
+        $itemsQuery = InventoryItem::query();
+        $columns = ['id', 'unit'];
+
+        if (\Illuminate\Support\Facades\Schema::hasColumn('inventory_items', 'name')) {
+            $columns[] = 'name';
+            $itemsQuery->orderBy('name');
+        } else {
+            // SKU is the next best identifier when `name` is missing
+            $columns[] = 'sku';
+            $itemsQuery->orderBy('sku');
+        }
+
+        $items = $itemsQuery->select($columns)
             ->limit(1000)
             ->get();
 
@@ -62,7 +75,8 @@ class FeedingCostAnalysisReportController extends Controller
                 return [
                     'date' => optional($record->feeding_date)->toDateString(),
                     'animal' => trim(($record->animal?->tag_number ?? '') . ' ' . ($record->animal?->name ?? '')),
-                    'item' => $item->name ?? '—',
+                    // if name is unavailable (older schema) fall back to sku
+                    'item' => $item->name ?? $item->sku ?? '—',
                     'qty' => $qty,
                     'unit' => $item->unit ?? null,
                     'unit_cost' => $unitCost,
