@@ -12,6 +12,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::firstOrCreate(
+            ['email' => 'superuser@livestockproerp.com'],
+            ['name' => 'Super Admin', 'password' => bcrypt('password')] // Add a default password
+        );
+
         // Core seeders
         $this->call([
             FarmSeeder::class,

@@ -175,9 +175,18 @@ class InstallController extends Controller
             // Always start from a clean schema during installation.
             // This prevents "table already exists" errors when the installer is re-run.
             //
-            // NOTE: This project ships without Laravel migration files (database/migrations),
-            // so migrate:fresh would do nothing and tables like `users` would not exist.
-            // In that case, we fall back to importing the shipped SQL schema.
+            // We usually deploy a flat SQL schema for fresh installs – the traditional
+            // Laravel migrations directory is *not* shipped with the release. When no
+            // migration files are present we must import the SQL file ourselves. To
+            // keep things flexible we still detect and run `migrate:fresh` when a
+            // migrations directory exists (packages may occasionally add one or two
+            // migration files), but we do **not** trust that activity to create the
+            // full schema.
+            //
+            // After performing any Laravel migrations we check for the existence of a
+            // core table (`users`) and fall back to the SQL importer if the table is
+            // missing. This covers both the "no migrations" scenario and cases where
+            // only partial migrations (e.g. personal access token) are available.
             $migrationsPath = database_path('migrations');
             $hasLaravelMigrations = is_dir($migrationsPath) && count(glob($migrationsPath . '/*.php') ?: []) > 0;
 
@@ -187,13 +196,12 @@ class InstallController extends Controller
                     '--force' => true,
                     '--no-interaction' => true,
                 ]);
-            } else {
-                // For fresh installs we need to wipe any existing schema as well so that
-                // incompatible column types don't linger from a previous attempt. The
-                // importer below uses "IF NOT EXISTS" and skips duplicate indexes, which
-                // means rerunning without dropping tables can leave mismatched definitions
-                // (e.g. farms.id BIGINT UNSIGNED vs herds.farm_id INTEGER). Drop everything
-                // first so the schema import starts from a clean slate.
+            }
+
+            // If the `users` table still isn't present we need to import the full
+            // SQL schema. Dropping all tables first ensures the importer runs from a
+            // clean slate when the installer is re‑run.
+            if (! Schema::hasTable('users')) {
                 Schema::disableForeignKeyConstraints();
                 Schema::dropAllTables();
                 Schema::enableForeignKeyConstraints();
@@ -201,7 +209,7 @@ class InstallController extends Controller
                 // Import schema from SQL file
                 $schemaFile = database_path('schema/sqlite-schema.sql');
                 if (! file_exists($schemaFile)) {
-                    throw new \RuntimeException("No migrations found and schema file missing at: {$schemaFile}");
+                    throw new \RuntimeException("Schema file missing at: {$schemaFile}");
                 }
 
                 $sql = file_get_contents($schemaFile);
