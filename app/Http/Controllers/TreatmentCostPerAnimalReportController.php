@@ -42,7 +42,7 @@ class TreatmentCostPerAnimalReportController extends Controller
             ->when($request->user()->hasRole('farm owner'), function ($query) use ($request) {
                 $query->where('farm_id', $request->user()->farm_id);
             }) // Only list animals from the user's farm (multi-tenant isolation).
-            ->orderBy('tag_number')
+            ->orderBy('tag')
             ->limit(500)
             ->get();
 
@@ -188,7 +188,7 @@ class TreatmentCostPerAnimalReportController extends Controller
             ->when($request->user()->hasRole('farm owner'), function ($query) use ($request) {
                 $query->where('farm_id', $request->user()->farm_id);
             })
-            ->orderBy('tag_number')
+            ->orderBy('tag')
             ->limit(500)
             ->get();
 
