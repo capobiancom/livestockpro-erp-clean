@@ -50,6 +50,7 @@ class AiVsNaturalBreedingSuccessReportController extends Controller
         // Breeding attempts are represented by reproduction_records.
         // We treat each record as 1 attempt, and classify by event.
         $attemptsQuery = ReproductionRecord::query()
+            ->with(['partner']) // Eager load partner for natural mating bull name (if modeled as an Animal).
             ->select(['id', 'animal_id', 'event', 'event_date', 'performed_by'])
             ->whereBetween('event_date', [$from, $to]);
 
@@ -67,6 +68,7 @@ class AiVsNaturalBreedingSuccessReportController extends Controller
             ->orderByDesc('event_date')
             ->limit(10000)
             ->get();
+
 
         $attemptIds = $attempts->pluck('id')->all();
 
@@ -92,7 +94,7 @@ class AiVsNaturalBreedingSuccessReportController extends Controller
                 'technician_name' => $a->performed_by,
                 // For natural mating, we don't have a direct "bull" field in reproduction_records.
                 // If needed, this would require additional modeling (e.g., linking to a bull animal).
-                'bull_name' => $method === 'natural_mating' ? 'Unknown Bull' : null,
+                'bull_name' => $method === 'natural_mating' ? $a->partner?->name : null,
                 'confirmed' => $isConfirmed,
             ];
         });
@@ -161,6 +163,7 @@ class AiVsNaturalBreedingSuccessReportController extends Controller
         // Breeding attempts are represented by reproduction_records.
         $attemptsQuery = ReproductionRecord::query()
             ->select(['id', 'animal_id', 'event', 'event_date', 'performed_by'])
+            ->with(['partner']) // Eager load partner for natural mating bull name (if modeled as an Animal).
             ->whereBetween('event_date', [$from, $to]);
 
         if (!empty($validated['animal_id'])) {
@@ -197,10 +200,10 @@ class AiVsNaturalBreedingSuccessReportController extends Controller
                 'method' => $m,
                 'method_label' => $this->methodLabel($m),
                 'event' => $a->event,
-                'technician_name' => $a->technician_name,
+                'technician_name' => $a->performed_by,
                 // For natural mating, we don't have a direct "bull" field in reproduction_records.
                 // If needed, this would require additional modeling (e.g., linking to a bull animal).
-                'bull_name' => $m === 'natural_mating' ? 'Unknown Bull' : null,
+                'bull_name' => $m === 'natural_mating' ? $a->parent?->name : null,
                 'confirmed' => $isConfirmed,
             ];
         });
