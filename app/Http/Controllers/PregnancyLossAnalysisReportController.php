@@ -41,17 +41,28 @@ class PregnancyLossAnalysisReportController extends Controller
             ->get();
 
         // Confirmed pregnancies within range (by confirmed date).
+        // older installations may not have individual loss-date columns, so
+        // include them only when present to avoid SQL errors.
+        $select = [
+            'id',
+            'animal_id',
+            'pregnancy_confirmed_date',
+            'pregnancy_status',
+            'calving_date',
+        ];
+
+        if (\Illuminate\Support\Facades\Schema::hasColumn('pregnancies', 'abortion_date')) {
+            $select[] = 'abortion_date';
+        }
+        if (\Illuminate\Support\Facades\Schema::hasColumn('pregnancies', 'embryonic_death_date')) {
+            $select[] = 'embryonic_death_date';
+        }
+        if (\Illuminate\Support\Facades\Schema::hasColumn('pregnancies', 'miscarriage_date')) {
+            $select[] = 'miscarriage_date';
+        }
+
         $confirmedQuery = Pregnancy::query()
-            ->select([
-                'id',
-                'animal_id',
-                'pregnancy_confirmed_date',
-                'pregnancy_status',
-                'abortion_date',
-                'embryonic_death_date',
-                'miscarriage_date',
-                'calving_date',
-            ])
+            ->select($select)
             ->whereNotNull('pregnancy_confirmed_date')
             ->whereBetween('pregnancy_confirmed_date', [$from, $to]);
 
@@ -128,14 +139,19 @@ class PregnancyLossAnalysisReportController extends Controller
 
     private function lossDate(Pregnancy $p): ?string
     {
-        // Prefer explicit loss dates if present.
-        if (!empty($p->abortion_date)) {
+        // Prefer explicit loss dates if present.  Guard against missing
+        // columns by checking schema first; accessing non-existent attributes
+        // will simply return null, but being explicit makes intent clear.
+        if (\Illuminate\Support\Facades\Schema::hasColumn('pregnancies', 'abortion_date')
+            && !empty($p->abortion_date)) {
             return (string) $p->abortion_date;
         }
-        if (!empty($p->embryonic_death_date)) {
+        if (\Illuminate\Support\Facades\Schema::hasColumn('pregnancies', 'embryonic_death_date')
+            && !empty($p->embryonic_death_date)) {
             return (string) $p->embryonic_death_date;
         }
-        if (!empty($p->miscarriage_date)) {
+        if (\Illuminate\Support\Facades\Schema::hasColumn('pregnancies', 'miscarriage_date')
+            && !empty($p->miscarriage_date)) {
             return (string) $p->miscarriage_date;
         }
 
@@ -144,13 +160,16 @@ class PregnancyLossAnalysisReportController extends Controller
 
     private function lossType(Pregnancy $p): string
     {
-        if (!empty($p->abortion_date)) {
+        if (\Illuminate\Support\Facades\Schema::hasColumn('pregnancies', 'abortion_date')
+            && !empty($p->abortion_date)) {
             return 'abortion';
         }
-        if (!empty($p->embryonic_death_date)) {
+        if (\Illuminate\Support\Facades\Schema::hasColumn('pregnancies', 'embryonic_death_date')
+            && !empty($p->embryonic_death_date)) {
             return 'embryonic_death';
         }
-        if (!empty($p->miscarriage_date)) {
+        if (\Illuminate\Support\Facades\Schema::hasColumn('pregnancies', 'miscarriage_date')
+            && !empty($p->miscarriage_date)) {
             return 'miscarriage';
         }
 
