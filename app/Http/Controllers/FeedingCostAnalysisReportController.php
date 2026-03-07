@@ -57,11 +57,33 @@ class FeedingCostAnalysisReportController extends Controller
             $animalCols[] = 'name';
         }
 
+        // Build dynamic eager loads for feeding items so we don't request
+        // columns that may not exist on legacy installations.  In older
+        // versions the table stored name/unit/unit_cost fields directly; later
+        // a normalized `item_id` foreign key was added instead.
+        $feedingItemCols = ['id', 'feeding_record_id', 'quantity'];
+        $with = [];
+
+        if (\Illuminate\Support\Facades\Schema::hasColumn('feeding_items', 'name')) {
+            $feedingItemCols[] = 'name';
+        }
+        if (\Illuminate\Support\Facades\Schema::hasColumn('feeding_items', 'unit')) {
+            $feedingItemCols[] = 'unit';
+        }
+        if (\Illuminate\Support\Facades\Schema::hasColumn('feeding_items', 'unit_cost')) {
+            $feedingItemCols[] = 'unit_cost';
+        }
+        if (\Illuminate\Support\Facades\Schema::hasColumn('feeding_items', 'item_id')) {
+            $feedingItemCols[] = 'item_id';
+            // also eager‑load the related inventory item for name/unit lookup
+            $with['feedingItems.item'] = 'id,sku,name,unit';
+        }
+
+        $with['feedingItems'] = implode(',', $feedingItemCols);
+        $with['animal'] = implode(',', $animalCols);
+
         $query = FeedingRecord::query()
-            ->with([
-                'feedingItems:id,feeding_record_id,name,unit,quantity,unit_cost',
-                'animal:' . implode(',', $animalCols),
-            ])
+            ->with($with)
             ->whereBetween('feeding_date', [$from, $to])
             ->orderByDesc('feeding_date');
 
@@ -83,8 +105,15 @@ class FeedingCostAnalysisReportController extends Controller
                     'date' => optional($record->feeding_date)->toDateString(),
                     // combine tag and name if available; older schema may lack `name`
                     'animal' => trim(($record->animal?->tag_number ?? '') . ' ' . ($record->animal?->name ?? '')),
-                    // if name is unavailable (older schema) fall back to sku
-                    'item' => $item->name ?? $item->sku ?? '—',
+                    // item name may come from the feeding_items row (old schema) or
+                    // from the joined inventory item (new schema).  use sku if both
+                    // are missing.
+                    'item' => $item->name
+                        ?? $item->item?->name
+                        ?? $item->item?->sku
+                        ?? '—',
+                    // unit may also reside on the feeding_items row
+                    'unit' => $item->unit ?? $item->item?->unit ?? null,
                     'qty' => $qty,
                     'unit' => $item->unit ?? null,
                     'unit_cost' => $unitCost,
