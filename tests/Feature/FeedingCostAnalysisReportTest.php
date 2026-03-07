@@ -25,11 +25,16 @@ class FeedingCostAnalysisReportTest extends TestCase
             'sku' => 'BAR123',
         ]);
 
-        // simulate an older database by actually removing the `name` column from
-        // the inventory_items table; the controller will detect this via
-        // Schema::hasColumn and fall back to `sku`.
+        // simulate an older database by dropping a couple of `name` columns
+        // so both inventory_items and animals lack that field.  This forces the
+        // controller's conditional logic to exercise the fallback paths.
         if (Schema::hasColumn('inventory_items', 'name')) {
             Schema::table('inventory_items', function ($table) {
+                $table->dropColumn('name');
+            });
+        }
+        if (Schema::hasColumn('animals', 'name')) {
+            Schema::table('animals', function ($table) {
                 $table->dropColumn('name');
             });
         }

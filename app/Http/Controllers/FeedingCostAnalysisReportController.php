@@ -50,10 +50,17 @@ class FeedingCostAnalysisReportController extends Controller
             ->limit(1000)
             ->get();
 
+        // prepare eager loads with conditional animal columns to avoid
+        // selecting a non-existent `name` field on legacy databases
+        $animalCols = ['id', 'tag_number'];
+        if (\Illuminate\Support\Facades\Schema::hasColumn('animals', 'name')) {
+            $animalCols[] = 'name';
+        }
+
         $query = FeedingRecord::query()
             ->with([
                 'feedingItems:id,feeding_record_id,name,unit,quantity,unit_cost',
-                'animal:id,tag_number,name',
+                'animal:' . implode(',', $animalCols),
             ])
             ->whereBetween('feeding_date', [$from, $to])
             ->orderByDesc('feeding_date');
@@ -74,6 +81,7 @@ class FeedingCostAnalysisReportController extends Controller
 
                 return [
                     'date' => optional($record->feeding_date)->toDateString(),
+                    // combine tag and name if available; older schema may lack `name`
                     'animal' => trim(($record->animal?->tag_number ?? '') . ' ' . ($record->animal?->name ?? '')),
                     // if name is unavailable (older schema) fall back to sku
                     'item' => $item->name ?? $item->sku ?? '—',
