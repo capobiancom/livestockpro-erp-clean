@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::firstOrCreate(
+        $super = User::firstOrCreate(
             ['email' => 'superuser@livestockproerp.com'],
             ['name' => 'Super Admin', 'password' => bcrypt('password')] // Add a default password
         );
@@ -29,6 +29,27 @@ class DatabaseSeeder extends Seeder
             // subscriptions & billing
             SubscriptionCatalogSeeder::class,
             PaymentGatewayConfigSeeder::class,
+
+            // Demo data for reports
+            AnimalSeeder::class,
+            ArtificialInseminationSeeder::class,
+            ReproductionSeeder::class,
+            PregnancySeeder::class,
+            CalvingRecordSeeder::class,
         ]);
+
+        // make sure there's at least one farm owner tied to a farm; this helps
+        // seeded reports display results when logging in as that user.
+        $farm = \App\Models\Farm::first();
+        if ($farm) {
+            User::firstOrCreate(
+                ['email' => 'farmowner@livestockproerp.com'],
+                [
+                    'name' => 'Farm Owner',
+                    'password' => bcrypt('password'),
+                    'farm_id' => $farm->id,
+                ]
+            );
+        }
     }
 }

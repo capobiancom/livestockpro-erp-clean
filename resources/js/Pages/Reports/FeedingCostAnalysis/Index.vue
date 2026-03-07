@@ -434,7 +434,16 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const params = new URLSearchParams();
+
+    if (form.from) params.set("from", form.from);
+    if (form.to) params.set("to", form.to);
+    if (form.inventory_item_id)
+        params.set("inventory_item_id", String(form.inventory_item_id));
+    if (form.group_by) params.set("group_by", form.group_by);
+
+    const url = `/reports/feeding-cost-analysis/print?${params.toString()}`;
+    window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function exportCsv() {

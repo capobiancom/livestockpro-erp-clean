@@ -12,21 +12,8 @@ use Inertia\Inertia;
 
 class MedicineUsedPerDiseaseReportController extends Controller
 {
-    public function index(Request $request)
+    private function buildReport(Request $request): array
     {
-        $this->authorize('medicineUseedPerDiseaseReport', DiseaseTreatment::class);
-
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-        if (!$user) {
-            return redirect()->route('login');
-        }
-
-        // Authorization aligned with inventory report patterns.
-        if (!($user->hasRole('farm owner') || $user->hasRole('super admin') || $user->can('view stock movements'))) {
-            abort(403);
-        }
-
         $validated = $request->validate([
             'from' => ['nullable', 'date'],
             'to' => ['nullable', 'date', 'after_or_equal:from'],
@@ -42,6 +29,12 @@ class MedicineUsedPerDiseaseReportController extends Controller
         $q = $validated['q'] ?? null;
         $sort = $validated['sort'] ?? 'cost';
         $direction = $validated['direction'] ?? 'desc';
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        if (!$user) {
+            abort(401);
+        }
 
         // Base query: medication usage lines joined to disease treatments and diseases.
         $base = DiseaseTreatmentMedication::query()
@@ -65,9 +58,7 @@ class MedicineUsedPerDiseaseReportController extends Controller
             })
             ->groupBy('diseases.id', 'diseases.name', 'disease_treatment_medications.medicine_id', 'medicine_name', 'unit');
 
-        // Farm scoping (if disease_treatments has farm_id; keep safe by checking column existence at runtime)
         if ($user->hasRole('farm_owner')) {
-            // Most tables in this app are farm-scoped; if not present, this will be ignored by DB.
             $base->where('disease_treatments.farm_id', $user->farm_id);
         }
 
@@ -116,7 +107,12 @@ class MedicineUsedPerDiseaseReportController extends Controller
             ->get(['id', 'name'])
             ->map(fn($d) => ['id' => (int)$d->id, 'name' => $d->name]);
 
-        return Inertia::render('Reports/InventoryReports/MedicineUsedPerDisease/Index', [
+        $farm = null;
+        if (!empty($user->farm_id)) {
+            $farm = \App\Models\Farm::query()->find($user->farm_id);
+        }
+
+        return [
             'filters' => [
                 'from' => $from,
                 'to' => $to,
@@ -128,6 +124,58 @@ class MedicineUsedPerDiseaseReportController extends Controller
             'summary' => $summary,
             'rows' => $rows,
             'diseases' => $diseases,
+            'farm' => $farm,
+        ];
+    }
+
+    public function index(Request $request)
+    {
+        $this->authorize('medicineUseedPerDiseaseReport', DiseaseTreatment::class);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        // Authorization aligned with inventory report patterns.
+        if (!($user->hasRole('farm owner') || $user->hasRole('super admin') || $user->can('view stock movements'))) {
+            abort(403);
+        }
+
+        $report = $this->buildReport($request);
+
+        return Inertia::render('Reports/InventoryReports/MedicineUsedPerDisease/Index', [
+            'filters' => $report['filters'],
+            'summary' => $report['summary'],
+            'rows' => $report['rows'],
+            'diseases' => $report['diseases'],
+        ]);
+    }
+
+    public function print(Request $request)
+    {
+        $this->authorize('medicineUseedPerDiseaseReport', DiseaseTreatment::class);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        if (!($user->hasRole('farm owner') || $user->hasRole('super admin') || $user->can('view stock movements'))) {
+            abort(403);
+        }
+
+        $report = $this->buildReport($request);
+
+        return view('reports.inventory.medicine-used-per-disease.print', [
+            'filters' => $report['filters'],
+            'summary' => $report['summary'],
+            'rows' => $report['rows'],
+            'generatedAt' => now(),
+            'user' => $user,
+            'farm' => $report['farm'],
         ]);
     }
 }

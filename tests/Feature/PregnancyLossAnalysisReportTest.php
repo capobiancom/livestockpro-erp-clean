@@ -49,6 +49,9 @@ class PregnancyLossAnalysisReportTest extends TestCase
 
         $this->actingAs($user);
 
+        // Ensure the request is scoped to this user's farm (FarmScope uses session farm_id first).
+        session(['farm_id' => $animal->farm_id]);
+
         $response = $this->get(route('reports.pregnancy-loss-analysis.index'));
         $response->assertStatus(200);
 

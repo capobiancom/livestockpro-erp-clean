@@ -68,7 +68,13 @@ const expenseRows = computed(() =>
 const netProfit = computed(() => Number(props.totals?.net_profit || 0));
 const isProfit = computed(() => netProfit.value >= 0);
 
-const printReport = () => window.print();
+const printReport = () => {
+    const url = route("profit-loss.print", {
+        from: form.value.from,
+        to: form.value.to,
+    });
+    window.open(url, "_blank", "noopener,noreferrer");
+};
 </script>
 
 <template>
@@ -471,15 +477,4 @@ const printReport = () => window.print();
     </Layout>
 </template>
 
-<style scoped>
-@media print {
-    aside,
-    header {
-        display: none !important;
-    }
-    main {
-        margin-left: 0 !important;
-        padding: 0 !important;
-    }
-}
-</style>
+<style scoped></style>

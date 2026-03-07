@@ -473,7 +473,18 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const params = new URLSearchParams();
+
+    if (form.q) params.set("q", form.q);
+    if (form.item_type && form.item_type !== "all")
+        params.set("item_type", form.item_type);
+    if (form.from) params.set("from", form.from);
+    if (form.to) params.set("to", form.to);
+    if (form.sort) params.set("sort", form.sort);
+    if (form.direction) params.set("direction", form.direction);
+
+    const url = `/reports/inventory/wastage-loss/print${params.toString() ? `?${params.toString()}` : ""}`;
+    window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function exportCsv() {

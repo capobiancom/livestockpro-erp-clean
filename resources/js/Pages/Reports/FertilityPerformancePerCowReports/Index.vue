@@ -193,7 +193,7 @@
                                 :key="a.id"
                                 :value="a.id"
                             >
-                                {{ a.tag_number }}
+                                {{ a.tag }}
                                 {{ a.name ? `- ${a.name}` : "" }}
                             </option>
                         </select>
@@ -502,7 +502,21 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const url = new URL(
+        "/reports/fertility-performance-per-cow/print",
+        window.location.origin,
+    );
+
+    // Pass current filters to print page
+    if (form.from) url.searchParams.set("from", form.from);
+    if (form.to) url.searchParams.set("to", form.to);
+    if (form.animal_id)
+        url.searchParams.set("animal_id", String(form.animal_id));
+    if (form.service_type)
+        url.searchParams.set("service_type", form.service_type);
+    if (form.performance) url.searchParams.set("performance", form.performance);
+
+    window.open(url.toString(), "_blank", "noopener,noreferrer");
 }
 
 function formatNullable(v) {

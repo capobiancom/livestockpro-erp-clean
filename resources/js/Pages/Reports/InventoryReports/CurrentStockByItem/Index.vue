@@ -1,7 +1,7 @@
 <template>
     <AppLayout>
         <template #title>
-            <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-semibold text-gray-900">
                         Current Stock by Item
@@ -441,7 +441,21 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const params = new URLSearchParams();
+
+    if (form.q) params.set("q", form.q);
+    if (form.item_type && form.item_type !== "all")
+        params.set("item_type", form.item_type);
+    if (form.only_in_stock) params.set("only_in_stock", "1");
+
+    if (form.sort) params.set("sort", form.sort);
+    if (form.direction) params.set("direction", form.direction);
+
+    const url =
+        "/reports/inventory/current-stock-by-item/print" +
+        (params.toString() ? `?${params.toString()}` : "");
+
+    window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function exportCsv() {

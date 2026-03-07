@@ -1,7 +1,7 @@
 <template>
     <AppLayout>
         <template #title>
-            <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-semibold text-gray-900">
                         Treatment Cost per Animal
@@ -235,7 +235,7 @@
                                 :key="a.id"
                                 :value="a.id"
                             >
-                                {{ a.tag_number }} {{ a.name }}
+                                {{ a.tag }} {{ a.name }}
                             </option>
                         </select>
                     </div>
@@ -464,7 +464,17 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const params = new URLSearchParams();
+
+    if (form.from) params.set("from", form.from);
+    if (form.to) params.set("to", form.to);
+    if (form.animal_id) params.set("animal_id", String(form.animal_id));
+    if (form.q) params.set("q", form.q);
+    if (form.sort) params.set("sort", form.sort);
+    if (form.direction) params.set("direction", form.direction);
+
+    const url = `/reports/treatment-cost-per-animal/print?${params.toString()}`;
+    window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function exportCsv() {

@@ -1,15 +1,17 @@
 <template>
     <AppLayout>
         <template #title>
-            <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-semibold text-gray-900">
                         Pregnancy Loss Analysis
                     </h1>
-                    <p class="mt-1 text-sm text-gray-600">
-                        Measure the rate and timing of pregnancies that were
-                        confirmed but later lost (abortion, embryonic death,
-                        miscarriage).
+                    <p class="mt-1 text-sm text-gray-600 flex flex-col gap-2">
+                        <span>
+                            Measure the rate and timing of pregnancies that were
+                            confirmed but later lost (abortion, embryonic death,
+                            miscarriage).
+                        </span>
                         <span class="text-gray-500">
                             (Pregnancy Losses ÷ Total Confirmed Pregnancies) ×
                             100
@@ -250,7 +252,7 @@
                                 :key="a.id"
                                 :value="a.id"
                             >
-                                {{ a.tag_number }}
+                                {{ a.tag }}
                                 {{ a.name ? `- ${a.name}` : "" }}
                             </option>
                         </select>
@@ -443,7 +445,17 @@
                                     {{ d.pregnancy_id }}
                                 </td>
                                 <td class="px-4 py-3 text-sm text-gray-900">
-                                    {{ d.animal_id }}
+                                    <div class="flex flex-col">
+                                        <span class="font-medium">
+                                            {{ d.animal_tag ?? d.animal_id }}
+                                        </span>
+                                        <span class="text-xs text-gray-500">
+                                            ID: {{ d.animal_id }}
+                                            <span v-if="d.animal_name">
+                                                · {{ d.animal_name }}
+                                            </span>
+                                        </span>
+                                    </div>
                                 </td>
                                 <td class="px-4 py-3 text-sm text-gray-900">
                                     {{ d.confirmed_date ?? "-" }}
@@ -608,7 +620,18 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const qs = new URLSearchParams();
+
+    if (form.from) qs.set("from", form.from);
+    if (form.to) qs.set("to", form.to);
+    if (form.animal_id) qs.set("animal_id", String(form.animal_id));
+    if (form.group_by) qs.set("group_by", form.group_by);
+
+    const url =
+        "/reports/pregnancy-loss-analysis/print" +
+        (qs.toString() ? `?${qs.toString()}` : "");
+
+    window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function rateBadgeClass(rate) {
@@ -634,7 +657,7 @@ function benchmarkBadgeClass(rate) {
 function exportCsv() {
     const headers = [
         "Pregnancy ID",
-        "Animal ID",
+        "Animal",
         "Confirmed date",
         "Loss type",
         "Loss date",
@@ -647,7 +670,9 @@ function exportCsv() {
     props.details.forEach((d) => {
         const row = [
             d.pregnancy_id,
-            d.animal_id,
+            [d.animal_tag, d.animal_name, `ID:${d.animal_id}`]
+                .filter(Boolean)
+                .join(" - "),
             d.confirmed_date,
             lossTypeLabel(d.loss_type),
             d.loss_date,

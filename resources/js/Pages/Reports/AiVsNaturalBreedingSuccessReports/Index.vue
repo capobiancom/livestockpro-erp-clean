@@ -1,7 +1,7 @@
 <template>
     <AppLayout>
         <template #title>
-            <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-semibold text-gray-900">
                         AI vs Natural Breeding Success
@@ -304,7 +304,7 @@
                                 :key="a.id"
                                 :value="a.id"
                             >
-                                {{ a.tag_number }}
+                                {{ a.tag }}
                                 {{ a.name ? `- ${a.name}` : "" }}
                             </option>
                         </select>
@@ -600,7 +600,16 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const params = new URLSearchParams();
+
+    if (form.from) params.set("from", form.from);
+    if (form.to) params.set("to", form.to);
+    if (form.animal_id) params.set("animal_id", String(form.animal_id));
+    if (form.method) params.set("method", form.method);
+    if (form.group_by) params.set("group_by", form.group_by);
+
+    const url = `/reports/ai-vs-natural-breeding-success/print?${params.toString()}`;
+    window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function rateBadgeClass(rate) {

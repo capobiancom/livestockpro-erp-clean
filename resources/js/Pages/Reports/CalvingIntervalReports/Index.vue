@@ -1,7 +1,7 @@
 <template>
     <AppLayout>
         <template #title>
-            <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-semibold text-gray-900">
                         Calving Interval Report
@@ -164,8 +164,8 @@
                                 :key="a.id"
                                 :value="a.id"
                             >
-                                {{ a.tag_number }}
-                                {{ a.name ? `- ${a.name}` : "" }}
+                                {{ a.tag_number ?? a.tag }}
+                                {{ a.name ? ` - ${a.name}` : "" }}
                             </option>
                         </select>
                     </div>
@@ -409,7 +409,18 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const url = new URL(
+        "/reports/calving-interval/print",
+        window.location.origin,
+    );
+
+    if (form.from) url.searchParams.set("from", form.from);
+    if (form.to) url.searchParams.set("to", form.to);
+    if (form.animal_id)
+        url.searchParams.set("animal_id", String(form.animal_id));
+    if (form.performance) url.searchParams.set("performance", form.performance);
+
+    window.open(url.toString(), "_blank", "noopener,noreferrer");
 }
 
 function performanceBadgeClass(bucket) {

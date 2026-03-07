@@ -353,14 +353,26 @@ Route::middleware(['auth', 'subscription.active'])->group(function () {
         Route::get('/balance-sheet', [BalanceSheetController::class, 'index'])
             ->name('balance-sheet.index');
 
+        Route::get('/balance-sheet/print', [BalanceSheetController::class, 'print'])
+            ->name('balance-sheet.print');
+
         Route::get('/profit-loss', [ProfitLossController::class, 'index'])
             ->name('profit-loss.index');
+
+        Route::get('/profit-loss/print', [ProfitLossController::class, 'print'])
+            ->name('profit-loss.print');
 
         Route::get('/cash-flow', [CashFlowController::class, 'index'])
             ->name('cash-flow.index');
 
+        Route::get('/cash-flow/print', [CashFlowController::class, 'print'])
+            ->name('cash-flow.print');
+
         Route::get('/trial-balance', [TrialBalanceController::class, 'index'])
             ->name('trial-balance.index');
+
+        Route::get('/trial-balance/print', [TrialBalanceController::class, 'print'])
+            ->name('trial-balance.print');
 
         Route::resource('cash-accounts', CashAccountController::class);
         Route::resource('cash-transactions', CashTransactionController::class);
@@ -472,11 +484,20 @@ Route::middleware(['auth', 'subscription.active'])->group(function () {
         Route::get('/reports/animal-health', [AnimalHealthReportController::class, 'index'])
             ->name('reports.animal-health.index');
 
+        Route::get('/reports/animal-health/print', [AnimalHealthReportController::class, 'print'])
+            ->name('reports.animal-health.print');
+
         Route::get('/reports/feeding-cost-analysis', [FeedingCostAnalysisReportController::class, 'index'])
             ->name('reports.feeding-cost-analysis.index');
 
+        Route::get('/reports/feeding-cost-analysis/print', [FeedingCostAnalysisReportController::class, 'print'])
+            ->name('reports.feeding-cost-analysis.print');
+
         Route::get('/reports/vaccination-due', [VaccinationDueReportController::class, 'index'])
             ->name('reports.vaccination-due.index');
+
+        Route::get('/reports/vaccination-due/print', [VaccinationDueReportController::class, 'print'])
+            ->name('reports.vaccination-due.print');
 
         Route::get('/reports/financial', [FinancialReportsController::class, 'index'])
             ->name('reports.financial.index');
@@ -484,45 +505,87 @@ Route::middleware(['auth', 'subscription.active'])->group(function () {
         Route::get('/reports/conception-success-rate', [ConceptionSuccessRateReportController::class, 'index'])
             ->name('reports.conception-success-rate.index');
 
+        Route::get('/reports/conception-success-rate/print', [ConceptionSuccessRateReportController::class, 'print'])
+            ->name('reports.conception-success-rate.print');
+
         Route::get('/reports/pregnancy-loss-analysis', [PregnancyLossAnalysisReportController::class, 'index'])
             ->name('reports.pregnancy-loss-analysis.index');
+
+        Route::get('/reports/pregnancy-loss-analysis/print', [PregnancyLossAnalysisReportController::class, 'print'])
+            ->name('reports.pregnancy-loss-analysis.print');
 
         Route::get('/reports/ai-vs-natural-breeding-success', [AiVsNaturalBreedingSuccessReportController::class, 'index'])
             ->name('reports.ai-vs-natural-breeding-success.index');
 
+        Route::get('/reports/ai-vs-natural-breeding-success/print', [AiVsNaturalBreedingSuccessReportController::class, 'print'])
+            ->name('reports.ai-vs-natural-breeding-success.print');
+
         Route::get('/reports/calving-interval', [CalvingIntervalReportController::class, 'index'])
             ->name('reports.calving-interval.index');
+
+        Route::get('/reports/calving-interval/print', [CalvingIntervalReportController::class, 'print'])
+            ->name('reports.calving-interval.print');
 
         Route::get('/reports/fertility-performance-per-cow', [FertilityPerformancePerCowReportController::class, 'index'])
             ->name('reports.fertility-performance-per-cow.index');
 
+        Route::get('/reports/fertility-performance-per-cow/print', [FertilityPerformancePerCowReportController::class, 'print'])
+            ->name('reports.fertility-performance-per-cow.print');
+
         Route::get('/reports/treatment-cost-per-animal', [TreatmentCostPerAnimalReportController::class, 'index'])
             ->name('reports.treatment-cost-per-animal.index');
+
+        Route::get('/reports/treatment-cost-per-animal/print', [TreatmentCostPerAnimalReportController::class, 'print'])
+            ->name('reports.treatment-cost-per-animal.print');
 
         // Inventory Reports
         Route::get('/reports/inventory/current-stock-by-item', [CurrentStockByItemReportController::class, 'index'])
             ->name('reports.inventory.current-stock-by-item.index');
 
+        Route::get('/reports/inventory/current-stock-by-item/print', [CurrentStockByItemReportController::class, 'print'])
+            ->name('reports.inventory.current-stock-by-item.print');
+
         Route::get('/reports/inventory/low-stock-alerts', [LowStockAlertsReportController::class, 'index'])
             ->name('reports.inventory.low-stock-alerts.index');
+
+        Route::get('/reports/inventory/low-stock-alerts/print', [LowStockAlertsReportController::class, 'print'])
+            ->name('reports.inventory.low-stock-alerts.print');
 
         Route::get('/reports/inventory/expired-medicine', [ExpiredMedicineReportController::class, 'index'])
             ->name('reports.inventory.expired-medicine.index');
 
+        Route::get('/reports/inventory/expired-medicine/print', [ExpiredMedicineReportController::class, 'print'])
+            ->name('reports.inventory.expired-medicine.print');
+
         Route::get('/reports/inventory/feed-consumed-per-animal', [FeedConsumedPerAnimalReportController::class, 'index'])
             ->name('reports.inventory.feed-consumed-per-animal.index');
+
+        Route::get('/reports/inventory/feed-consumed-per-animal/print', [FeedConsumedPerAnimalReportController::class, 'print'])
+            ->name('reports.inventory.feed-consumed-per-animal.print');
 
         Route::get('/reports/inventory/cost-of-feed-per-cow', [CostOfFeedPerCowReportController::class, 'index'])
             ->name('reports.inventory.cost-of-feed-per-cow.index');
 
+        Route::get('/reports/inventory/cost-of-feed-per-cow/print', [CostOfFeedPerCowReportController::class, 'print'])
+            ->name('reports.inventory.cost-of-feed-per-cow.print');
+
         Route::get('/reports/inventory/medicine-used-per-disease', [MedicineUsedPerDiseaseReportController::class, 'index'])
             ->name('reports.inventory.medicine-used-per-disease.index');
+
+        Route::get('/reports/inventory/medicine-used-per-disease/print', [MedicineUsedPerDiseaseReportController::class, 'print'])
+            ->name('reports.inventory.medicine-used-per-disease.print');
 
         Route::get('/reports/inventory/monthly-consumption-summary', [MonthlyConsumptionSummaryReportController::class, 'index'])
             ->name('reports.inventory.monthly-consumption-summary.index');
 
+        Route::get('/reports/inventory/monthly-consumption-summary/print', [MonthlyConsumptionSummaryReportController::class, 'print'])
+            ->name('reports.inventory.monthly-consumption-summary.print');
+
         Route::get('/reports/inventory/wastage-loss', [WastageLossReportController::class, 'index'])
             ->name('reports.inventory.wastage-loss.index');
+
+        Route::get('/reports/inventory/wastage-loss/print', [WastageLossReportController::class, 'print'])
+            ->name('reports.inventory.wastage-loss.print');
     });
 
     // Billing routes (allowed even if subscription expired; middleware handles exception)

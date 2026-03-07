@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\View\View;
 
 class CashFlowController extends Controller
 {
@@ -104,6 +105,93 @@ class CashFlowController extends Controller
         $totals['net_change'] = round($totals['operating'] + $totals['investing'] + $totals['financing'], 2);
 
         return Inertia::render('Accounts/CashFlow', [
+            'from' => $from,
+            'to' => $to,
+            'rows' => [
+                'operating' => $operating,
+                'investing' => $investing,
+                'financing' => $financing,
+            ],
+            'totals' => $totals,
+        ]);
+    }
+
+    public function print(Request $request): View
+    {
+        $this->authorize('cashFlow', JournalEntry::class);
+
+        $from = $request->input('from')
+            ? Carbon::parse($request->input('from'))->toDateString()
+            : now()->startOfMonth()->toDateString();
+
+        $to = $request->input('to')
+            ? Carbon::parse($request->input('to'))->toDateString()
+            : now()->toDateString();
+
+        if ($from > $to) {
+            [$from, $to] = [$to, $from];
+        }
+
+        $accounts = ChartOfAccount::query()
+            ->select(['id', 'code', 'name', 'type', 'parent_id'])
+            ->where('is_active', true)
+            ->orderBy('code')
+            ->get();
+
+        $postedLines = JournalEntryLine::query()
+            ->selectRaw('journal_entry_lines.account_id as account_id')
+            ->selectRaw('SUM(journal_entry_lines.debit_amount) as total_debit')
+            ->selectRaw('SUM(journal_entry_lines.credit_amount) as total_credit')
+            ->join('journal_entries', 'journal_entries.id', '=', 'journal_entry_lines.journal_entry_id')
+            ->where('journal_entries.status', 'posted')
+            ->whereDate('journal_entries.entry_date', '>=', $from)
+            ->whereDate('journal_entries.entry_date', '<=', $to)
+            ->groupBy('journal_entry_lines.account_id')
+            ->get()
+            ->keyBy('account_id');
+
+        $rows = $accounts->map(function ($acc) use ($postedLines) {
+            $line = $postedLines->get($acc->id);
+
+            $debit = (float) ($line?->total_debit ?? 0);
+            $credit = (float) ($line?->total_credit ?? 0);
+
+            $type = $acc->type instanceof ChartOfAccountType ? $acc->type->value : (string) $acc->type;
+
+            $movement = 0.0;
+
+            if ($type === 'income') {
+                $movement = $credit - $debit;
+            } elseif ($type === 'expense') {
+                $movement = -1 * ($debit - $credit);
+            } elseif ($type === 'asset') {
+                $movement = -1 * ($debit - $credit);
+            } elseif (in_array($type, ['liability', 'equity'], true)) {
+                $movement = $credit - $debit;
+            }
+
+            return [
+                'id' => $acc->id,
+                'code' => $acc->code,
+                'name' => $acc->name,
+                'type' => $type,
+                'parent_id' => $acc->parent_id,
+                'movement' => round($movement, 2),
+            ];
+        });
+
+        $operating = $rows->whereIn('type', ['income', 'expense'])->values();
+        $investing = $rows->where('type', 'asset')->values();
+        $financing = $rows->whereIn('type', ['liability', 'equity'])->values();
+
+        $totals = [
+            'operating' => round($operating->sum('movement'), 2),
+            'investing' => round($investing->sum('movement'), 2),
+            'financing' => round($financing->sum('movement'), 2),
+        ];
+        $totals['net_change'] = round($totals['operating'] + $totals['investing'] + $totals['financing'], 2);
+
+        return view('reports.cash-flow.print', [
             'from' => $from,
             'to' => $to,
             'rows' => [

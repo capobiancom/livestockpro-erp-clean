@@ -1,7 +1,7 @@
 <template>
     <AppLayout>
         <template #title>
-            <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-semibold text-gray-900">
                         Medicine Used per Disease
@@ -439,7 +439,20 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const qs = new URLSearchParams();
+
+    if (form.from) qs.set("from", form.from);
+    if (form.to) qs.set("to", form.to);
+    if (form.disease_id) qs.set("disease_id", String(form.disease_id));
+    if (form.q) qs.set("q", form.q);
+    if (form.sort) qs.set("sort", form.sort);
+    if (form.direction) qs.set("direction", form.direction);
+
+    const url = `/reports/inventory/medicine-used-per-disease/print${
+        qs.toString() ? `?${qs.toString()}` : ""
+    }`;
+
+    window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function exportCsv() {

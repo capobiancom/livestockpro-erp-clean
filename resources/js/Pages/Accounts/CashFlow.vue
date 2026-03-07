@@ -56,7 +56,13 @@ const formatCurrency = (value) => {
     })}`;
 };
 
-const printReport = () => window.print();
+const printReport = () => {
+    const url = route("cash-flow.print", {
+        from: form.value.from,
+        to: form.value.to,
+    });
+    window.open(url, "_blank", "noopener,noreferrer");
+};
 
 const operatingRows = computed(() =>
     (props.rows?.operating || []).filter((r) => Number(r.movement || 0) !== 0),

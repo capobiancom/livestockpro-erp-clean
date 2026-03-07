@@ -59,7 +59,15 @@ const formatCurrency = (value) => {
 
 const isBalanced = computed(() => Number(props.totals?.difference || 0) === 0);
 
-const printReport = () => window.print();
+const printReport = () => {
+    const url = route("trial-balance.print", {
+        from: form.value.from,
+        to: form.value.to,
+        include_zero: form.value.include_zero,
+    });
+
+    window.open(url, "_blank", "noopener,noreferrer");
+};
 
 const rowCount = computed(() => props.rows?.length || 0);
 </script>

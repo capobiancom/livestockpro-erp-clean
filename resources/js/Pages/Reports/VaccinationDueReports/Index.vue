@@ -343,7 +343,15 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const params = new URLSearchParams();
+
+    if (form.from) params.set("from", form.from);
+    if (form.to) params.set("to", form.to);
+    if (form.animal_id) params.set("animal_id", String(form.animal_id));
+    if (form.status) params.set("status", form.status);
+
+    const url = `/reports/vaccination-due/print?${params.toString()}`;
+    window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function exportCsv() {

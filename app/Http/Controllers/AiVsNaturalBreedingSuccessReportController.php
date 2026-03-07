@@ -39,7 +39,10 @@ class AiVsNaturalBreedingSuccessReportController extends Controller
         $groupBy = $validated['group_by'] ?? 'method';
 
         $animals = Animal::query()
-            ->select(['id', 'tag_number', 'name'])
+            ->select(['id', 'tag', 'name'])
+            ->when($request->user()->hasRole('farm owner'), function ($query) use ($request) {
+                $query->where('farm_id', $request->user()->farm_id);
+            }) // Only list animals from the user's farm (multi-tenant isolation).
             ->orderBy('tag_number')
             ->limit(500)
             ->get();
@@ -127,6 +130,120 @@ class AiVsNaturalBreedingSuccessReportController extends Controller
             'animals' => $animals,
             'summary' => $summary,
             'rows' => $grouped,
+        ]);
+    }
+
+    public function print(Request $request)
+    {
+        $this->authorize('aiVsNaturalBreedingSuccessReport', ArtificialInsemination::class);
+
+        $validated = $request->validate([
+            'from' => ['nullable', 'date'],
+            'to' => ['nullable', 'date', 'after_or_equal:from'],
+            'animal_id' => ['nullable', 'integer', 'exists:animals,id'],
+            'method' => ['nullable', 'string', 'in:all,ai,natural_mating'],
+            'group_by' => ['nullable', 'string', 'in:method,month,technician,bull'],
+        ]);
+
+        $from = isset($validated['from'])
+            ? Carbon::parse($validated['from'])->startOfDay()
+            : now()->subDays(30)->startOfDay();
+
+        $to = isset($validated['to'])
+            ? Carbon::parse($validated['to'])->endOfDay()
+            : now()->endOfDay();
+
+        $method = $validated['method'] ?? 'all';
+        $groupBy = $validated['group_by'] ?? 'method';
+
+        // Breeding attempts are represented by reproduction_records.
+        $attemptsQuery = ReproductionRecord::query()
+            ->select(['id', 'animal_id', 'event', 'event_date', 'technician_name', 'bull_name'])
+            ->whereBetween('event_date', [$from, $to]);
+
+        if (!empty($validated['animal_id'])) {
+            $attemptsQuery->where('animal_id', $validated['animal_id']);
+        }
+
+        if ($method !== 'all') {
+            $attemptsQuery->whereIn('event', $this->eventsForMethod($method));
+        } else {
+            $attemptsQuery->whereIn('event', $this->eventsForMethod('all'));
+        }
+
+        $attempts = $attemptsQuery
+            ->orderByDesc('event_date')
+            ->limit(10000)
+            ->get();
+
+        $attemptIds = $attempts->pluck('id')->all();
+
+        $confirmedPregnancies = Pregnancy::query()
+            ->select(['id', 'reproduction_record_id', 'pregnancy_confirmed_date', 'pregnancy_status'])
+            ->whereIn('reproduction_record_id', $attemptIds)
+            ->whereNotNull('pregnancy_confirmed_date')
+            ->get()
+            ->keyBy('reproduction_record_id');
+
+        $rows = $attempts->map(function ($a) use ($confirmedPregnancies) {
+            $m = $this->methodFromEvent($a->event);
+            $isConfirmed = $confirmedPregnancies->has($a->id);
+
+            return [
+                'date' => optional($a->event_date)->toDateString(),
+                'animal_id' => $a->animal_id,
+                'method' => $m,
+                'method_label' => $this->methodLabel($m),
+                'event' => $a->event,
+                'technician_name' => $a->technician_name,
+                'bull_name' => $a->bull_name,
+                'confirmed' => $isConfirmed,
+            ];
+        });
+
+        $totalAttempts = $rows->count();
+        $totalConfirmed = $rows->where('confirmed', true)->count();
+        $successRate = $totalAttempts > 0 ? round(($totalConfirmed / $totalAttempts) * 100, 2) : 0;
+
+        $spc = $totalConfirmed > 0 ? round($totalAttempts / $totalConfirmed, 2) : null;
+
+        $firstService = $this->buildFirstServiceSummary($rows);
+
+        $grouped = $this->buildGroupedRows($rows, $groupBy);
+
+        $summary = [
+            'from' => $from->toDateString(),
+            'to' => $to->toDateString(),
+            'total_services' => $totalAttempts,
+            'confirmed_pregnancies' => $totalConfirmed,
+            'success_rate' => $successRate,
+            'services_per_conception' => $spc,
+            'first_service' => $firstService,
+            'benchmarks' => [
+                'ai' => ['min' => 35, 'max' => 55],
+                'natural_mating' => ['min' => 50, 'max' => 70],
+            ],
+        ];
+
+        $animal = null;
+        if (!empty($validated['animal_id'])) {
+            $animal = Animal::query()
+                ->select(['id', 'tag_number', 'name'])
+                ->find($validated['animal_id']);
+        }
+
+        return view('reports.ai-vs-natural-breeding-success.print', [
+            'filters' => [
+                'from' => $from->toDateString(),
+                'to' => $to->toDateString(),
+                'animal_id' => $validated['animal_id'] ?? null,
+                'method' => $method,
+                'group_by' => $groupBy,
+            ],
+            'summary' => $summary,
+            'rows' => $grouped,
+            'animal' => $animal,
+            'generatedAt' => now()->toDateTimeString(),
         ]);
     }
 

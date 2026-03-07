@@ -38,18 +38,37 @@ class FertilityPerformancePerCowReportController extends Controller
         $serviceType = $validated['service_type'] ?? 'all';
         $performance = $validated['performance'] ?? 'all';
 
+        // Only list animals belonging to the currently selected farm (farm owner panel).
+        // This prevents showing animals from other farms/tenants.
+        $currentFarmId = (int) ($request->user()->farm_id ?? 0);
+        $user = $request->user();
+
         $animals = Animal::query()
-            ->select(['id', 'tag_number', 'name'])
-            ->orderBy('tag_number')
+            ->select(['id', 'tag', 'name'])
+            ->when($user->hasRole('farm owner'), function ($query) use ($user) {
+                $query->where('farm_id', $user->farm_id);
+            })
+            ->orderBy('tag')
             ->limit(500)
             ->get();
 
         $attemptsQuery = ReproductionRecord::query()
             ->select(['id', 'animal_id', 'event', 'event_date'])
+            ->when($currentFarmId > 0, function ($q) use ($currentFarmId) {
+                $q->whereHas('animal', function ($q2) use ($currentFarmId) {
+                    $q2->where('farm_id', $currentFarmId);
+                });
+            })
             ->whereBetween('event_date', [$from, $to]);
 
         if (!empty($validated['animal_id'])) {
-            $attemptsQuery->where('animal_id', $validated['animal_id']);
+            // Prevent cross-farm access by forcing selected animal to belong to current farm.
+            $attemptsQuery->whereHas('animal', function ($q) use ($currentFarmId, $validated) {
+                if ($currentFarmId > 0) {
+                    $q->where('farm_id', $currentFarmId);
+                }
+                $q->where('id', $validated['animal_id']);
+            });
         }
 
         if ($serviceType !== 'all') {
@@ -72,6 +91,11 @@ class FertilityPerformancePerCowReportController extends Controller
 
         $confirmedPregnancies = Pregnancy::query()
             ->select(['id', 'animal_id', 'reproduction_record_id', 'pregnancy_confirmed_date', 'pregnancy_status'])
+            ->when($currentFarmId > 0, function ($q) use ($currentFarmId) {
+                $q->whereHas('animal', function ($q2) use ($currentFarmId) {
+                    $q2->where('farm_id', $currentFarmId);
+                });
+            })
             ->whereIn('animal_id', $animalIds)
             ->whereIn('reproduction_record_id', $attemptIds)
             ->whereNotNull('pregnancy_confirmed_date')
@@ -81,6 +105,11 @@ class FertilityPerformancePerCowReportController extends Controller
 
         $lossPregnancies = Pregnancy::query()
             ->select(['id', 'animal_id', 'reproduction_record_id', 'pregnancy_confirmed_date', 'pregnancy_status'])
+            ->when($currentFarmId > 0, function ($q) use ($currentFarmId) {
+                $q->whereHas('animal', function ($q2) use ($currentFarmId) {
+                    $q2->where('farm_id', $currentFarmId);
+                });
+            })
             ->whereIn('animal_id', $animalIds)
             ->whereIn('reproduction_record_id', $attemptIds)
             ->whereNotNull('pregnancy_confirmed_date')
@@ -91,6 +120,13 @@ class FertilityPerformancePerCowReportController extends Controller
 
         $calvings = CalvingRecord::query()
             ->select(['id', 'pregnancy_id', 'calving_date'])
+            ->when($currentFarmId > 0, function ($q) use ($currentFarmId) {
+                $q->whereHas('pregnancy', function ($q2) use ($currentFarmId) {
+                    $q2->whereHas('animal', function ($q3) use ($currentFarmId) {
+                        $q3->where('farm_id', $currentFarmId);
+                    });
+                });
+            })
             ->with(['pregnancy:id,animal_id'])
             ->whereBetween('calving_date', [$from, $to])
             ->orderBy('calving_date')
@@ -146,7 +182,7 @@ class FertilityPerformancePerCowReportController extends Controller
 
             $rows->push([
                 'animal_id' => $animalId,
-                'tag_number' => $animal?->tag_number,
+                'tag_number' => $animal?->tag,
                 'animal_name' => $animal?->name,
                 'total_services' => $totalServices,
                 'confirmed_pregnancies' => $confirmedCount,
@@ -188,6 +224,224 @@ class FertilityPerformancePerCowReportController extends Controller
                     ['conception_rate', 'desc'],
                 ])
                 ->values(),
+        ]);
+    }
+
+    public function print(Request $request)
+    {
+        $this->authorize('fertilityPerformancePerCowReport', Pregnancy::class);
+
+        $validated = $request->validate([
+            'from' => ['nullable', 'date'],
+            'to' => ['nullable', 'date', 'after_or_equal:from'],
+            'animal_id' => ['nullable', 'integer', 'exists:animals,id'],
+            'service_type' => ['nullable', 'string', 'in:all,ai,natural_mating,embryo_transfer'],
+            'performance' => ['nullable', 'string', 'in:all,excellent,moderate,poor'],
+        ]);
+
+        $from = isset($validated['from'])
+            ? Carbon::parse($validated['from'])->startOfDay()
+            : now()->subDays(365)->startOfDay();
+
+        $to = isset($validated['to'])
+            ? Carbon::parse($validated['to'])->endOfDay()
+            : now()->endOfDay();
+
+        $serviceType = $validated['service_type'] ?? 'all';
+        $performance = $validated['performance'] ?? 'all';
+
+        $currentFarmId = (int) ($request->user()->farm_id ?? 0);
+        $user = $request->user();
+
+        $animals = Animal::query()
+            ->select(['id', 'tag', 'name'])
+            ->when($user->hasRole('farm owner'), function ($query) use ($user) {
+                $query->where('farm_id', $user->farm_id);
+            })
+            ->orderBy('tag')
+            ->limit(500)
+            ->get()
+            ->map(fn($a) => [
+                'id' => $a->id,
+                'tag' => $a->tag,
+                'name' => $a->name,
+            ])
+            ->values()
+            ->toArray();
+
+        $attemptsQuery = ReproductionRecord::query()
+            ->select(['id', 'animal_id', 'event', 'event_date'])
+            ->when($currentFarmId > 0, function ($q) use ($currentFarmId) {
+                $q->whereHas('animal', function ($q2) use ($currentFarmId) {
+                    $q2->where('farm_id', $currentFarmId);
+                });
+            })
+            ->whereBetween('event_date', [$from, $to]);
+
+        if (!empty($validated['animal_id'])) {
+            $attemptsQuery->whereHas('animal', function ($q) use ($currentFarmId, $validated) {
+                if ($currentFarmId > 0) {
+                    $q->where('farm_id', $currentFarmId);
+                }
+                $q->where('id', $validated['animal_id']);
+            });
+        }
+
+        if ($serviceType !== 'all') {
+            $attemptsQuery->whereIn('event', $this->eventsForServiceType($serviceType));
+        } else {
+            $attemptsQuery->whereIn('event', $this->eventsForServiceType('all'));
+        }
+
+        $attempts = $attemptsQuery
+            ->orderBy('event_date')
+            ->limit(50000)
+            ->get();
+
+        $attemptIds = $attempts->pluck('id')->all();
+        $animalIds = $attempts->pluck('animal_id')->unique()->values()->all();
+
+        if (!empty($validated['animal_id']) && !in_array((int) $validated['animal_id'], $animalIds, true)) {
+            $animalIds[] = (int) $validated['animal_id'];
+        }
+
+        $confirmedPregnancies = Pregnancy::query()
+            ->select(['id', 'animal_id', 'reproduction_record_id', 'pregnancy_confirmed_date', 'pregnancy_status'])
+            ->when($currentFarmId > 0, function ($q) use ($currentFarmId) {
+                $q->whereHas('animal', function ($q2) use ($currentFarmId) {
+                    $q2->where('farm_id', $currentFarmId);
+                });
+            })
+            ->whereIn('animal_id', $animalIds)
+            ->whereIn('reproduction_record_id', $attemptIds)
+            ->whereNotNull('pregnancy_confirmed_date')
+            ->get();
+
+        $confirmedByAttemptId = $confirmedPregnancies->keyBy('reproduction_record_id');
+
+        $lossPregnancies = Pregnancy::query()
+            ->select(['id', 'animal_id', 'reproduction_record_id', 'pregnancy_confirmed_date', 'pregnancy_status'])
+            ->when($currentFarmId > 0, function ($q) use ($currentFarmId) {
+                $q->whereHas('animal', function ($q2) use ($currentFarmId) {
+                    $q2->where('farm_id', $currentFarmId);
+                });
+            })
+            ->whereIn('animal_id', $animalIds)
+            ->whereIn('reproduction_record_id', $attemptIds)
+            ->whereNotNull('pregnancy_confirmed_date')
+            ->whereIn('pregnancy_status', $this->lossStatuses())
+            ->get();
+
+        $lossByAttemptId = $lossPregnancies->keyBy('reproduction_record_id');
+
+        $calvings = CalvingRecord::query()
+            ->select(['id', 'pregnancy_id', 'calving_date'])
+            ->when($currentFarmId > 0, function ($q) use ($currentFarmId) {
+                $q->whereHas('pregnancy', function ($q2) use ($currentFarmId) {
+                    $q2->whereHas('animal', function ($q3) use ($currentFarmId) {
+                        $q3->where('farm_id', $currentFarmId);
+                    });
+                });
+            })
+            ->with(['pregnancy:id,animal_id'])
+            ->whereBetween('calving_date', [$from, $to])
+            ->orderBy('calving_date')
+            ->limit(50000)
+            ->get()
+            ->filter(fn($r) => $r->pregnancy && $r->pregnancy->animal_id)
+            ->values();
+
+        $calvingsByAnimal = $calvings->groupBy(fn($r) => (int) $r->pregnancy->animal_id);
+        $attemptsByAnimal = $attempts->groupBy(fn($a) => (int) $a->animal_id);
+
+        $rows = collect();
+
+        foreach ($animalIds as $animalId) {
+            $animalId = (int) $animalId;
+
+            $animal = collect($animals)->firstWhere('id', $animalId);
+
+            $animalAttempts = ($attemptsByAnimal[$animalId] ?? collect())
+                ->sortBy('event_date')
+                ->values();
+
+            $totalServices = $animalAttempts->count();
+
+            $confirmedCount = $animalAttempts->filter(fn($a) => $confirmedByAttemptId->has($a->id))->count();
+
+            $spc = $confirmedCount > 0 ? round($totalServices / $confirmedCount, 2) : null;
+
+            $conceptionRate = $totalServices > 0 ? round(($confirmedCount / $totalServices) * 100, 2) : 0;
+
+            $lossCount = $animalAttempts->filter(fn($a) => $lossByAttemptId->has($a->id))->count();
+            $pregLossRate = $confirmedCount > 0 ? round(($lossCount / $confirmedCount) * 100, 2) : 0;
+
+            $daysOpenValues = $this->computeDaysOpenValues($animalId, $calvingsByAnimal, $confirmedPregnancies);
+            $avgDaysOpen = count($daysOpenValues) > 0 ? round(array_sum($daysOpenValues) / count($daysOpenValues), 2) : null;
+
+            $calvingIntervalValues = $this->computeCalvingIntervalValues($animalId, $calvingsByAnimal);
+            $avgCalvingInterval = count($calvingIntervalValues) > 0 ? round(array_sum($calvingIntervalValues) / count($calvingIntervalValues), 2) : null;
+
+            $score = $this->fertilityScore([
+                'conception_rate' => $conceptionRate,
+                'spc' => $spc,
+                'avg_days_open' => $avgDaysOpen,
+                'preg_loss_rate' => $pregLossRate,
+            ]);
+
+            $bucket = $this->scoreBucket($score);
+
+            if ($performance !== 'all' && $bucket !== $performance) {
+                continue;
+            }
+
+            $rows->push([
+                'animal_id' => $animalId,
+                'tag_number' => $animal['tag'] ?? null,
+                'animal_name' => $animal['name'] ?? null,
+                'total_services' => $totalServices,
+                'confirmed_pregnancies' => $confirmedCount,
+                'conception_rate' => $conceptionRate,
+                'spc' => $spc,
+                'avg_days_open' => $avgDaysOpen,
+                'avg_calving_interval_days' => $avgCalvingInterval,
+                'pregnancy_losses' => $lossCount,
+                'pregnancy_loss_rate' => $pregLossRate,
+                'fertility_score' => $score,
+                'performance' => $bucket,
+                'performance_label' => $this->scoreLabel($bucket),
+            ]);
+        }
+
+        $sortedRows = $rows
+            ->sortBy([
+                ['fertility_score', 'desc'],
+                ['conception_rate', 'desc'],
+            ])
+            ->values();
+
+        $summary = [
+            'from' => $from->toDateString(),
+            'to' => $to->toDateString(),
+            'cows' => $sortedRows->count(),
+            'avg_conception_rate' => $sortedRows->count() > 0 ? round($sortedRows->avg('conception_rate'), 2) : 0,
+            'avg_spc' => $sortedRows->whereNotNull('spc')->count() > 0 ? round($sortedRows->whereNotNull('spc')->avg('spc'), 2) : null,
+            'avg_days_open' => $sortedRows->whereNotNull('avg_days_open')->count() > 0 ? round($sortedRows->whereNotNull('avg_days_open')->avg('avg_days_open'), 2) : null,
+            'avg_calving_interval_days' => $sortedRows->whereNotNull('avg_calving_interval_days')->count() > 0 ? round($sortedRows->whereNotNull('avg_calving_interval_days')->avg('avg_calving_interval_days'), 2) : null,
+        ];
+
+        return view('reports.fertility-performance-per-cow.print', [
+            'filters' => [
+                'from' => $from->toDateString(),
+                'to' => $to->toDateString(),
+                'animal_id' => $validated['animal_id'] ?? null,
+                'service_type' => $serviceType,
+                'performance' => $performance,
+            ],
+            'animals' => $animals,
+            'summary' => $summary,
+            'rows' => $sortedRows->toArray(),
+            'generatedAt' => now()->format('Y-m-d H:i:s'),
         ]);
     }
 

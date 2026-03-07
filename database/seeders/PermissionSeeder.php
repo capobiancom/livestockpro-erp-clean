@@ -202,6 +202,9 @@ class PermissionSeeder extends Seeder
             'customers.restore',
             'customers.forceDelete',
 
+            // reproduction reports
+            'reproduction-records.conseption_success_rate_reports',
+
             'customer-payments.manage',
             'customer-payments.view',
             'customer-payments.create',

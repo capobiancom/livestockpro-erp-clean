@@ -11,14 +11,14 @@ use Inertia\Inertia;
 
 class ExpiredMedicineReportController extends Controller
 {
-    public function index(Request $request)
+    private function buildReportData(Request $request): array
     {
         $this->authorize('expiredMedicineAlertReport', StockMovement::class);
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
         if (!$user) {
-            return redirect()->route('login');
+            abort(401);
         }
 
         // Authorization aligned with stock movement access patterns.
@@ -135,7 +135,7 @@ class ExpiredMedicineReportController extends Controller
             'total_value' => round($rows->sum('stock_value'), 2),
         ];
 
-        return Inertia::render('Reports/InventoryReports/ExpiredMedicine/Index', [
+        return [
             'filters' => [
                 'q' => $q,
                 'status' => $status,
@@ -145,6 +145,39 @@ class ExpiredMedicineReportController extends Controller
             ],
             'summary' => $summary,
             'rows' => $rows,
+        ];
+    }
+
+    public function index(Request $request)
+    {
+        $data = $this->buildReportData($request);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        return Inertia::render('Reports/InventoryReports/ExpiredMedicine/Index', $data);
+    }
+
+    public function print(Request $request)
+    {
+        $data = $this->buildReportData($request);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        return view('reports.inventory.expired-medicine.print', [
+            'filters' => $data['filters'],
+            'summary' => $data['summary'],
+            'rows' => $data['rows'],
+            'generatedAt' => now(),
+            'farm' => $user->farm ?? null,
+            'user' => $user,
         ]);
     }
 }

@@ -36,8 +36,9 @@ class CalvingIntervalReportController extends Controller
         $performance = $validated['performance'] ?? 'all';
 
         $animals = Animal::query()
-            ->select(['id', 'tag_number', 'name'])
-            ->orderBy('tag_number')
+            ->select(['id', 'tag', 'name'])
+            ->where('farm_id', $request->user()->farm_id)
+            ->orderBy('tag')
             ->limit(500)
             ->get();
 
@@ -47,8 +48,9 @@ class CalvingIntervalReportController extends Controller
             ->select(['id', 'farm_id', 'pregnancy_id', 'calving_date'])
             ->with([
                 'pregnancy:id,animal_id',
-                'pregnancy.animal:id,tag_number,name',
+                'pregnancy.animal:id,tag,name',
             ])
+            ->where('farm_id', $request->user()->farm_id)
             ->whereBetween('calving_date', [$from, $to])
             ->orderBy('calving_date');
 
@@ -70,7 +72,6 @@ class CalvingIntervalReportController extends Controller
 
         foreach ($byAnimal as $animalId => $items) {
             $sorted = $items->sortBy('calving_date')->values();
-
             for ($i = 1; $i < $sorted->count(); $i++) {
                 $prev = $sorted[$i - 1];
                 $curr = $sorted[$i];
@@ -94,7 +95,7 @@ class CalvingIntervalReportController extends Controller
 
                 $rows->push([
                     'animal_id' => (int) $animalId,
-                    'tag_number' => $animal->tag_number,
+                    'tag' => $animal->tag,
                     'animal_name' => $animal->name,
                     'previous_calving_date' => $prevDate->toDateString(),
                     'current_calving_date' => $currDate->toDateString(),
@@ -140,6 +141,142 @@ class CalvingIntervalReportController extends Controller
             'rows' => $rows
                 ->sortByDesc('calving_interval_days')
                 ->values(),
+        ]);
+    }
+
+    public function print(Request $request)
+    {
+        $this->authorize('calvingIntervalReport', Calf::class);
+
+        $validated = $request->validate([
+            'from' => ['nullable', 'date'],
+            'to' => ['nullable', 'date', 'after_or_equal:from'],
+            'animal_id' => ['nullable', 'integer', 'exists:animals,id'],
+            'performance' => ['nullable', 'string', 'in:all,excellent,good,poor'],
+        ]);
+
+        $from = isset($validated['from'])
+            ? Carbon::parse($validated['from'])->startOfDay()
+            : now()->subDays(365)->startOfDay();
+
+        $to = isset($validated['to'])
+            ? Carbon::parse($validated['to'])->endOfDay()
+            : now()->endOfDay();
+
+        $performance = $validated['performance'] ?? 'all';
+
+        $animals = Animal::query()
+            ->select(['id', 'tag', 'name'])
+            ->where('farm_id', $request->user()->farm_id)
+            ->orderBy('tag')
+            ->limit(500)
+            ->get()
+            ->map(fn($a) => [
+                'id' => $a->id,
+                'tag' => $a->tag,
+                'name' => $a->name,
+            ])
+            ->toArray();
+
+        $recordsQuery = CalvingRecord::query()
+            ->select(['id', 'farm_id', 'pregnancy_id', 'calving_date'])
+            ->with([
+                'pregnancy:id,animal_id',
+                'pregnancy.animal:id,tag,name',
+            ])
+            ->where('farm_id', $request->user()->farm_id)
+            ->whereBetween('calving_date', [$from, $to])
+            ->orderBy('calving_date');
+
+        if (!empty($validated['animal_id'])) {
+            $recordsQuery->whereHas('pregnancy', function ($q) use ($validated) {
+                $q->where('animal_id', $validated['animal_id']);
+            });
+        }
+
+        $records = $recordsQuery
+            ->limit(20000)
+            ->get();
+
+        $byAnimal = $records
+            ->filter(fn($r) => $r->pregnancy && $r->pregnancy->animal)
+            ->groupBy(fn($r) => $r->pregnancy->animal_id);
+
+        $rows = collect();
+
+        foreach ($byAnimal as $animalId => $items) {
+            $sorted = $items->sortBy('calving_date')->values();
+            for ($i = 1; $i < $sorted->count(); $i++) {
+                $prev = $sorted[$i - 1];
+                $curr = $sorted[$i];
+
+                $prevDate = $prev->calving_date ? Carbon::parse($prev->calving_date) : null;
+                $currDate = $curr->calving_date ? Carbon::parse($curr->calving_date) : null;
+
+                if (!$prevDate || !$currDate) {
+                    continue;
+                }
+
+                $ciDays = $prevDate->diffInDays($currDate);
+
+                $bucket = $this->performanceBucket($ciDays);
+
+                if ($performance !== 'all' && $bucket !== $performance) {
+                    continue;
+                }
+
+                $animal = $curr->pregnancy->animal;
+
+                $rows->push([
+                    'animal_id' => (int) $animalId,
+                    'tag' => $animal->tag,
+                    'animal_name' => $animal->name,
+                    'previous_calving_date' => $prevDate->toDateString(),
+                    'current_calving_date' => $currDate->toDateString(),
+                    'calving_interval_days' => $ciDays,
+                    'performance' => $bucket,
+                    'performance_label' => $this->performanceLabel($bucket),
+                ]);
+            }
+        }
+
+        $totalIntervals = $rows->count();
+        $avgCi = $totalIntervals > 0 ? round($rows->avg('calving_interval_days'), 2) : 0;
+        $minCi = $totalIntervals > 0 ? (int) $rows->min('calving_interval_days') : 0;
+        $maxCi = $totalIntervals > 0 ? (int) $rows->max('calving_interval_days') : 0;
+
+        $counts = [
+            'excellent' => $rows->where('performance', 'excellent')->count(),
+            'good' => $rows->where('performance', 'good')->count(),
+            'poor' => $rows->where('performance', 'poor')->count(),
+        ];
+
+        $summary = [
+            'from' => $from->toDateString(),
+            'to' => $to->toDateString(),
+            'total_intervals' => $totalIntervals,
+            'average_ci_days' => $avgCi,
+            'min_ci_days' => $minCi,
+            'max_ci_days' => $maxCi,
+            'excellent_count' => $counts['excellent'],
+            'good_count' => $counts['good'],
+            'poor_count' => $counts['poor'],
+        ];
+
+        return view('reports.calving-interval.print', [
+            'filters' => [
+                'from' => $from->toDateString(),
+                'to' => $to->toDateString(),
+                'animal_id' => $validated['animal_id'] ?? null,
+                'performance' => $performance,
+            ],
+            'animals' => $animals,
+            'summary' => $summary,
+            'rows' => $rows
+                ->sortByDesc('calving_interval_days')
+                ->values()
+                ->toArray(),
+            'generatedAt' => now()->format('Y-m-d H:i:s'),
         ]);
     }
 

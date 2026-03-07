@@ -1,14 +1,16 @@
 <template>
     <AppLayout>
         <template #title>
-            <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-semibold text-gray-900">
                         Conception Success Rate
                     </h1>
-                    <p class="mt-1 text-sm text-gray-600">
-                        Track the percentage of breeding attempts that result in
-                        confirmed pregnancy.
+                    <p class="mt-1 text-sm text-gray-600 flex flex-col gap-2">
+                        <span>
+                            Track the percentage of breeding attempts that
+                            result in confirmed pregnancy.
+                        </span>
                         <span class="text-gray-500">
                             (Confirmed Pregnancies ÷ Total Breeding Attempts) ×
                             100
@@ -178,8 +180,7 @@
                                 :key="a.id"
                                 :value="a.id"
                             >
-                                {{ a.tag_number }}
-                                {{ a.name ? `- ${a.name}` : "" }}
+                                {{ `${a.tag}(${a.name})` }}
                             </option>
                         </select>
                     </div>
@@ -376,7 +377,17 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const params = new URLSearchParams();
+
+    if (form.from) params.set("from", form.from);
+    if (form.to) params.set("to", form.to);
+    if (form.animal_id) params.set("animal_id", String(form.animal_id));
+    if (form.service_type) params.set("service_type", form.service_type);
+    if (form.group_by) params.set("group_by", form.group_by);
+
+    const url = `/reports/conception-success-rate/print?${params.toString()}`;
+
+    window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function rateBadgeClass(rate) {

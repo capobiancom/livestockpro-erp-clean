@@ -1,7 +1,7 @@
 <template>
     <AppLayout>
         <template #title>
-            <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-semibold text-gray-900">
                         Animal Health Reports
@@ -32,50 +32,81 @@
         </template>
 
         <div class="space-y-6">
+            <!-- Print header -->
+            <div class="print-only hidden">
+                <div class="border-b border-gray-200 pb-3">
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <div class="text-lg font-semibold text-gray-900">
+                                Animal Health Report
+                            </div>
+                            <div class="mt-1 text-xs text-gray-600">
+                                {{ reportTypeLabel }} • {{ summary.from }} →
+                                {{ summary.to }}
+                            </div>
+                            <div class="mt-1 text-xs text-gray-600">
+                                Generated: {{ generatedAt }}
+                            </div>
+                        </div>
+
+                        <div class="text-right text-xs text-gray-600">
+                            <div>Total records: {{ summary.total }}</div>
+                            <div>Animal: {{ selectedAnimalLabel }}</div>
+                            <div v-if="form.event_type === 'health_events'">
+                                Health issue: {{ selectedHealthIssueLabel }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Summary cards -->
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-                <div
-                    class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
-                >
+            <div class="no-print">
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <div
-                        class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                        class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
                     >
-                        Date range
+                        <div
+                            class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                        >
+                            Date range
+                        </div>
+                        <div class="mt-2 text-sm font-semibold text-gray-900">
+                            {{ summary.from }} → {{ summary.to }}
+                        </div>
                     </div>
-                    <div class="mt-2 text-sm font-semibold text-gray-900">
-                        {{ summary.from }} → {{ summary.to }}
-                    </div>
-                </div>
 
-                <div
-                    class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
-                >
                     <div
-                        class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                        class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
                     >
-                        Total records
+                        <div
+                            class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                        >
+                            Total records
+                        </div>
+                        <div class="mt-2 text-2xl font-semibold text-gray-900">
+                            {{ summary.total }}
+                        </div>
                     </div>
-                    <div class="mt-2 text-2xl font-semibold text-gray-900">
-                        {{ summary.total }}
-                    </div>
-                </div>
 
-                <div
-                    class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
-                >
                     <div
-                        class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                        class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200"
                     >
-                        Report type
-                    </div>
-                    <div class="mt-2 text-sm font-semibold text-gray-900">
-                        {{ reportTypeLabel }}
+                        <div
+                            class="text-xs font-medium uppercase tracking-wide text-gray-500"
+                        >
+                            Report type
+                        </div>
+                        <div class="mt-2 text-sm font-semibold text-gray-900">
+                            {{ reportTypeLabel }}
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Filters -->
-            <div class="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
+            <div
+                class="no-print rounded-xl bg-white shadow-sm ring-1 ring-gray-200"
+            >
                 <div class="border-b border-gray-200 px-4 py-3">
                     <div class="flex items-center justify-between">
                         <h2 class="text-sm font-semibold text-gray-900">
@@ -326,6 +357,20 @@ const generatedAt = computed(() => {
     return d.toLocaleString();
 });
 
+const selectedAnimalLabel = computed(() => {
+    if (!form.animal_id) return "All animals";
+    const a = props.animals.find((x) => x.id === form.animal_id);
+    if (!a) return "Selected animal";
+    return a?.tag ? `${a.name || "Unnamed"} (${a.tag})` : a.name || "Unnamed";
+});
+
+const selectedHealthIssueLabel = computed(() => {
+    if (form.event_type !== "health_events") return "—";
+    if (!form.health_issue_id) return "All issues";
+    const h = props.healthIssues.find((x) => x.id === form.health_issue_id);
+    return h?.name || "Selected issue";
+});
+
 function applyFilters() {
     Inertia.get(
         "/reports/animal-health",
@@ -356,7 +401,20 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const params = new URLSearchParams();
+
+    if (form.from) params.set("from", form.from);
+    if (form.to) params.set("to", form.to);
+    if (form.animal_id) params.set("animal_id", String(form.animal_id));
+    if (form.event_type) params.set("event_type", form.event_type);
+
+    // Only relevant for health events
+    if (form.event_type === "health_events" && form.health_issue_id) {
+        params.set("health_issue_id", String(form.health_issue_id));
+    }
+
+    const url = `/reports/animal-health/print?${params.toString()}`;
+    window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function badgeClass(category) {
@@ -403,7 +461,7 @@ function exportCsv() {
 
 <style scoped>
 @media print {
-    /* Keep layout clean for printing */
+    /* Hide app chrome */
     :deep(.app-header),
     :deep(.app-sidebar) {
         display: none !important;
@@ -411,11 +469,58 @@ function exportCsv() {
 
     :deep(main) {
         padding: 0 !important;
+        margin: 0 !important;
         background: white !important;
     }
 
+    /* Remove leftover layout offsets (sidebar space) */
+    :deep(.app-content),
+    :deep(.app-main),
+    :deep(.app-body),
+    :deep(.content),
+    :deep(.main-content) {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        width: 100% !important;
+    }
+
+    @page {
+        margin: 0;
+    }
+
+    :deep(body) {
+        margin: 0 !important;
+    }
+
+    /* Show print-only header */
+    .print-only {
+        display: block !important;
+    }
+
+    /* Hide interactive-only sections */
+    .no-print {
+        display: none !important;
+    }
+
+    /* Improve table for paper */
     table {
-        font-size: 12px;
+        font-size: 11px;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr,
+    td,
+    th {
+        page-break-inside: avoid;
+    }
+
+    .rounded-xl,
+    .shadow-sm,
+    .ring-1 {
+        box-shadow: none !important;
     }
 }
 </style>

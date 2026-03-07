@@ -1,7 +1,7 @@
 <template>
     <AppLayout>
         <template #title>
-            <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-semibold text-gray-900">
                         Expired Medicine Report
@@ -418,7 +418,19 @@ function resetFilters() {
 }
 
 function printReport() {
-    window.print();
+    const url = new URL(
+        "/reports/inventory/expired-medicine/print",
+        window.location.origin,
+    );
+
+    // Preserve current filters in print view
+    if (form.q) url.searchParams.set("q", form.q);
+    if (form.status) url.searchParams.set("status", form.status);
+    if (form.days != null) url.searchParams.set("days", String(form.days));
+    if (form.sort) url.searchParams.set("sort", form.sort);
+    if (form.direction) url.searchParams.set("direction", form.direction);
+
+    window.open(url.toString(), "_blank", "noopener,noreferrer");
 }
 
 function exportCsv() {

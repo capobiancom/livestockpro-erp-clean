@@ -85,7 +85,10 @@ const sectionTotal = (type) =>
 
 const isBalanced = computed(() => Number(props.totals?.difference || 0) === 0);
 
-const printReport = () => window.print();
+const printReport = () => {
+    const url = route("balance-sheet.print", { as_of: form.value.as_of || "" });
+    window.open(url, "_blank", "noopener,noreferrer");
+};
 </script>
 
 <template>
