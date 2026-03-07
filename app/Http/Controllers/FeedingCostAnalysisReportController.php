@@ -62,7 +62,6 @@ class FeedingCostAnalysisReportController extends Controller
         // versions the table stored name/unit/unit_cost fields directly; later
         // a normalized `item_id` foreign key was added instead.
         $feedingItemCols = ['id', 'feeding_record_id', 'quantity'];
-        $with = [];
 
         if (\Illuminate\Support\Facades\Schema::hasColumn('feeding_items', 'name')) {
             $feedingItemCols[] = 'name';
@@ -73,17 +72,23 @@ class FeedingCostAnalysisReportController extends Controller
         if (\Illuminate\Support\Facades\Schema::hasColumn('feeding_items', 'unit_cost')) {
             $feedingItemCols[] = 'unit_cost';
         }
+        $needItemRelation = false;
         if (\Illuminate\Support\Facades\Schema::hasColumn('feeding_items', 'item_id')) {
             $feedingItemCols[] = 'item_id';
-            // also eager‑load the related inventory item for name/unit lookup
-            $with['feedingItems.item'] = 'id,sku,name,unit';
+            $needItemRelation = true;
         }
 
-        $with['feedingItems'] = implode(',', $feedingItemCols);
-        $with['animal'] = implode(',', $animalCols);
+        // build relation strings instead of associative array to avoid
+        // Laravel treating the value as a callback
+        $relations = [];
+        $relations[] = 'feedingItems:' . implode(',', $feedingItemCols);
+        if ($needItemRelation) {
+            $relations[] = 'feedingItems.item:id,sku,name,unit';
+        }
+        $relations[] = 'animal:' . implode(',', $animalCols);
 
         $query = FeedingRecord::query()
-            ->with($with)
+            ->with($relations)
             ->whereBetween('feeding_date', [$from, $to])
             ->orderByDesc('feeding_date');
 
