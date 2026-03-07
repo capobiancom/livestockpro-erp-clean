@@ -11,7 +11,14 @@
             <!-- Logo/Brand - Fixed at top -->
             <div class="p-5 border-b border-gray-700 flex-shrink-0">
                 <Link
-                    :href="route('dashboard')"
+                    :href="
+                        page.props.value.auth?.user?.roles.includes(
+                            'Super Admin',
+                            'admin',
+                        )
+                            ? route('admin.dashboard')
+                            : route('dashboard')
+                    "
                     class="flex items-center gap-2"
                 >
                     <img
@@ -36,15 +43,17 @@
                 class="flex-1 overflow-y-auto py-4 px-3 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800"
             >
                 <ul class="space-y-1">
-                    <!-- Dashboard (Farm Owner only) -->
-                    <li
-                        v-if="
-                            hasFeatureOrSingle('dashboard') &&
-                            user?.roles?.includes('farm owner')
-                        "
-                    >
+                    <!-- Dashboard -->
+                    <li v-if="hasFeatureOrSingle('dashboard')">
                         <Link
-                            :href="route('dashboard')"
+                            :href="
+                                page.props.value.auth?.user?.roles.includes(
+                                    'Super Admin',
+                                    'admin',
+                                )
+                                    ? route('admin.dashboard')
+                                    : route('dashboard')
+                            "
                             :class="[
                                 'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isActive('/dashboard')

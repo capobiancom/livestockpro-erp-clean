@@ -23,6 +23,7 @@ function scrollToPlans() {
     el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+const page = usePage();
 const props = defineProps({
     canLogin: {
         type: Boolean,
@@ -212,7 +213,14 @@ const faqs = [
                     <nav v-if="canLogin" class="flex items-center gap-2">
                         <Link
                             v-if="$page.props.auth.user"
-                            :href="route('dashboard')"
+                            :href="
+                                page.props.value.auth?.user?.roles.includes(
+                                    'Super Admin',
+                                    'admin',
+                                )
+                                    ? route('admin.dashboard')
+                                    : route('dashboard')
+                            "
                             class="rounded-xl bg-white/10 px-4 py-2 text-sm font-medium ring-1 ring-white/15 transition hover:bg-white/15"
                         >
                             Dashboard
