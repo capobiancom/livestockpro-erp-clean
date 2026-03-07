@@ -52,7 +52,7 @@ class FeedingCostAnalysisReportController extends Controller
 
         // prepare eager loads with conditional animal columns to avoid
         // selecting a non-existent `name` field on legacy databases
-        $animalCols = ['id', 'tag_number'];
+        $animalCols = ['id', 'tag'];
         if (\Illuminate\Support\Facades\Schema::hasColumn('animals', 'name')) {
             $animalCols[] = 'name';
         }
@@ -109,7 +109,7 @@ class FeedingCostAnalysisReportController extends Controller
                 return [
                     'date' => optional($record->feeding_date)->toDateString(),
                     // combine tag and name if available; older schema may lack `name`
-                    'animal' => trim(($record->animal?->tag_number ?? '') . ' ' . ($record->animal?->name ?? '')),
+                    'animal' => trim(($record->animal?->tag ?? '') . ' ' . ($record->animal?->name ?? '')),
                     // item name may come from the feeding_items row (old schema) or
                     // from the joined inventory item (new schema).  use sku if both
                     // are missing.

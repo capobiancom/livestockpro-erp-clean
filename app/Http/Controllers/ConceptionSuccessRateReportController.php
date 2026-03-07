@@ -38,8 +38,8 @@ class ConceptionSuccessRateReportController extends Controller
         $groupBy = $validated['group_by'] ?? 'service_type';
 
         $animals = Animal::query()
-            ->select(['id', 'tag_number', 'name'])
-            ->orderBy('tag_number')
+            ->select(['id', 'tag', 'name'])
+            ->orderBy('tag')
             ->limit(500)
             ->get();
 

@@ -35,8 +35,8 @@ class PregnancyLossAnalysisReportController extends Controller
         $groupBy = $validated['group_by'] ?? 'loss_timing';
 
         $animals = Animal::query()
-            ->select(['id', 'tag_number', 'name'])
-            ->orderBy('tag_number')
+            ->select(['id', 'tag', 'name'])
+            ->orderBy('tag')
             ->limit(500)
             ->get();
 
