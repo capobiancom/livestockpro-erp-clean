@@ -50,7 +50,7 @@ class AiVsNaturalBreedingSuccessReportController extends Controller
         // Breeding attempts are represented by reproduction_records.
         // We treat each record as 1 attempt, and classify by event.
         $attemptsQuery = ReproductionRecord::query()
-            ->select(['id', 'animal_id', 'event', 'event_date', 'technician_name', 'bull_name'])
+            ->select(['id', 'animal_id', 'event', 'event_date', 'performed_by'])
             ->whereBetween('event_date', [$from, $to]);
 
         if (!empty($validated['animal_id'])) {
@@ -89,8 +89,10 @@ class AiVsNaturalBreedingSuccessReportController extends Controller
                 'method' => $method,
                 'method_label' => $this->methodLabel($method),
                 'event' => $a->event,
-                'technician_name' => $a->technician_name,
-                'bull_name' => $a->bull_name,
+                'technician_name' => $a->performed_by,
+                // For natural mating, we don't have a direct "bull" field in reproduction_records.
+                // If needed, this would require additional modeling (e.g., linking to a bull animal).
+                'bull_name' => $method === 'natural_mating' ? 'Unknown Bull' : null,
                 'confirmed' => $isConfirmed,
             ];
         });
