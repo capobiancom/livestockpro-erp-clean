@@ -1,0 +1,53 @@
+LivestockPro ERP
+Installation Guide
+
+Requirements
+------------
+PHP 8.2 or higher
+MySQL 8+
+Apache or Nginx
+Composer
+Node.js & NPM
+
+Installation Steps
+------------------
+
+1. Upload the application files to your web server.
+
+2. Create a MySQL database.
+
+3. Configure database credentials in the .env file.
+
+6. Install dependencies:
+
+   composer install
+
+9. Install frontend dependencies:
+
+   npm install
+   npm run build
+
+10. Https://yourdomain/docs, You will find all the instructions
+
+11. Set proper permissions according to the documentation:
+
+   storage/
+   bootstrap/cache/
+
+
+Live Demo Access
+
+Farm Owner Access
+Login URL: https://livestockproerp.com/login
+Email: livestockfarm@gmail.com
+Password: password
+
+Admin Access
+Login URL: https://livestockproerp.com/login
+Email: superuser@livestockproerp.com
+Password: password
+
+
+Support
+-------
+If you need help, please contact through Codester support.

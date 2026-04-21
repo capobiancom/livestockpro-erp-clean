@@ -1,0 +1,35 @@
+LivestockPro ERP
+Copyright (c) 2026 iHERTZ Technology
+
+License Agreement
+
+This software is licensed, not sold.
+
+By purchasing LivestockPro ERP from Codester, you are granted a non-exclusive license to use the software under the following terms:
+
+1. Regular License
+The purchaser is allowed to use the software for one end product or one installation.
+
+2. Permitted Usage
+You may:
+- Install and use the software for your own business
+- Modify the source code to suit your needs
+- Use the software for a single client project
+
+3. Prohibited Usage
+You may NOT:
+- Resell, redistribute, or sublicense the source code
+- Share the source code publicly
+- Sell the software as a competing product
+- Upload the source code to another marketplace
+
+4. Support
+Support is provided through Codester for installation guidance and bug fixes.
+
+5. Disclaimer
+This software is provided "as is", without warranty of any kind. The author shall not be liable for any damages resulting from the use of this software.
+
+For extended licensing or custom development services, please contact the author through the Codester marketplace.
+
+Author:
+iHERTZ Technology

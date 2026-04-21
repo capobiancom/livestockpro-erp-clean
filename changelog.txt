@@ -1,0 +1,24 @@
+LivestockPro ERP
+Changelog
+
+Version 1.0.0 – Initial Release
+--------------------------------
+- Initial release of LivestockPro ERP
+- Cattle registration and management
+- Breed tracking system
+- Calving records management
+- Milk production tracking
+- Veterinary treatment records
+- Feed inventory management
+- Medicine inventory management
+- Customer management module
+- Accounts and financial reporting
+- HR and payroll management
+- Sales and purchase management
+- Farm productivity dashboard
+- Inventory reports
+- Accounts reports
+- Subscription plans and billing
+- Role-Based Access Control (RBAC)
+- Permission-Based Access Control (PBAC)
+- Responsive dashboard UI
