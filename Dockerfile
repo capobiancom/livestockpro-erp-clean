@@ -7,7 +7,7 @@ COPY . .
 RUN npm run build
 
 # --- Stage 2: Application Runtime ---
-FROM richarvey/php-fpm-nginx:3.1.6
+FROM richarvey/nginx-php-fpm:3.1.6
 
 # Set environment variables for richarvey image
 ENV SKIP_COMPOSER=1
