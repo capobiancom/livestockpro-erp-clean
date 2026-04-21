@@ -21,7 +21,7 @@ ENV WEBROOT=/var/www/html/public
 WORKDIR /var/www/html
 
 # Install system dependencies if needed (image already has most)
-RUN apk add --no-cache libpng-dev libjpeg-turbo-dev freetype-dev libzip-dev
+RUN apk add --no-cache libpng-dev libjpeg-turbo-dev freetype-dev libzip-dev mysql-client
 
 # Copy application files
 COPY . .
