@@ -4,7 +4,7 @@ import "./bootstrap";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { createApp, h } from "vue";
-import { ZiggyVue } from "../../vendor/tightenco/ziggy";
+import { ZiggyVue } from "ziggy-js";
 import AppLayout from "./Pages/Layout/AppLayout.vue"; // Explicitly import AppLayout
 import { formatCurrency, formatNumber } from "./Utils/helpers"; // Import helper functions
 
