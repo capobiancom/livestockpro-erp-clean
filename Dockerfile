@@ -36,6 +36,11 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Fix Nginx duplicate location errors by using a clean monolithic config
+RUN rm -rf /etc/nginx/sites-enabled/* /etc/nginx/sites-available/* /etc/nginx/conf.d/* /nginx.conf
+COPY custom-nginx.conf /etc/nginx/nginx.conf
+COPY custom-nginx.conf /nginx.conf
+
 EXPOSE 80
 
 # The base image already has a startup script that handles Nginx + PHP-FPM
