@@ -11,6 +11,7 @@ FROM richarvey/nginx-php-fpm:3.1.6
 
 # Set environment variables for richarvey image
 ENV SKIP_COMPOSER=1
+ENV SKIP_CHOWN=1
 ENV PHP_ERRORS_STDERR=1
 ENV RUN_SCRIPTS=1
 ENV REAL_IP_HEADER=1
