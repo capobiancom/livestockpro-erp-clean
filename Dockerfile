@@ -11,7 +11,6 @@ FROM richarvey/nginx-php-fpm:3.1.6
 
 # Set environment variables for richarvey image
 ENV SKIP_COMPOSER=1
-ENV SKIP_CHOWN=1
 ENV PHP_ERRORS_STDERR=1
 ENV RUN_SCRIPTS=1
 ENV REAL_IP_HEADER=1
@@ -20,7 +19,7 @@ ENV WEBROOT=/var/www/html/public
 
 WORKDIR /var/www/html
 
-# Install system dependencies if needed (image already has most)
+# Install system dependencies
 RUN apk add --no-cache libpng-dev libjpeg-turbo-dev freetype-dev libzip-dev mysql-client \
     && docker-php-ext-install bcmath
 
@@ -36,7 +35,7 @@ RUN mkdir -p /var/www/html/storage/framework/sessions \
     /var/www/html/storage/framework/cache \
     /var/www/html/storage/logs \
     /var/www/html/bootstrap/cache \
-    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Install PHP dependencies
