@@ -31,20 +31,20 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Log in" />
+        <Head title="Iniciar sesión" />
 
         <div class="mb-8">
             <h1 class="text-2xl font-semibold tracking-tight text-slate-900">
-                Welcome back
+                Bienvenido de nuevo
             </h1>
             <p class="mt-2 text-sm text-slate-600">
-                Sign in to continue to your dashboard.
+                Inicie sesión para acceder a su panel.
             </p>
         </div>
 
         <form @submit.prevent="submit" class="space-y-6">
             <div>
-                <InputLabel for="email" value="Email address" />
+                <InputLabel for="email" value="Correo electrónico" />
                 <div class="mt-2">
                     <TextInput
                         id="email"
@@ -60,13 +60,13 @@ const submit = () => {
 
             <div>
                 <div class="flex items-center justify-between">
-                    <InputLabel for="password" value="Password" />
+                    <InputLabel for="password" value="Contraseña" />
                     <Link
                         v-if="canResetPassword"
                         :href="route('password.request')"
-                        class="text-sm font-medium text-indigo-700 hover:text-indigo-600"
+                        class="text-sm font-medium text-emerald-700 hover:text-emerald-600"
                     >
-                        Forgot password?
+                        ¿Olvidó su contraseña?
                     </Link>
                 </div>
 
@@ -88,19 +88,19 @@ const submit = () => {
                         id="remember-me"
                         name="remember-me"
                         v-model:checked="form.remember"
-                        class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                        class="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                     />
-                    <span class="text-sm text-slate-700">Remember me</span>
+                    <span class="text-sm text-slate-700">Recordarme</span>
                 </label>
             </div>
 
             <div class="pt-2">
                 <PrimaryButton
-                    class="w-full justify-center"
+                    class="w-full justify-center bg-emerald-600 hover:bg-emerald-500 focus:ring-emerald-500"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Log in
+                    Iniciar sesión
                 </PrimaryButton>
             </div>
         </form>
@@ -112,7 +112,7 @@ const submit = () => {
                 </div>
                 <div class="relative flex justify-center text-xs">
                     <span class="bg-white px-2 text-slate-500">
-                        New to Vacaliza?
+                        ¿Nuevo en Vacaliza?
                     </span>
                 </div>
             </div>
@@ -122,7 +122,7 @@ const submit = () => {
                     :href="route('register')"
                     class="flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-900 shadow-sm transition hover:bg-slate-50"
                 >
-                    Create an account
+                    Crear una cuenta
                 </Link>
             </div>
         </div>

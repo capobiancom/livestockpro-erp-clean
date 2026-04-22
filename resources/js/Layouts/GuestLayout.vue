@@ -10,10 +10,10 @@ import { Link } from "@inertiajs/inertia-vue3";
         <!-- subtle background decoration -->
         <div class="pointer-events-none absolute inset-0">
             <div
-                class="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-indigo-200/60 blur-3xl"
+                class="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-200/60 blur-3xl"
             />
             <div
-                class="absolute -bottom-24 right-0 h-72 w-72 rounded-full bg-sky-200/60 blur-3xl"
+                class="absolute -bottom-24 right-0 h-72 w-72 rounded-full bg-teal-200/60 blur-3xl"
             />
         </div>
 
@@ -25,7 +25,7 @@ import { Link } from "@inertiajs/inertia-vue3";
             >
                 <!-- Left Column: Branding -->
                 <div
-                    class="relative hidden w-1/2 items-center justify-center bg-gradient-to-br from-indigo-700 via-indigo-700 to-sky-700 px-14 py-16 text-white lg:flex"
+                    class="relative hidden w-1/2 items-center justify-center bg-gradient-to-br from-emerald-800 via-emerald-700 to-teal-700 px-14 py-16 text-white lg:flex"
                 >
                     <div
                         class="pointer-events-none absolute inset-0 opacity-20"
@@ -50,44 +50,44 @@ import { Link } from "@inertiajs/inertia-vue3";
                         <h2
                             class="mt-10 text-4xl font-semibold leading-tight tracking-tight"
                         >
-                            Farm management, simplified.
+                            Gestión agrícola, simplificada.
                         </h2>
                         <p class="mt-4 text-base/7 text-white/85">
-                            Track livestock, manage operations, and optimize
-                            yields with a modern, secure platform.
+                            Rastree el ganado, gestione las operaciones y optimice
+                            los rendimientos con una plataforma moderna y segura.
                         </p>
 
                         <div class="mt-10 grid grid-cols-2 gap-4 text-sm">
                             <div
                                 class="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15"
                             >
-                                <div class="font-medium">Secure</div>
+                                <div class="font-medium">Seguro</div>
                                 <div class="mt-1 text-white/80">
-                                    Built-in best practices
+                                    Mejores prácticas integradas
                                 </div>
                             </div>
                             <div
                                 class="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15"
                             >
-                                <div class="font-medium">Fast</div>
+                                <div class="font-medium">Rápido</div>
                                 <div class="mt-1 text-white/80">
-                                    Smooth workflows
+                                    Flujos de trabajo fluidos
                                 </div>
                             </div>
                             <div
                                 class="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15"
                             >
-                                <div class="font-medium">Insightful</div>
+                                <div class="font-medium">Informativo</div>
                                 <div class="mt-1 text-white/80">
-                                    Clear reporting
+                                    Informes claros
                                 </div>
                             </div>
                             <div
                                 class="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15"
                             >
-                                <div class="font-medium">Scalable</div>
+                                <div class="font-medium">Escalable</div>
                                 <div class="mt-1 text-white/80">
-                                    Grow with your farm
+                                    Crece con su granja
                                 </div>
                             </div>
                         </div>

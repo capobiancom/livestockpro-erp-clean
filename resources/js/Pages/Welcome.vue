@@ -43,61 +43,61 @@ const props = defineProps({
 
 const modules = [
     {
-        title: "Livestock",
+        title: "Ganadería",
         description:
-            "Animals, breeds, herds, reproduction, calves, and complete lifecycle tracking.",
+            "Animales, razas, rebaños, reproducción, crías y seguimiento completo del ciclo de vida.",
         items: [
-            "Animals & Herds",
-            "Breeds",
-            "Reproduction Records",
-            "AI & Pregnancies",
-            "Calving & Calves",
+            "Animales y Rebaños",
+            "Razas",
+            "Registros de Reproducción",
+            "Inseminación y Preñeces",
+            "Partos y Crías",
         ],
         href: "/animals",
         gradient: "from-emerald-500 to-teal-500",
     },
     {
-        title: "Feeding",
+        title: "Alimentación",
         description:
-            "Plan feed types, record feeding, and analyze cost per cow and consumption trends.",
+            "Planifique tipos de alimento, registre la alimentación y analice el costo por vaca y tendencias de consumo.",
         items: [
-            "Feeding Records",
-            "Feed Types",
-            "Cost Analysis",
-            "Consumption",
+            "Registros de Alimentación",
+            "Tipos de Alimento",
+            "Análisis de Costos",
+            "Consumo",
         ],
         href: "/feedings",
         gradient: "from-amber-500 to-orange-500",
     },
     {
-        title: "Health",
+        title: "Salud",
         description:
-            "Vaccinations, health issues, treatments, and disease tracking with due reports.",
-        items: ["Vaccinations", "Health Events", "Treatments", "Due Reports"],
+            "Vacunaciones, problemas de salud, tratamientos y seguimiento de enfermedades con informes de vencimientos.",
+        items: ["Vacunaciones", "Eventos de Salud", "Tratamientos", "Próximos a Vencer"],
         href: "/vaccinations",
         gradient: "from-sky-500 to-indigo-500",
     },
     {
-        title: "Inventory",
+        title: "Inventario",
         description:
-            "Medicines, stock movements, suppliers, and low-stock/expiry alerts.",
-        items: ["Stock", "Medicines", "Suppliers", "Alerts"],
+            "Medicamentos, movimientos de stock, proveedores y alertas de bajo stock/caducidad.",
+        items: ["Stock", "Medicamentos", "Proveedores", "Alertas"],
         href: "/inventory",
         gradient: "from-fuchsia-500 to-pink-500",
     },
     {
-        title: "Finance",
+        title: "Finanzas",
         description:
-            "Sales, purchases, expenses, accounting, and financial statements in one place.",
-        items: ["Sales & Purchases", "Expenses", "Journal", "P&L / Cashflow"],
+            "Ventas, compras, gastos, contabilidad y estados financieros en un solo lugar.",
+        items: ["Ventas y Compras", "Gastos", "Diario", "Pérdidas y Ganancias / Flujo de Caja"],
         href: "/sales",
         gradient: "from-violet-500 to-purple-500",
     },
     {
-        title: "HR & Operations",
+        title: "RRHH y Operaciones",
         description:
-            "Staff, attendance, payroll, logistics, and day-to-day farm operations.",
-        items: ["Employees", "Attendance", "Payroll", "Logistics"],
+            "Personal, asistencia, nómina, logística y operaciones diarias de la granja.",
+        items: ["Empleados", "Asistencia", "Nómina", "Logística"],
         href: "/employees",
         gradient: "from-slate-600 to-slate-800",
     },
@@ -111,10 +111,10 @@ const currencySymbol = computed(
 );
 
 const stats = [
-    { label: "Modules", value: "12+" },
-    { label: "Reports", value: "20+" },
-    { label: "Role-based access", value: "Built-in" },
-    { label: "Subscription features", value: "Supported" },
+    { label: "Módulos", value: "12+" },
+    { label: "Informes", value: "20+" },
+    { label: "Control de Acceso", value: "Integrado" },
+    { label: "Módulos bajo Suscripción", value: "Soportado" },
 ];
 
 const flashSuccess = computed(() => usePage().props.flash?.success);
@@ -132,7 +132,7 @@ const demoForm = useForm({
     preferred_time: "",
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Dhaka",
     message:
-        "Hello Vacaliza team,\n\nI would like to request a product demo. Please contact me with available time slots.\n\nThanks,\n",
+        "Hola equipo de Vacaliza,\n\nMe gustaría solicitar una demostración del producto. Por favor contáctenme con los horarios disponibles.\n\nGracias,\n",
 });
 
 function submitDemoRequest() {
@@ -147,23 +147,23 @@ function submitDemoRequest() {
 
 const faqs = [
     {
-        q: "Is Vacaliza suitable for small farms?",
-        a: "Yes. Start with the modules you need and scale as your operation grows.",
+        q: "¿Es Vacaliza adecuado para granjas pequeñas?",
+        a: "Sí. Comience con los módulos que necesita y escale a medida que su operación crezca.",
     },
     {
-        q: "Can I control which modules are available?",
-        a: "Yes. Modules can be enabled/disabled via subscription features and roles.",
+        q: "¿Puedo controlar qué módulos están disponibles?",
+        a: "Sí. Los módulos se pueden habilitar o deshabilitar a través de las funciones de suscripción y los roles.",
     },
     {
-        q: "Do you provide reports and analytics?",
-        a: "Yes. The platform includes dashboards and a growing set of operational and financial reports.",
+        q: "¿Proporcionan informes y análisis?",
+        a: "Sí. La plataforma incluye paneles interactivos y un conjunto creciente de informes operativos y financieros.",
     },
 ];
 </script>
 
 <template>
     <Head
-        :title="`${props.websiteSettings?.site_title || 'Vacaliza'} — Farm Management Platform`"
+        :title="`${props.websiteSettings?.site_title || 'Vacaliza'} — Plataforma de Gestión Agrícola`"
     />
 
     <div class="min-h-screen bg-slate-950 text-slate-100">
@@ -223,7 +223,7 @@ const faqs = [
                             "
                             class="rounded-xl bg-white/10 px-4 py-2 text-sm font-medium ring-1 ring-white/15 transition hover:bg-white/15"
                         >
-                            Dashboard
+                            Panel
                         </Link>
 
                         <template v-else>
@@ -231,14 +231,14 @@ const faqs = [
                                 :href="route('login')"
                                 class="rounded-xl px-4 py-2 text-sm font-medium text-white/90 ring-1 ring-white/10 transition hover:bg-white/10"
                             >
-                                Log in
+                                Iniciar sesión
                             </Link>
                             <Link
                                 v-if="canRegister"
                                 :href="route('register')"
                                 class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
                             >
-                                Register
+                                Registrarse
                             </Link>
                         </template>
                     </nav>
@@ -275,23 +275,23 @@ const faqs = [
                             <span
                                 class="inline-block h-2 w-2 rounded-full bg-emerald-400"
                             />
-                            Modern farm operations suite
+                            Suite moderna de operaciones agrícolas
                         </div>
 
                         <h1
                             class="mt-5 text-4xl font-semibold tracking-tight text-white sm:text-5xl"
                         >
-                            Professional farm management for
+                            Gestión agrícola profesional para
                             <span
                                 class="bg-gradient-to-r from-emerald-300 via-sky-300 to-indigo-300 bg-clip-text text-transparent"
-                                >livestock, finance, and operations</span
+                                >ganadería, finanzas y operaciones</span
                             >.
                         </h1>
 
                         <p class="mt-5 text-base/7 text-white/75">
                             {{
                                 props.websiteSettings?.site_description ||
-                                "Vacaliza helps you run your farm with clarity: livestock lifecycle, feeding, health, inventory, finance, HR, and reporting—built for speed and control."
+                                "Vacaliza le ayuda a administrar su granja con claridad: ciclo de vida del ganado, alimentación, salud, inventario, finanzas, recursos humanos e informes — construido para velocidad y control."
                             }}
                         </p>
 
@@ -301,26 +301,26 @@ const faqs = [
                                 @click="showDemoModal = true"
                                 class="rounded-2xl bg-gradient-to-r from-emerald-400 to-sky-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_20px_60px_-30px_rgba(16,185,129,0.45)] transition hover:from-emerald-300 hover:to-sky-300"
                             >
-                                Request a demo
+                                Solicitar una demo
                             </button>
                             <Link
                                 :href="route('register')"
                                 class="rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-[0_20px_60px_-30px_rgba(255,255,255,0.35)] transition hover:bg-slate-100"
                             >
-                                Get started
+                                Comenzar
                             </Link>
                             <Link
                                 :href="route('login')"
                                 class="rounded-2xl bg-white/10 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/15"
                             >
-                                Sign in
+                                Iniciar sesión
                             </Link>
                             <button
                                 type="button"
                                 @click="scrollToPlans"
                                 class="rounded-2xl px-5 py-3 text-sm font-semibold text-white/90 ring-1 ring-white/10 transition hover:bg-white/10"
                             >
-                                View plans
+                                Ver planes
                             </button>
                         </div>
 
