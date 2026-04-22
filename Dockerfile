@@ -33,9 +33,6 @@ RUN chmod +x scripts/*.sh
 # Copy built assets from Node stage
 COPY --from=assets-builder /app/public/build ./public/build
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
 # Ensure storage and bootstrap/cache exist and have correct permissions
 # Also ensure the entire app directory is owned by www-data for the install wizard
 RUN mkdir -p /var/www/html/storage/framework/sessions \
@@ -46,6 +43,9 @@ RUN mkdir -p /var/www/html/storage/framework/sessions \
     && touch /var/www/html/.env \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/.env
+
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Fix Nginx duplicate location errors by using a clean monolithic config
 RUN rm -rf /etc/nginx/sites-enabled/* /etc/nginx/sites-available/* /etc/nginx/conf.d/* /nginx.conf
