@@ -13,9 +13,9 @@ ENV SKIP_COMPOSER=1 \
 
 WORKDIR /var/www/html
 
-# Step 1: Install Node.js for frontend build (then remove it)
+# Step 1: Install Node.js for frontend build + curl/wget for healthchecks
 # Using a pinned alpine node from the official apk index
-RUN apk add --no-cache nodejs npm
+RUN apk add --no-cache nodejs npm curl wget
 
 # Step 2: Copy source code
 COPY . .
@@ -49,6 +49,7 @@ RUN chmod +x scripts/*.sh \
     && rm -rf /etc/nginx/sites-enabled/* /etc/nginx/sites-available/* \
            /etc/nginx/conf.d/* /nginx.conf \
     && mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled \
+    && touch /etc/nginx/sites-available/default.conf \
     && rm -rf public/storage \
     && ln -s ../storage/app/public public/storage
 
