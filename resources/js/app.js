@@ -7,6 +7,7 @@ import { createApp, h } from "vue";
 import { ZiggyVue } from "ziggy-js";
 import AppLayout from "./Layouts/AppLayout.vue"; // Explicitly import AppLayout from Layouts folder
 import { formatCurrency, formatNumber } from "./Utils/helpers"; // Import helper functions
+import i18n from "./i18n"; // Import i18n instance
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
@@ -24,6 +25,7 @@ createInertiaApp({
         return app
             .use(plugin)
             .use(ZiggyVue)
+            .use(i18n)
             .component("Layout", AppLayout) // Register AppLayout globally
             .mount(el);
     },

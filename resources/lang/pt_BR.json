@@ -1,0 +1,21 @@
+{
+    "dashboard": "Painel",
+    "animals": "Animais",
+    "farms": "Fazendas",
+    "breeds": "Raças",
+    "administration": "Administração",
+    "users": "Usuários",
+    "roles": "Funções",
+    "permissions": "Permissões",
+    "settings": "Configurações",
+    "profile": "Perfil",
+    "logout": "Sair",
+    "quick_overview": "Visão Rápida",
+    "total_animals": "Total de Animais",
+    "total_farms": "Total de Fazendas",
+    "total_breeds": "Total de Raças",
+    "total_users": "Total de Usuários",
+    "view_details": "Ver Detalhes",
+    "recent_activity": "Atividade Recente",
+    "language": "Idioma"
+}

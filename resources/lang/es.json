@@ -1,0 +1,21 @@
+{
+    "dashboard": "Tablero",
+    "animals": "Animales",
+    "farms": "Haciendas",
+    "breeds": "Razas",
+    "administration": "Administración",
+    "users": "Usuarios",
+    "roles": "Roles",
+    "permissions": "Permisos",
+    "settings": "Configuración",
+    "profile": "Perfil",
+    "logout": "Cerrar sesión",
+    "quick_overview": "Resumen Rápido",
+    "total_animals": "Total de Animales",
+    "total_farms": "Total de Haciendas",
+    "total_breeds": "Total de Razas",
+    "total_users": "Total de Usuarios",
+    "view_details": "Ver Detalles",
+    "recent_activity": "Actividad Reciente",
+    "language": "Idioma"
+}

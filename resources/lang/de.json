@@ -1,0 +1,21 @@
+{
+    "dashboard": "Armaturenbrett",
+    "animals": "Tiere",
+    "farms": "Bauernhöfe",
+    "breeds": "Rassen",
+    "administration": "Verwaltung",
+    "users": "Benutzer",
+    "roles": "Rollen",
+    "permissions": "Berechtigungen",
+    "settings": "Einstellungen",
+    "profile": "Profil",
+    "logout": "Abmelden",
+    "quick_overview": "Kurzer Überblick",
+    "total_animals": "Gesamttiere",
+    "total_farms": "Gesamtbauernhöfe",
+    "total_breeds": "Gesamtrassen",
+    "total_users": "Gesamtbenutzer",
+    "view_details": "Details ansehen",
+    "recent_activity": "Letzte Aktivität",
+    "language": "Sprache"
+}

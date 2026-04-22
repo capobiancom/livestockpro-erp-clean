@@ -1,0 +1,21 @@
+{
+    "dashboard": "Tableau de bord",
+    "animals": "Animaux",
+    "farms": "Fermes",
+    "breeds": "Races",
+    "administration": "Administration",
+    "users": "Utilisateurs",
+    "roles": "Rôles",
+    "permissions": "Autorisations",
+    "settings": "Paramètres",
+    "profile": "Profil",
+    "logout": "Se déconnecter",
+    "quick_overview": "Aperçu Rapide",
+    "total_animals": "Total des Animaux",
+    "total_farms": "Total des Fermes",
+    "total_breeds": "Total des Races",
+    "total_users": "Total des Utilisateurs",
+    "view_details": "Voir les Détails",
+    "recent_activity": "Activité Récente",
+    "language": "Langue"
+}

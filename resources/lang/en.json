@@ -1,0 +1,21 @@
+{
+    "dashboard": "Dashboard",
+    "animals": "Animals",
+    "farms": "Farms",
+    "breeds": "Breeds",
+    "administration": "Administration",
+    "users": "Users",
+    "roles": "Roles",
+    "permissions": "Permissions",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Log Out",
+    "quick_overview": "Quick Overview",
+    "total_animals": "Total Animals",
+    "total_farms": "Total Farms",
+    "total_breeds": "Total Breeds",
+    "total_users": "Total Users",
+    "view_details": "View Details",
+    "recent_activity": "Recent Activity",
+    "language": "Language"
+}
