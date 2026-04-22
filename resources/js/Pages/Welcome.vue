@@ -354,11 +354,11 @@ const faqs = [
                                         <div
                                             class="text-sm font-semibold text-white"
                                         >
-                                            Dashboards
+                                            Paneles de Control
                                         </div>
                                         <div class="mt-2 text-sm text-white/70">
-                                            Productivity and key metrics at a
-                                            glance.
+                                            Productividad y métricas clave en un
+                                            vistazo.
                                         </div>
                                     </div>
                                     <div
@@ -367,10 +367,10 @@ const faqs = [
                                         <div
                                             class="text-sm font-semibold text-white"
                                         >
-                                            Reports
+                                            Informes
                                         </div>
                                         <div class="mt-2 text-sm text-white/70">
-                                            Operational + financial reporting.
+                                            Informes operativos + financieros.
                                         </div>
                                     </div>
                                     <div
@@ -379,10 +379,10 @@ const faqs = [
                                         <div
                                             class="text-sm font-semibold text-white"
                                         >
-                                            Role-based access
+                                            Acceso basado en roles
                                         </div>
                                         <div class="mt-2 text-sm text-white/70">
-                                            Secure permissions and workflows.
+                                            Permisos y flujos de trabajo seguros.
                                         </div>
                                     </div>
                                     <div
@@ -391,10 +391,10 @@ const faqs = [
                                         <div
                                             class="text-sm font-semibold text-white"
                                         >
-                                            Subscription features
+                                            Funciones por suscripción
                                         </div>
                                         <div class="mt-2 text-sm text-white/70">
-                                            Enable modules per plan.
+                                            Habilite módulos por plan.
                                         </div>
                                     </div>
                                 </div>
@@ -403,11 +403,11 @@ const faqs = [
                                     class="mt-6 rounded-2xl bg-gradient-to-r from-emerald-500/15 via-sky-500/10 to-indigo-500/15 p-5 ring-1 ring-white/10"
                                 >
                                     <div class="text-sm font-semibold">
-                                        Built for real farm workflows
+                                        Diseñado para flujos de trabajo agrícolas reales
                                     </div>
                                     <div class="mt-2 text-sm text-white/70">
-                                        From animal health events to accounting
-                                        statements—everything stays connected.
+                                        Desde eventos de salud animal hasta estados
+                                        contables—todo se mantiene conectado.
                                     </div>
                                 </div>
                             </div>
@@ -425,11 +425,11 @@ const faqs = [
                 <div class="flex items-end justify-between gap-6">
                     <div>
                         <h2 class="text-2xl font-semibold text-white">
-                            Modules designed for your operation
+                            Módulos diseñados para su operación
                         </h2>
                         <p class="mt-2 text-sm text-white/70">
-                            Each module is built to be fast, consistent, and
-                            easy to use—so your team can focus on the farm.
+                            Cada módulo está diseñado para ser rápido, consistente y
+                            fácil de usar, para que su equipo pueda enfocarse en la granja.
                         </p>
                     </div>
                 </div>
@@ -495,7 +495,7 @@ const faqs = [
                                     :href="m.href"
                                     class="inline-flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/10 transition hover:bg-white/15"
                                 >
-                                    Explore
+                                    Explorar
                                     <svg
                                         class="h-4 w-4"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -524,11 +524,11 @@ const faqs = [
                 >
                     <div>
                         <h2 class="text-2xl font-semibold text-white">
-                            Why teams choose Vacaliza
+                            Por qué los equipos eligen Vacaliza
                         </h2>
                         <p class="mt-2 text-sm text-white/70">
-                            A clean UI, consistent workflows, and the controls
-                            you need to run operations confidently.
+                            Una interfaz de usuario limpia, flujos de trabajo consistentes y los controles
+                            que necesita para administrar las operaciones con confianza.
                         </p>
                     </div>
 
@@ -537,31 +537,31 @@ const faqs = [
                             class="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10"
                         >
                             <div class="text-sm font-semibold">
-                                Consistent workflows
+                                Flujos de trabajo consistentes
                             </div>
                             <div class="mt-2 text-sm text-white/70">
-                                Similar patterns across modules reduce training
-                                time.
+                                Patrones similares entre módulos reducen el tiempo
+                                de capacitación.
                             </div>
                         </div>
                         <div
                             class="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10"
                         >
                             <div class="text-sm font-semibold">
-                                Feature gating
+                                Control de funciones
                             </div>
                             <div class="mt-2 text-sm text-white/70">
-                                Enable modules per subscription plan and role.
+                                Habilite módulos según el plan de suscripción y el rol.
                             </div>
                         </div>
                         <div
                             class="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10"
                         >
                             <div class="text-sm font-semibold">
-                                Reporting built-in
+                                Informes integrados
                             </div>
                             <div class="mt-2 text-sm text-white/70">
-                                Dashboards and reports for operations and
+                                Paneles de Control and reports for operations and
                                 finance.
                             </div>
                         </div>
@@ -569,10 +569,10 @@ const faqs = [
                             class="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10"
                         >
                             <div class="text-sm font-semibold">
-                                Secure by default
+                                Seguro por defecto
                             </div>
                             <div class="mt-2 text-sm text-white/70">
-                                Role-based access and best practices.
+                                Acceso basado en roles and best practices.
                             </div>
                         </div>
                     </div>
@@ -587,11 +587,11 @@ const faqs = [
                 <div class="flex items-end justify-between gap-6">
                     <div>
                         <h2 class="text-2xl font-semibold text-white">
-                            Plans for every farm size
+                            Planes para granjas de todos los tamaños
                         </h2>
                         <p class="mt-2 text-sm text-white/70">
-                            Start small, scale anytime. Choose a plan that fits
-                            your operation and unlock modules as you grow.
+                            Empiece pequeño y escale en cualquier momento. Elija un plan que se adapte
+                            a su operación y desbloquee módulos a medida que crece.
                         </p>
                     </div>
 
@@ -609,8 +609,8 @@ const faqs = [
                                         : 'text-white/80 hover:bg-white/10'
                                 "
                             >
-                                Monthly
-                            </button>
+                                    Mensual
+                                </button>
                             <button
                                 type="button"
                                 @click="billingPeriod = 'yearly'"
@@ -621,8 +621,8 @@ const faqs = [
                                         : 'text-white/80 hover:bg-white/10'
                                 "
                             >
-                                Yearly
-                            </button>
+                                    Anual
+                                </button>
                         </div>
 
                         <Link
@@ -630,13 +630,13 @@ const faqs = [
                             :href="route('register')"
                             class="rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
                         >
-                            Get started
+                            Comenzar
                         </Link>
                         <Link
                             :href="route('plan.index')"
                             class="rounded-2xl bg-white/10 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/15"
                         >
-                            Compare all plans
+                            Comparar todos los planes
                         </Link>
                     </div>
                 </div>
@@ -659,8 +659,8 @@ const faqs = [
                                         {{ p.name }}
                                     </h3>
                                     <p class="mt-2 text-sm text-white/70">
-                                        {{ (p.features || []).length }} features
-                                        included.
+                                        {{ (p.features || []).length }} funciones
+                                        incluidas.
                                     </p>
                                 </div>
 
@@ -699,15 +699,15 @@ const faqs = [
                                                     p.monthly_price_cents,
                                                     currency,
                                                 )
-                                              : "Free"
+                                              : "Gratis"
                                     }}
                                 </div>
                                 <div class="pb-1 text-sm text-white/60">
                                     /
                                     {{
                                         billingPeriod === "yearly"
-                                            ? "year"
-                                            : "month"
+                                            ? "año"
+                                            : "mes"
                                     }}
                                 </div>
                             </div>
@@ -716,7 +716,7 @@ const faqs = [
                                 v-if="p.yearly_discount_percent"
                                 class="mt-2 inline-flex items-center rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-semibold text-emerald-200 ring-1 ring-emerald-500/20"
                             >
-                                Save {{ p.yearly_discount_percent }}% yearly
+                                Ahorre {{ p.yearly_discount_percent }}% anual
                             </div>
 
                             <ul class="mt-5 space-y-2 text-sm text-white/70">
@@ -739,7 +739,7 @@ const faqs = [
                                     :href="route('plan.index')"
                                     class="inline-flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/10 transition hover:bg-white/15"
                                 >
-                                    View details
+                                    Ver detalles
                                     <svg
                                         class="h-4 w-4"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -765,10 +765,10 @@ const faqs = [
                     class="mt-8 rounded-3xl bg-white/5 p-6 ring-1 ring-white/10"
                 >
                     <div class="text-sm font-semibold text-white">
-                        Plans will appear here
+                        Los planes aparecerán aquí
                     </div>
                     <div class="mt-2 text-sm text-white/70">
-                        No active plans found in the database yet.
+                        Aún no se han encontrado planes activos en la base de datos.
                     </div>
                 </div>
             </section>
@@ -778,10 +778,10 @@ const faqs = [
                 <div class="grid gap-10 lg:grid-cols-2">
                     <div>
                         <h2 class="text-2xl font-semibold text-white">
-                            Frequently asked questions
+                            Preguntas frecuentes
                         </h2>
                         <p class="mt-2 text-sm text-white/70">
-                            Quick answers about modules, access, and reporting.
+                            Respuestas rápidas sobre módulos, acceso e informes.
                         </p>
                     </div>
 
@@ -828,20 +828,20 @@ const faqs = [
                             :href="route('login')"
                             class="rounded-xl px-3 py-2 ring-1 ring-white/10 transition hover:bg-white/10"
                         >
-                            Log in
+                            Iniciar sesión
                         </Link>
                         <Link
                             v-if="canRegister"
                             :href="route('register')"
                             class="rounded-xl px-3 py-2 ring-1 ring-white/10 transition hover:bg-white/10"
                         >
-                            Register
+                            Registrarse
                         </Link>
                         <Link
                             :href="route('plan.index')"
                             class="rounded-xl px-3 py-2 ring-1 ring-white/10 transition hover:bg-white/10"
                         >
-                            Plans
+                            Planes
                         </Link>
                     </div>
                 </div>
@@ -863,11 +863,11 @@ const faqs = [
                     >
                         <div>
                             <div class="text-sm font-semibold text-slate-900">
-                                Request a demo
+                                Solicitar una demo
                             </div>
                             <div class="mt-1 text-sm text-slate-600">
-                                Tell us a bit about your farm/organization and
-                                we’ll schedule a walkthrough.
+                                Cuéntenos un poco sobre su granja/organización y
+                                programaremos una demostración.
                             </div>
                         </div>
                         <button
@@ -895,7 +895,7 @@ const faqs = [
                             <div class="sm:col-span-2">
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Full name</label
+                                    >Nombre completo</label
                                 >
                                 <input
                                     v-model="demoForm.name"
@@ -914,7 +914,7 @@ const faqs = [
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Email</label
+                                    >Correo electrónico</label
                                 >
                                 <input
                                     v-model="demoForm.email"
@@ -933,7 +933,7 @@ const faqs = [
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Phone (optional)</label
+                                    >Teléfono (opcional)</label
                                 >
                                 <input
                                     v-model="demoForm.phone"
@@ -952,7 +952,7 @@ const faqs = [
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Company / Farm (optional)</label
+                                    >Empresa / Granja (opcional)</label
                                 >
                                 <input
                                     v-model="demoForm.company"
@@ -971,7 +971,7 @@ const faqs = [
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Country (optional)</label
+                                    >País (opcional)</label
                                 >
                                 <input
                                     v-model="demoForm.country"
@@ -990,7 +990,7 @@ const faqs = [
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Timezone</label
+                                    >Zona horaria</label
                                 >
                                 <input
                                     v-model="demoForm.timezone"
@@ -1009,7 +1009,7 @@ const faqs = [
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Preferred date (optional)</label
+                                    >Fecha preferida (opcional)</label
                                 >
                                 <input
                                     v-model="demoForm.preferred_date"
@@ -1028,7 +1028,7 @@ const faqs = [
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Preferred time (optional)</label
+                                    >Hora preferida (opcional)</label
                                 >
                                 <input
                                     v-model="demoForm.preferred_time"
@@ -1047,7 +1047,7 @@ const faqs = [
                             <div class="sm:col-span-2">
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Message (optional)</label
+                                    >Mensaje (opcional)</label
                                 >
                                 <textarea
                                     v-model="demoForm.message"
@@ -1067,7 +1067,7 @@ const faqs = [
                             class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between"
                         >
                             <div class="text-sm text-slate-500">
-                                We’ll reply by email with available demo slots.
+                                Responderemos por correo electrónico con los horarios disponibles para la demostración.
                             </div>
 
                             <button
@@ -1075,7 +1075,7 @@ const faqs = [
                                 :disabled="demoForm.processing"
                                 class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:opacity-50"
                             >
-                                Submit request
+                                Enviar solicitud
                             </button>
                         </div>
                     </form>
