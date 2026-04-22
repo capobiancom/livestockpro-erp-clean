@@ -43,6 +43,11 @@ RUN chmod +x scripts/*.sh
 # Copy compiled frontend assets from Stage 1
 COPY --from=assets-builder /app/public/build ./public/build
 
+# Create bootstrap/cache BEFORE composer install
+# artisan package:discover (post-autoload-dump) needs it writable
+RUN mkdir -p bootstrap/cache storage/framework/sessions \
+        storage/framework/views storage/framework/cache storage/logs
+
 # Install PHP dependencies with composer cache mount
 # --mount=type=cache keeps downloaded packages between builds
 RUN --mount=type=cache,target=/root/.composer/cache \
