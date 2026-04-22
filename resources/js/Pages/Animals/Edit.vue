@@ -502,12 +502,9 @@
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent transition file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100"
                                 :class="{ 'border-red-500': form.errors.image }"
                             />
-                            <p
-                                v-if="animal.image"
-                                class="mt-1 text-xs text-gray-600"
-                            >
-                                Current: {{ animal.image }}
-                            </p>
+                            <div v-if="animal.image" class="mt-2 mb-2">
+                                <img :src="'/storage/' + animal.image" alt="Current Image" class="h-32 w-32 object-cover rounded-lg border border-gray-200">
+                            </div>
                             <p
                                 v-if="form.errors.image"
                                 class="mt-1 text-sm text-red-600"
@@ -662,6 +659,11 @@ const handleImageUpload = (event) => {
 };
 
 const submit = () => {
-    form.put(`/animals/${props.animal.id}`);
+    form.transform((data) => ({
+        ...data,
+        _method: 'put',
+    })).post(`/animals/${props.animal.id}`, {
+        forceFormData: true,
+    });
 };
 </script>

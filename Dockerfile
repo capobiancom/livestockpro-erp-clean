@@ -30,28 +30,28 @@ RUN apk add --no-cache \
     && docker-php-ext-install -j$(nproc) bcmath gd zip pdo_mysql \
     && apk del $PHPIZE_DEPS
 
-# Copy application files with proper ownership
-COPY --chown=www-data:www-data . .
+# Copy application files
+COPY . .
 
 # Copy scripts and make them executable
 RUN chmod +x scripts/*.sh
 
-# Copy built assets from Node stage with proper ownership
-COPY --from=assets-builder --chown=www-data:www-data /app/public/build ./public/build
+# Copy built assets from Node stage
+COPY --from=assets-builder /app/public/build ./public/build
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Ensure storage and bootstrap/cache exist and have correct permissions
 # Also ensure the entire app directory is owned by www-data for the install wizard
-RUN mkdir -p storage/framework/sessions \
-    storage/framework/views \
-    storage/framework/cache \
-    storage/logs \
-    bootstrap/cache \
-    && touch .env \
+RUN mkdir -p /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/framework/views \
+    /var/www/html/storage/framework/cache \
+    /var/www/html/storage/logs \
+    /var/www/html/bootstrap/cache \
+    && touch /var/www/html/.env \
     && chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/.env
+    && chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/.env
 
 # Fix Nginx duplicate location errors by using a clean monolithic config
 RUN rm -rf /etc/nginx/sites-enabled/* /etc/nginx/sites-available/* /etc/nginx/conf.d/* /nginx.conf

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Farm;
 use App\Models\User;
+use Illuminate\Support\Facades\Schema;
 use Faker\Factory as FakerFactory; // Import Faker Factory
 
 class FarmSeeder extends Seeder

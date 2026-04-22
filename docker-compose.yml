@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: livestockpro-erp-standalone:latest
+    image: vacaliza-erp-standalone:latest
     container_name: erp-app
     restart: always
     environment:
@@ -12,7 +12,7 @@ services:
       - DB_CONNECTION=mysql
       - DB_HOST=erp-db
       - DB_PORT=3306
-      - DB_DATABASE=livestockpro
+      - DB_DATABASE=vacaliza
       - DB_USERNAME=coolify
       - DB_PASSWORD=${DB_PASSWORD}
       - REDIS_HOST=erp-redis
@@ -27,7 +27,7 @@ services:
     container_name: erp-db
     restart: always
     environment:
-      - MYSQL_DATABASE=livestockpro
+      - MYSQL_DATABASE=vacaliza
       - MYSQL_USER=coolify
       - MYSQL_PASSWORD=${DB_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}

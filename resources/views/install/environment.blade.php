@@ -11,7 +11,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Application Name</label>
-            <input type="text" name="app_name" value="{{ old('app_name', 'LivestockPro ERP SaaS') }}"
+            <input type="text" name="app_name" value="{{ old('app_name', 'Vacaliza ERP SaaS') }}"
                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('app_name') border-red-400 @enderror">
             @error('app_name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>

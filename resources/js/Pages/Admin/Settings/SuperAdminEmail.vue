@@ -268,7 +268,7 @@ function submit() {
                                                 "
                                                 type="text"
                                                 class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                                placeholder="AgroSass Demo Team"
+                                                placeholder="Vacaliza Demo Team"
                                             />
                                             <div
                                                 v-if="

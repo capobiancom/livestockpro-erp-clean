@@ -17,10 +17,10 @@ const showEmailModal = ref(false);
 
 const emailForm = useForm({
     to: "",
-    subject: "AgroSass demo presentation",
+    subject: "Vacaliza demo presentation",
     scheduled_at: "",
     message:
-        "Hello,\n\nThank you for requesting a demo of AgroSass.\n\nWe’d be happy to walk you through the platform and answer your questions. Please reply with your preferred time slots, or confirm the proposed schedule below.\n\nProposed schedule:\n- Date:\n- Time:\n- Timezone:\n- Meeting link:\n\nBest regards,\nAgroSass Demo Team\n",
+        "Hello,\n\nThank you for requesting a demo of Vacaliza.\n\nWe’d be happy to walk you through the platform and answer your questions. Please reply with your preferred time slots, or confirm the proposed schedule below.\n\nProposed schedule:\n- Date:\n- Time:\n- Timezone:\n- Meeting link:\n\nBest regards,\nVacaliza Demo Team\n",
 });
 
 function openEmail(request) {

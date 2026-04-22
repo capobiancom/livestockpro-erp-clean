@@ -15,7 +15,7 @@ class RedirectIfInstalled
     public function handle(Request $request, Closure $next): Response
     {
         if (file_exists(storage_path('installed'))) {
-            return redirect('/')->with('info', 'LivestockPro ERP is already installed.');
+            return redirect('/')->with('info', 'Vacaliza ERP is already installed.');
         }
 
         return $next($request);

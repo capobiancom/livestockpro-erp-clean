@@ -6,10 +6,10 @@
                 'translate-x-0': showingSidebar,
                 '-translate-x-full': !showingSidebar,
             }"
-            class="w-64 bg-gradient-to-b from-gray-900 to-gray-800 shadow-2xl fixed left-0 top-0 h-screen flex flex-col z-30 transition-transform duration-300 ease-in-out lg:translate-x-0 app-sidebar"
+            class="w-64 bg-white border-r border-gray-200 shadow-sm fixed left-0 top-0 h-screen flex flex-col z-30 transition-transform duration-300 ease-in-out lg:translate-x-0 app-sidebar"
         >
             <!-- Logo/Brand - Fixed at top -->
-            <div class="p-5 border-b border-gray-700 flex-shrink-0">
+            <div class="p-5 border-b border-gray-100 flex-shrink-0">
                 <Link
                     :href="
                         hasRole(['Super Admin', 'admin'])
@@ -26,18 +26,18 @@
                     />
                     <ApplicationLogo
                         v-else
-                        class="block h-9 w-auto fill-current text-gray-200"
+                        class="block h-9 w-auto fill-current text-lime-500"
                     >
                     </ApplicationLogo>
-                    <span class="text-xl font-semibold text-white"
-                        >LivestockPro
+                    <span class="text-xl font-semibold text-gray-900"
+                        >Vacaliza
                     </span>
                 </Link>
             </div>
 
             <!-- Navigation - Scrollable -->
             <nav
-                class="flex-1 overflow-y-auto py-4 px-3 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800"
+                class="flex-1 overflow-y-auto py-4 px-3 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent"
             >
                 <ul class="space-y-1">
                     <!-- Dashboard -->
@@ -51,8 +51,8 @@
                             :class="[
                                 'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isActive('/dashboard')
-                                    ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-500 text-white shadow-md'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <svg
@@ -81,8 +81,8 @@
                             :class="[
                                 'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isActive('/farm-productivity-dashboard')
-                                    ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-500 text-white shadow-md'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <svg
@@ -108,8 +108,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('animals')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div
@@ -231,8 +231,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('health')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div
@@ -336,8 +336,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('feeding')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div
@@ -399,8 +399,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('production')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div
@@ -469,8 +469,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('accounts')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div
@@ -592,8 +592,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('finance')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div
@@ -662,8 +662,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('customers')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div
@@ -732,8 +732,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('inventory')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div
@@ -837,8 +837,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('operations')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div
@@ -913,8 +913,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('humanResource')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div
@@ -1054,8 +1054,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('reports')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div
@@ -1237,8 +1237,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('inventoryReports')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div
@@ -1413,8 +1413,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('subscriptions')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div class="flex items-start gap-3">
@@ -1490,8 +1490,8 @@
                             :class="[
                                 'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
                                 isMenuActive('admin')
-                                    ? 'bg-gray-700 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    ? 'bg-lime-50 text-lime-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
                             ]"
                         >
                             <div class="flex items-center gap-3">
@@ -1904,9 +1904,7 @@ const hasFeature = (key) => enabledFeatures.value.includes(key);
 
 // In single-license mode we bypass subscription feature gating entirely.
 const hasFeatureOrSingle = (key) =>
-    isSingleLicenseMode.value || hasRole(["Super Admin", "admin"])
-        ? true
-        : hasFeature(key);
+    isSingleLicenseMode.value ? true : hasFeature(key);
 
 const hasRole = (roleName) => {
     if (Array.isArray(roleName)) {
@@ -2064,8 +2062,8 @@ const linkClass = (path) => {
     return [
         "block px-3 py-2 rounded-lg text-sm transition-all duration-200",
         currentPath.value.startsWith(path)
-            ? "bg-blue-600 text-white shadow-md"
-            : "text-gray-400 hover:bg-gray-700 hover:text-white",
+            ? "bg-lime-500 text-white shadow-sm"
+            : "text-gray-500 hover:bg-gray-50 hover:text-lime-600",
     ];
 };
 

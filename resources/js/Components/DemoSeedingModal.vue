@@ -54,7 +54,7 @@ const skipDemoData = () => {
                 </svg>
             </div>
             <h3 class="text-3xl font-bold text-gray-800 mb-4">
-                Welcome to AgroSass!
+                Welcome to Vacaliza!
             </h3>
             <p class="text-md text-gray-600 mb-8 leading-relaxed">
                 Your farm has been successfully registered. To help you get

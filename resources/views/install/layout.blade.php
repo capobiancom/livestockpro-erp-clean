@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Installation') — LivestockPro ERP</title>
+    <title>@yield('title', 'Installation') — Vacaliza ERP</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .step-done  { background:#16a34a; color:#fff; }
@@ -21,7 +21,7 @@
                       d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h.5A2.5 2.5 0 0020.5 5.5V3.935M15 3v.01"></path>
             </svg>
         </div>
-        <h1 class="text-2xl font-bold text-gray-800">LivestockPro ERP SaaS</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Vacaliza ERP SaaS</h1>
         <p class="text-sm text-gray-500 mt-1">Installation Wizard</p>
     </div>
 
@@ -73,6 +73,6 @@
         @yield('content')
     </div>
 
-    <p class="mt-6 text-xs text-gray-400">LivestockPro ERP SaaS &copy; {{ date('Y') }} — All rights reserved.</p>
+    <p class="mt-6 text-xs text-gray-400">Vacaliza ERP SaaS &copy; {{ date('Y') }} — All rights reserved.</p>
 </body>
 </html>

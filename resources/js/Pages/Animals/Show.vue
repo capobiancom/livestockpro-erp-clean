@@ -103,6 +103,9 @@
                         </h3>
                     </div>
                     <div class="p-6">
+                        <div v-if="animal.image" class="mb-6 flex justify-center">
+                            <img :src="'/storage/' + animal.image" alt="Animal Image" class="h-64 w-full object-cover rounded-lg border border-gray-200 shadow-sm md:h-80 md:w-80">
+                        </div>
                         <dl class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="border-l-4 border-rose-400 pl-4">
                                 <dt

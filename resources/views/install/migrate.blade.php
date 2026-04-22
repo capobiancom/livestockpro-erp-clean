@@ -4,7 +4,7 @@
 @section('content')
 <h2 class="text-2xl font-bold text-gray-800 mb-2">Running Migrations & Seeding</h2>
 <p class="text-gray-500 mb-6 text-sm">
-    LivestockPro ERP SaaS will now create all required database tables and seed the initial configuration data.
+    Vacaliza ERP SaaS will now create all required database tables and seed the initial configuration data.
     This may take a few moments.
 </p>
 

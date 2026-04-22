@@ -7,6 +7,7 @@ use App\Models\Animal;
 use App\Models\Farm;
 use App\Models\Breed;
 use App\Models\User;
+use App\Models\Supplier;
 
 class AnimalSeeder extends Seeder
 {
@@ -14,24 +15,37 @@ class AnimalSeeder extends Seeder
     {
         $farms = Farm::all();
         $breeds = Breed::all();
+        $user = User::first();
+
+        if (!$user) {
+            $user = User::factory()->create([
+                'email' => 'superuser@livestockproerp.com',
+                'name' => 'Super Admin',
+            ]);
+        }
 
         if ($farms->isEmpty()) {
-            $farms = Farm::factory()->count(3)->create();
+            $farms = Farm::factory()->count(3)->create(['user_id' => $user->id]);
         }
 
         if ($breeds->isEmpty()) {
             $breeds = Breed::factory()->count(5)->create();
         }
 
+        // Create a few suppliers to reuse
+        $suppliers = Supplier::factory()->count(5)->create([
+            'user_id' => $user->id,
+            'farm_id' => $farms->first()->id
+        ]);
+
         foreach ($farms as $farm) {
             // Create a herd for farm
             $num = 20;
-            $user = User::first();
             Animal::factory()->count($num)->create([
                 'farm_id' => $farm->id,
-                // pick random existing breed sometimes
-                'breed_id' => Breed::inRandomOrder()->first()->id,
+                'breed_id' => $breeds->random()->id,
                 'user_id' => $user->id,
+                'supplier_id' => $suppliers->random()->id,
             ]);
         }
     }

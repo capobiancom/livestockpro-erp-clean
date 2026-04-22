@@ -19,7 +19,7 @@
                     />
                 </svg>
                 <h2 class="text-2xl font-bold text-gray-800 mb-2">
-                    Welcome to LivestockPro ERP SaaS!
+                    Welcome to Vacaliza ERP SaaS!
                 </h2>
                 <p class="text-gray-600">
                     To help you get started, would you like to seed your farm

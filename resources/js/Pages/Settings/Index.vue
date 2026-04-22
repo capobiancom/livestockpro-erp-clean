@@ -67,7 +67,7 @@
                                     v-model="form.app_title"
                                     type="text"
                                     class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                    placeholder="e.g. AgroSass"
+                                    placeholder="e.g. Vacaliza"
                                 />
                                 <div
                                     v-if="form.errors.app_title"

@@ -36,7 +36,7 @@ if (!$envExists || !$hasValidAppKey) {
 
         // Create a minimal .env file so the app can boot
         $minimalEnv = <<<'ENV'
-APP_NAME="LivestockPro ERP"
+APP_NAME="Vacaliza ERP"
 APP_ENV=production
 APP_DEBUG=true
 APP_TIMEZONE=UTC

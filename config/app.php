@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'LivestockPro ERP'),
+    'name' => env('APP_NAME', 'Vacaliza ERP'),
 
     /*
     |--------------------------------------------------------------------------

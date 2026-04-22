@@ -1,0 +1,329 @@
+Cleaning database...
+Database cleaned.
+Importing schema from sqlite-schema.sql to mysql...
+Error in statement: CREATE INDEX `sessions_user_id_index` on `sessions`(`user_id`)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.sessions' doesn't exist (Connection: mysql, SQL: CREATE INDEX `sessions_user_id_index` on `sessions`(`user_id`);)
+Error in statement: CREATE INDEX `sessions_last_activity_index` on `sessions`(`last_activity`)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.sessions' doesn't exist (Connection: mysql, SQL: CREATE INDEX `sessions_last_activity_index` on `sessions`(`last_activity`);)
+Error in statement: CREATE INDEX `jobs_queue_index` on `jobs`(`queue`)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.jobs' doesn't exist (Connection: mysql, SQL: CREATE INDEX `jobs_queue_index` on `jobs`(`queue`);)
+Error in statement: CREATE UNIQUE INDEX `failed_jobs_uuid_unique` on `failed_jobs`(`uuid`)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.failed_jobs' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `failed_jobs_uuid_unique` on `failed_jobs`(`uuid`);)
+Error in statement: CREATE UNIQUE INDEX `roles_name_unique` on `roles`(`name`)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.roles' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `roles_name_unique` on `roles`(`name`);)
+Error in statement: CREATE UNIQUE INDEX `role_user_role_id_user_id_unique` on `role_user`(
+  `role_id`,
+  `user_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.role_user' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `role_user_role_id_user_id_unique` on `role_user`(
+  `role_id`,
+  `user_id`
+);)
+Error in statement: CREATE UNIQUE INDEX `permissions_name_guard_name_unique` on `permissions`(
+  `name`,
+  `guard_name`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.permissions' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `permissions_name_guard_name_unique` on `permissions`(
+  `name`,
+  `guard_name`
+);)
+Error in statement: CREATE INDEX `model_has_permissions_model_id_model_type_index` on `model_has_permissions`(
+  `model_id`,
+  `model_type`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.model_has_permissions' doesn't exist (Connection: mysql, SQL: CREATE INDEX `model_has_permissions_model_id_model_type_index` on `model_has_permissions`(
+  `model_id`,
+  `model_type`
+);)
+Error in statement: CREATE INDEX `model_has_roles_model_id_model_type_index` on `model_has_roles`(
+  `model_id`,
+  `model_type`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.model_has_roles' doesn't exist (Connection: mysql, SQL: CREATE INDEX `model_has_roles_model_id_model_type_index` on `model_has_roles`(
+  `model_id`,
+  `model_type`
+);)
+Error in statement: CREATE UNIQUE INDEX `farms_code_unique` on `farms`(`code`)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.farms' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `farms_code_unique` on `farms`(`code`);)
+Error in statement: CREATE UNIQUE INDEX `users_email_unique` on `users`(`email`)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.users' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `users_email_unique` on `users`(`email`);)
+Error in statement: CREATE UNIQUE INDEX `breeds_name_farm_id_unique` on `breeds`(
+  `name`,
+  `farm_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.breeds' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `breeds_name_farm_id_unique` on `breeds`(
+  `name`,
+  `farm_id`
+);)
+Error in statement: CREATE INDEX `pregnancies_farm_id_animal_id_index` on `pregnancies`(
+  `farm_id`,
+  `animal_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.pregnancies' doesn't exist (Connection: mysql, SQL: CREATE INDEX `pregnancies_farm_id_animal_id_index` on `pregnancies`(
+  `farm_id`,
+  `animal_id`
+);)
+Error in statement: CREATE INDEX `purchase_items_item_type_item_id_index` on `purchase_items`(
+  `item_type`,
+  `item_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.purchase_items' doesn't exist (Connection: mysql, SQL: CREATE INDEX `purchase_items_item_type_item_id_index` on `purchase_items`(
+  `item_type`,
+  `item_id`
+);)
+Error in statement: CREATE INDEX `reproduction_records_farm_id_animal_id_index` on `reproduction_records`(
+  `farm_id`,
+  `animal_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.reproduction_records' doesn't exist (Connection: mysql, SQL: CREATE INDEX `reproduction_records_farm_id_animal_id_index` on `reproduction_records`(
+  `farm_id`,
+  `animal_id`
+);)
+Error in statement: CREATE INDEX `stock_movements_item_type_item_id_index` on `stock_movements`(
+  `item_type`,
+  `item_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.stock_movements' doesn't exist (Connection: mysql, SQL: CREATE INDEX `stock_movements_item_type_item_id_index` on `stock_movements`(
+  `item_type`,
+  `item_id`
+);)
+Error in statement: CREATE INDEX `stock_movements_source_type_source_id_index` on `stock_movements`(
+  `source_type`,
+  `source_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.stock_movements' doesn't exist (Connection: mysql, SQL: CREATE INDEX `stock_movements_source_type_source_id_index` on `stock_movements`(
+  `source_type`,
+  `source_id`
+);)
+Error in statement: CREATE UNIQUE INDEX `event_types_name_farm_id_unique` on `event_types`(
+  `name`,
+  `farm_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.event_types' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `event_types_name_farm_id_unique` on `event_types`(
+  `name`,
+  `farm_id`
+);)
+Error in statement: CREATE UNIQUE INDEX `departments_farm_id_name_unique` on `departments`(
+  `farm_id`,
+  `name`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.departments' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `departments_farm_id_name_unique` on `departments`(
+  `farm_id`,
+  `name`
+);)
+Error in statement: CREATE UNIQUE INDEX `designations_name_farm_id_unique` on `designations`(
+  `name`,
+  `farm_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.designations' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `designations_name_farm_id_unique` on `designations`(
+  `name`,
+  `farm_id`
+);)
+Error in statement: CREATE UNIQUE INDEX `chart_of_accounts_farm_id_code_unique` on `chart_of_accounts`(
+  `farm_id`,
+  `code`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.chart_of_accounts' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `chart_of_accounts_farm_id_code_unique` on `chart_of_accounts`(
+  `farm_id`,
+  `code`
+);)
+Error in statement: CREATE INDEX `sales_items_item_type_item_id_index` on `sales_items`(
+  `item_type`,
+  `item_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.sales_items' doesn't exist (Connection: mysql, SQL: CREATE INDEX `sales_items_item_type_item_id_index` on `sales_items`(
+  `item_type`,
+  `item_id`
+);)
+Error in statement: CREATE INDEX `ms_sts_type_id_idx` on `milk_sales`(
+  `sale_transaction_source_type`,
+  `sale_transaction_source_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.milk_sales' doesn't exist (Connection: mysql, SQL: CREATE INDEX `ms_sts_type_id_idx` on `milk_sales`(
+  `sale_transaction_source_type`,
+  `sale_transaction_source_id`
+);)
+Error in statement: CREATE INDEX `st_sts_type_id_idx` on `sale_transactions`(
+  `sale_transaction_source_type`,
+  `sale_transaction_source_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.sale_transactions' doesn't exist (Connection: mysql, SQL: CREATE INDEX `st_sts_type_id_idx` on `sale_transactions`(
+  `sale_transaction_source_type`,
+  `sale_transaction_source_id`
+);)
+Error in statement: CREATE INDEX `supplier_payments_purchase_source_type_purchase_source_id_index` on `supplier_payments`(
+  `purchase_source_type`,
+  `purchase_source_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.supplier_payments' doesn't exist (Connection: mysql, SQL: CREATE INDEX `supplier_payments_purchase_source_type_purchase_source_id_index` on `supplier_payments`(
+  `purchase_source_type`,
+  `purchase_source_id`
+);)
+Error in statement: CREATE INDEX `cash_transactions_reference_type_reference_id_index` on `cash_transactions`(
+  `reference_type`,
+  `reference_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.cash_transactions' doesn't exist (Connection: mysql, SQL: CREATE INDEX `cash_transactions_reference_type_reference_id_index` on `cash_transactions`(
+  `reference_type`,
+  `reference_id`
+);)
+Error in statement: CREATE UNIQUE INDEX `subscription_plans_slug_unique` on `subscription_plans`(
+  `slug`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.subscription_plans' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `subscription_plans_slug_unique` on `subscription_plans`(
+  `slug`
+);)
+Error in statement: CREATE INDEX `farm_subscriptions_farm_id_ends_on_index` on `farm_subscriptions`(
+  `farm_id`,
+  `ends_on`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.farm_subscriptions' doesn't exist (Connection: mysql, SQL: CREATE INDEX `farm_subscriptions_farm_id_ends_on_index` on `farm_subscriptions`(
+  `farm_id`,
+  `ends_on`
+);)
+Error in statement: CREATE INDEX `farm_subscriptions_next_billing_on_index` on `farm_subscriptions`(
+  `next_billing_on`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.farm_subscriptions' doesn't exist (Connection: mysql, SQL: CREATE INDEX `farm_subscriptions_next_billing_on_index` on `farm_subscriptions`(
+  `next_billing_on`
+);)
+Error in statement: CREATE UNIQUE INDEX `subscription_features_key_unique` on `subscription_features`(
+  `key`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.subscription_features' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `subscription_features_key_unique` on `subscription_features`(
+  `key`
+);)
+Error in statement: CREATE INDEX `subscription_invoices_farm_id_invoice_date_index` on `subscription_invoices`(
+  `farm_id`,
+  `invoice_date`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.subscription_invoices' doesn't exist (Connection: mysql, SQL: CREATE INDEX `subscription_invoices_farm_id_invoice_date_index` on `subscription_invoices`(
+  `farm_id`,
+  `invoice_date`
+);)
+Error in statement: CREATE INDEX `subscription_invoices_farm_subscription_id_status_index` on `subscription_invoices`(
+  `farm_subscription_id`,
+  `status`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.subscription_invoices' doesn't exist (Connection: mysql, SQL: CREATE INDEX `subscription_invoices_farm_subscription_id_status_index` on `subscription_invoices`(
+  `farm_subscription_id`,
+  `status`
+);)
+Error in statement: CREATE UNIQUE INDEX `subscription_invoices_invoice_number_unique` on `subscription_invoices`(
+  `invoice_number`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.subscription_invoices' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `subscription_invoices_invoice_number_unique` on `subscription_invoices`(
+  `invoice_number`
+);)
+Error in statement: CREATE INDEX `subscription_payments_farm_id_created_at_index` on `subscription_payments`(
+  `farm_id`,
+  `created_at`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.subscription_payments' doesn't exist (Connection: mysql, SQL: CREATE INDEX `subscription_payments_farm_id_created_at_index` on `subscription_payments`(
+  `farm_id`,
+  `created_at`
+);)
+Error in statement: CREATE INDEX `subscription_payments_gateway_status_index` on `subscription_payments`(
+  `gateway`,
+  `status`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.subscription_payments' doesn't exist (Connection: mysql, SQL: CREATE INDEX `subscription_payments_gateway_status_index` on `subscription_payments`(
+  `gateway`,
+  `status`
+);)
+Error in statement: CREATE INDEX `subscription_payments_provider_payment_id_index` on `subscription_payments`(
+  `provider_payment_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.subscription_payments' doesn't exist (Connection: mysql, SQL: CREATE INDEX `subscription_payments_provider_payment_id_index` on `subscription_payments`(
+  `provider_payment_id`
+);)
+Error in statement: CREATE UNIQUE INDEX `plan_feature_unique` on `subscription_plan_features`(
+  `subscription_plan_id`,
+  `subscription_feature_id`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.subscription_plan_features' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `plan_feature_unique` on `subscription_plan_features`(
+  `subscription_plan_id`,
+  `subscription_feature_id`
+);)
+Error in statement: CREATE UNIQUE INDEX `calves_farm_id_tag_number_unique` on `calves`(
+  `farm_id`,
+  `tag_number`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.calves' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `calves_farm_id_tag_number_unique` on `calves`(
+  `farm_id`,
+  `tag_number`
+);)
+Error in statement: CREATE UNIQUE INDEX `animals_farm_id_tag_unique` on `animals`(
+  `farm_id`,
+  `tag`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.animals' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `animals_farm_id_tag_unique` on `animals`(
+  `farm_id`,
+  `tag`
+);)
+Error in statement: CREATE UNIQUE INDEX `inventory_categories_farm_id_name_unique` on `inventory_categories`(
+  `farm_id`,
+  `name`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.inventory_categories' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `inventory_categories_farm_id_name_unique` on `inventory_categories`(
+  `farm_id`,
+  `name`
+);)
+Error in statement: CREATE UNIQUE INDEX `inventory_items_farm_id_sku_unique` on `inventory_items`(
+  `farm_id`,
+  `sku`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.inventory_items' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `inventory_items_farm_id_sku_unique` on `inventory_items`(
+  `farm_id`,
+  `sku`
+);)
+Error in statement: CREATE UNIQUE INDEX `medicines_farm_id_sku_unique` on `medicines`(
+  `farm_id`,
+  `sku`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.medicines' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `medicines_farm_id_sku_unique` on `medicines`(
+  `farm_id`,
+  `sku`
+);)
+Error in statement: CREATE UNIQUE INDEX `milk_records_farm_id_animal_id_date_unique` on `milk_records`(
+  `farm_id`,
+  `animal_id`,
+  `DATE`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.milk_records' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `milk_records_farm_id_animal_id_date_unique` on `milk_records`(
+  `farm_id`,
+  `animal_id`,
+  `DATE`
+);)
+Error in statement: CREATE UNIQUE INDEX `purchases_farm_id_invoice_number_unique` on `purchases`(
+  `farm_id`,
+  `invoice_number`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.purchases' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `purchases_farm_id_invoice_number_unique` on `purchases`(
+  `farm_id`,
+  `invoice_number`
+);)
+Error in statement: CREATE UNIQUE INDEX `milk_sales_farm_id_invoice_number_unique` on `milk_sales`(
+  `farm_id`,
+  `invoice_number`
+)
+Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.milk_sales' doesn't exist (Connection: mysql, SQL: CREATE UNIQUE INDEX `milk_sales_farm_id_invoice_number_unique` on `milk_sales`(
+  `farm_id`,
+  `invoice_number`
+);)
+Schema imported successfully.
+Running migrations...
+
+In Connection.php line 825:
+                                                                               
+  SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.mig  
+  rations' doesn't exist (Connection: mysql, SQL: select `migration` from `mi  
+  grations` order by `batch` asc, `migration` asc)                             
+                                                                               
+
+In Connection.php line 407:
+                                                                               
+  SQLSTATE[42S02]: Base table or view not found: 1146 Table 'livestockpro.mig  
+  rations' doesn't exist                                                       
+                                                                               
+

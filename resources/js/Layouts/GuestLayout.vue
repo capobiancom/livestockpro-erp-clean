@@ -43,7 +43,7 @@ import { Link } from "@inertiajs/inertia-vue3";
                                 class="h-14 w-auto text-white drop-shadow mt-5"
                             />
                             <span class="text-lg font-semibold tracking-wide"
-                                >LivestockPro ERP SaaS</span
+                                >Vacaliza ERP SaaS</span
                             >
                         </Link>
 
