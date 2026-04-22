@@ -1,6 +1,4 @@
-# syntax=docker/dockerfile:1
-# ^^^ Required for BuildKit cache mount support
-
+# BuildKit cache mounts active (no syntax directive needed — Coolify uses BuildKit natively)
 # ===========================================================
 # Stage 1: Build Frontend Assets
 # Cache: npm package downloads persist between deploys
