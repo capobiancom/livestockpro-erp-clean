@@ -26,10 +26,17 @@ RUN apk add --no-cache libpng-dev libjpeg-turbo-dev freetype-dev libzip-dev mysq
 # Copy application files
 COPY . .
 
+# Copy scripts and make them executable
+RUN chmod +x scripts/*.sh
+
 # Copy built assets from Node stage
 COPY --from=assets-builder /app/public/build ./public/build
 
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
 # Ensure storage and bootstrap/cache exist and have correct permissions
+# Also ensure the entire app directory is owned by www-data for the install wizard
 RUN mkdir -p /var/www/html/storage/framework/sessions \
     /var/www/html/storage/framework/views \
     /var/www/html/storage/framework/cache \
@@ -37,9 +44,6 @@ RUN mkdir -p /var/www/html/storage/framework/sessions \
     /var/www/html/bootstrap/cache \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Fix Nginx duplicate location errors by using a clean monolithic config
 RUN rm -rf /etc/nginx/sites-enabled/* /etc/nginx/sites-available/* /etc/nginx/conf.d/* /nginx.conf
