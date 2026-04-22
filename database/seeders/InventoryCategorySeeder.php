@@ -7,7 +7,7 @@ use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CategorySeeder extends Seeder
+class InventoryCategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -5,7 +5,7 @@ import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { createApp, h } from "vue";
 import { ZiggyVue } from "ziggy-js";
-import AppLayout from "./Pages/Layout/AppLayout.vue"; // Explicitly import AppLayout
+import AppLayout from "./Layouts/AppLayout.vue"; // Explicitly import AppLayout from Layouts folder
 import { formatCurrency, formatNumber } from "./Utils/helpers"; // Import helper functions
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
