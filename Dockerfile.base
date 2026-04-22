@@ -1,0 +1,18 @@
+# Dockerfile.base
+# ================================================================
+# Pre-built PHP base for LivestockPro ERP
+# Push to: ghcr.io/capobiancom/erp-php-base:latest
+# Rebuild only when PHP extensions or base deps change.
+# ================================================================
+FROM richarvey/nginx-php-fpm:3.1.6
+
+LABEL maintainer="Vacaliza Team"
+LABEL description="PHP 8.2 with bcmath, mysql-client — base for LivestockPro ERP"
+
+# System tools + PHP extensions compiled once
+# All build tools are removed in the same layer to keep image lean
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && docker-php-ext-install -j$(nproc) bcmath \
+    && apk del .build-deps \
+    && apk add --no-cache mysql-client curl wget \
+    && rm -rf /var/cache/apk/* /tmp/*
