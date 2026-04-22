@@ -17,6 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 
+        $middleware->trustProxies(at: '*');
+
         // Register Spatie permission middleware aliases for role/permission checks
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
