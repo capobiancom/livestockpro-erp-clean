@@ -7,9 +7,8 @@ FROM ghcr.io/capobiancom/erp-php-base:latest
 ENV SKIP_COMPOSER=1 \
     PHP_ERRORS_STDERR=1 \
     RUN_SCRIPTS=1 \
-    REAL_IP_HEADER=1 \
     APP_ENV=production \
-    WEBROOT=/var/www/html/public
+    SKIP_CHOWN=1
 
 WORKDIR /var/www/html
 
@@ -58,7 +57,7 @@ COPY custom-nginx.conf /nginx.conf
 
 # Step 8: Surgical permissions — ONLY writable dirs, not the whole tree
 RUN touch .env \
-    && chown -R www-data:www-data storage bootstrap/cache .env \
+    && chown -R nginx:nginx storage bootstrap/cache .env \
     && chmod -R 775 storage bootstrap/cache \
     && chmod 664 .env
 
