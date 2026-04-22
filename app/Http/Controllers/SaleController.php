@@ -154,6 +154,7 @@ class SaleController extends Controller
                                 ->where('movement_type', 'in')
                                 ->orderBy('movement_date')
                                 ->orderBy('id')
+                                ->lockForUpdate()
                                 ->get();
 
                             $consumedPerBatch = [];
@@ -229,6 +230,7 @@ class SaleController extends Controller
                                 ->where('movement_type', 'in')
                                 ->orderBy('movement_date')
                                 ->orderBy('id')
+                                ->lockForUpdate()
                                 ->get();
 
                             $consumedPerBatch = [];
