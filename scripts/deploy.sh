@@ -7,5 +7,6 @@ echo "Running migrations and seeders..."
 
 php artisan migrate --force
 php artisan db:seed --force
+php artisan storage:link
 
 echo "Deployment script finished."
