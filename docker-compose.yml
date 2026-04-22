@@ -19,6 +19,8 @@ services:
     depends_on:
       - erp-db
       - erp-redis
+    volumes:
+      - .:/var/www/html
     networks:
       - erp-network
 

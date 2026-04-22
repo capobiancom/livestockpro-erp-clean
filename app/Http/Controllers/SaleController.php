@@ -152,27 +152,42 @@ class SaleController extends Controller
                                 ->where('item_id', $itemData['item_id'])
                                 ->where('farm_id', $sale->farm_id)
                                 ->where('movement_type', 'in')
-                                ->orderBy('movement_date') // FIFO
-                                ->lockForUpdate()
+                                ->orderBy('movement_date')
+                                ->orderBy('id')
                                 ->get();
 
+                            $consumedPerBatch = [];
                             foreach ($inBatches as $batch) {
                                 if ($requiredQty <= 0) {
                                     break;
                                 }
 
-                                $alreadyConsumed = StockMovement::where('item_type', InventoryItem::class)
-                                    ->where('item_id', $itemData['item_id'])
-                                    ->where('farm_id', $sale->farm_id)
-                                    ->where('movement_type', 'out')
-                                    ->where('batch_no', $batch->batch_no)
-                                    ->sum('quantity');
+                                $batchKey = $batch->batch_no ?? '___NULL_BATCH___';
+                                if (!isset($consumedPerBatch[$batchKey])) {
+                                    $consumedPerBatch[$batchKey] = StockMovement::where('item_type', InventoryItem::class)
+                                        ->where('item_id', $itemData['item_id'])
+                                        ->where('farm_id', $sale->farm_id)
+                                        ->where('movement_type', 'out')
+                                        ->where(function ($query) use ($batch) {
+                                            if ($batch->batch_no === null) {
+                                                $query->whereNull('batch_no');
+                                            } else {
+                                                $query->where('batch_no', $batch->batch_no);
+                                            }
+                                        })
+                                        ->sum('quantity');
+                                }
 
-                                $availableQty = $batch->quantity - $alreadyConsumed;
-
-                                if ($availableQty <= 0) {
+                                if ($consumedPerBatch[$batchKey] >= $batch->quantity) {
+                                    $consumedPerBatch[$batchKey] -= $batch->quantity;
                                     continue;
                                 }
+
+                                $availableQty = $batch->quantity - $consumedPerBatch[$batchKey];
+                                // We've accounted for all previous consumption for this batch in previous iterations
+                                // or the initial sum. Now we consume what's left.
+                                $consumedPerBatch[$batchKey] = 0; 
+
 
                                 $consumeQty = min($requiredQty, $availableQty);
 
@@ -212,27 +227,40 @@ class SaleController extends Controller
                                 ->where('item_id', $itemData['item_id'])
                                 ->where('farm_id', $sale->farm_id)
                                 ->where('movement_type', 'in')
-                                ->orderBy('movement_date') // FIFO
-                                ->lockForUpdate()
+                                ->orderBy('movement_date')
+                                ->orderBy('id')
                                 ->get();
 
+                            $consumedPerBatch = [];
                             foreach ($inBatches as $batch) {
                                 if ($requiredQty <= 0) {
                                     break;
                                 }
 
-                                $alreadyConsumed = StockMovement::where('item_type', Animal::class)
-                                    ->where('item_id', $itemData['item_id'])
-                                    ->where('farm_id', $sale->farm_id)
-                                    ->where('movement_type', 'out')
-                                    ->where('batch_no', $batch->batch_no)
-                                    ->sum('quantity');
+                                $batchKey = $batch->batch_no ?? '___NULL_BATCH___';
+                                if (!isset($consumedPerBatch[$batchKey])) {
+                                    $consumedPerBatch[$batchKey] = StockMovement::where('item_type', Animal::class)
+                                        ->where('item_id', $itemData['item_id'])
+                                        ->where('farm_id', $sale->farm_id)
+                                        ->where('movement_type', 'out')
+                                        ->where(function ($query) use ($batch) {
+                                            if ($batch->batch_no === null) {
+                                                $query->whereNull('batch_no');
+                                            } else {
+                                                $query->where('batch_no', $batch->batch_no);
+                                            }
+                                        })
+                                        ->sum('quantity');
+                                }
 
-                                $availableQty = $batch->quantity - $alreadyConsumed;
-
-                                if ($availableQty <= 0) {
+                                if ($consumedPerBatch[$batchKey] >= $batch->quantity) {
+                                    $consumedPerBatch[$batchKey] -= $batch->quantity;
                                     continue;
                                 }
+
+                                $availableQty = $batch->quantity - $consumedPerBatch[$batchKey];
+                                $consumedPerBatch[$batchKey] = 0;
+
 
                                 $consumeQty = min($requiredQty, $availableQty);
 

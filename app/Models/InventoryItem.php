@@ -67,20 +67,30 @@ class InventoryItem extends Model
             ->orderBy('id') // Secondary sort for consistent FIFO if dates are the same
             ->get();
 
+        $consumedPerBatch = [];
         foreach ($inMovements as $movement) {
-            // Calculate consumed quantity for this specific batch
-            $consumedQuantity = StockMovement::where('item_type', self::class)
-                ->where('item_id', $this->id)
-                ->where('farm_id', $this->farm_id)
-                ->where('movement_type', 'out')
-                ->where('batch_no', $movement->batch_no)
-                ->sum('quantity');
+            $batchKey = $movement->batch_no ?? '___NULL_BATCH___';
+            
+            if (!isset($consumedPerBatch[$batchKey])) {
+                $consumedPerBatch[$batchKey] = StockMovement::where('item_type', self::class)
+                    ->where('item_id', $this->id)
+                    ->where('farm_id', $this->farm_id)
+                    ->where('movement_type', 'out')
+                    ->where(function ($query) use ($movement) {
+                        if ($movement->batch_no === null) {
+                            $query->whereNull('batch_no');
+                        } else {
+                            $query->where('batch_no', $movement->batch_no);
+                        }
+                    })
+                    ->sum('quantity');
+            }
 
-            $availableQuantity = $movement->quantity - $consumedQuantity;
-
-            if ($availableQuantity > 0) {
+            if ($consumedPerBatch[$batchKey] >= $movement->quantity) {
+                $consumedPerBatch[$batchKey] -= $movement->quantity;
+            } else {
                 // This is the first available batch according to FIFO, return its unit cost
-                return $movement->unit_cost;
+                return (float) $movement->unit_cost;
             }
         }
 
