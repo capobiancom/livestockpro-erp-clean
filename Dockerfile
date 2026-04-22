@@ -20,10 +20,11 @@ RUN npm run build
 
 # ===========================================================
 # Stage 2: PHP Runtime
-# NOTE: Using richarvey base directly until GHCR package is public.
-# Once public, replace with: FROM ghcr.io/capobiancom/erp-php-base:latest
+# Pre-built base with bcmath + mysql-client already installed.
+# Rebuilt automatically via .github/workflows/build-base.yml
+# ONLY when Dockerfile.base / composer.json / composer.lock change.
 # ===========================================================
-FROM richarvey/nginx-php-fpm:3.1.6
+FROM ghcr.io/capobiancom/erp-php-base:latest
 
 ENV SKIP_COMPOSER=1 \
     PHP_ERRORS_STDERR=1 \
@@ -34,12 +35,7 @@ ENV SKIP_COMPOSER=1 \
 
 WORKDIR /var/www/html
 
-# bcmath: compile with virtual build deps, clean in same layer (no bloat)
-RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
-    && docker-php-ext-install -j$(nproc) bcmath \
-    && apk del .build-deps \
-    && apk add --no-cache mysql-client curl wget \
-    && rm -rf /var/cache/apk/* /tmp/*
+# bcmath + mysql-client + curl/wget already baked into the base image ✓
 
 # Copy application source (vendor/ and node_modules/ excluded via .dockerignore)
 COPY . .
