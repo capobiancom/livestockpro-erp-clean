@@ -20,11 +20,17 @@ ENV WEBROOT=/var/www/html/public
 WORKDIR /var/www/html
 
 # Install system dependencies and PHP extensions
+# Added libtool, autoconf, and build-base to ensure bcmath can be compiled
+# Removed -j$(nproc) to avoid potential parallel build issues in restricted environments
 RUN apk add --no-cache \
     mysql-client \
     curl \
     wget \
-    && docker-php-ext-install -j$(nproc) bcmath
+    libtool \
+    autoconf \
+    build-base \
+    && docker-php-ext-install bcmath \
+    && apk del build-base autoconf libtool
 
 # Copy application files
 COPY . .
