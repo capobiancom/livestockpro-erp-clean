@@ -96,7 +96,7 @@ class AppServiceProvider extends ServiceProvider
                             'BDT' => '৳',
                             default => '$', // Default to dollar sign
                         },
-                        'logo_path' => $settings->logo_path ? Storage::url($settings->logo_path) : null,
+                        'logo_path' => $settings->logo_path ? Storage::disk('public')->url($settings->logo_path) : null,
                         'timezone' => $settings->timezone,
                     ];
                 }

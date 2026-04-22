@@ -39,6 +39,11 @@ class AnimalSeeder extends Seeder
         ]);
 
         foreach ($farms as $farm) {
+            // Check if farm already has animals to avoid redundant seeding
+            if (Animal::where('farm_id', $farm->id)->exists()) {
+                continue;
+            }
+
             // Create a herd for farm
             $num = 20;
             Animal::factory()->count($num)->create([
