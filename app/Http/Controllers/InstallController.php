@@ -411,9 +411,13 @@ class InstallController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            // Assign Super Admin role (created by RoleSeeder)
-            $role = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
-            $user->assignRole($role);
+            // Assign Super Admin and admin roles (created by RoleSeeder)
+            // We assign both to ensure route middleware like 'role:admin' also works for the super admin.
+            $superAdminRole = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
+            $adminRole      = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+            
+            $user->assignRole($superAdminRole);
+            $user->assignRole($adminRole);
 
             session([
                 'install.admin_email' => $request->email,
@@ -478,6 +482,8 @@ class InstallController extends Controller
             storage_path('framework'),
             storage_path('logs'),
             base_path('bootstrap/cache'),
+            base_path(), // Ensure .env can be created
+            public_path(), // Ensure storage:link can be created
         ];
 
         foreach ($writablePaths as $path) {
@@ -715,17 +721,18 @@ ENV;
 
             // Try to change ownership to www-data if we have posix support
             // This will only succeed if running as root
-            if (function_exists('posix_getpwnam')) {
+            if (function_exists('posix_getpwnam') && function_exists('posix_getuid')) {
+                $uid = posix_getuid();
                 $wwwDataUid = posix_getpwnam('www-data');
                 if ($wwwDataUid !== false) {
                     $chownDir = @chown($logsDir, $wwwDataUid['uid']);
                     $chownFile = @chown($logFile, $wwwDataUid['uid']);
 
-                    if (!$chownDir) {
-                        error_log("Note: Could not chown {$logsDir} to www-data (may require root)");
+                    if (!$chownDir && $uid === 0) {
+                        error_log("Note: Could not chown {$logsDir} to www-data");
                     }
-                    if (!$chownFile) {
-                        error_log("Note: Could not chown {$logFile} to www-data (may require root)");
+                    if (!$chownFile && $uid === 0) {
+                        error_log("Note: Could not chown {$logFile} to www-data");
                     }
                 }
             }
