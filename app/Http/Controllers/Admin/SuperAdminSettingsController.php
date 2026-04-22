@@ -65,7 +65,7 @@ class SuperAdminSettingsController extends Controller
 
             $image = $request->file('website_logo');
             $filename = time() . '.' . $image->getClientOriginalExtension();
-            $path = 'website-logos/' . $filename;
+            $path = 'logos/' . $filename;
 
             // Resize to a reasonable size for header usage
             $img = Image::read($image)

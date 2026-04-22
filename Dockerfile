@@ -22,15 +22,16 @@ WORKDIR /var/www/html
 # Install system dependencies and PHP extensions
 # Added libtool, autoconf, and build-base to ensure bcmath can be compiled
 # Removed -j$(nproc) to avoid potential parallel build issues in restricted environments
-RUN apk add --no-cache \
-    mysql-client \
-    curl \
-    wget \
+RUN apk update && apk add --no-cache \
     libtool \
     autoconf \
     build-base \
+    mysql-client \
+    curl \
+    wget \
     && docker-php-ext-install bcmath \
-    && apk del build-base autoconf libtool
+    && rm -rf /var/cache/apk/*
+
 
 # Copy application files
 COPY . .
@@ -55,12 +56,18 @@ RUN mkdir -p /var/www/html/storage/framework/sessions \
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Fix Nginx duplicate location errors by using a clean monolithic config
+# Fix Nginx configuration and ensure relative storage symlink
 RUN rm -rf /etc/nginx/sites-enabled/* /etc/nginx/sites-available/* /etc/nginx/conf.d/* /nginx.conf \
     && mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled \
-    && touch /etc/nginx/sites-available/default.conf
+    && rm -rf public/storage \
+    && ln -s ../storage/app/public public/storage
+
 COPY custom-nginx.conf /etc/nginx/nginx.conf
 COPY custom-nginx.conf /nginx.conf
+
+# Final permissions check to ensure www-data can write where needed
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 80
 

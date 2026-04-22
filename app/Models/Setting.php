@@ -20,6 +20,16 @@ class Setting extends Model
         'site_description',
         'website_currency',
         'website_logo_path',
+
+        // Super admin email settings
+        'super_admin_mail_mailer',
+        'super_admin_mail_host',
+        'super_admin_mail_port',
+        'super_admin_mail_username',
+        'super_admin_mail_password',
+        'super_admin_mail_encryption',
+        'super_admin_mail_from_address',
+        'super_admin_mail_from_name',
     ];
 
     protected $appends = [
