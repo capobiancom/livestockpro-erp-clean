@@ -47,6 +47,31 @@
                     <p class="text-sm text-gray-500 mb-4">
                         Enter the animal's primary identification details
                     </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 border-b border-gray-100 pb-6">
+                        <div class="md:col-span-2">
+                            <label
+                                class="block text-sm font-semibold text-gray-700 mb-2"
+                            >
+                                Tag Number
+                                <span class="text-gray-400 text-xs"
+                                    >(Leave blank to auto-generate)</span
+                                >
+                            </label>
+                            <input
+                                v-model="form.tag"
+                                type="text"
+                                placeholder="e.g., TAG-1234"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
+                                :class="{ 'border-red-500': form.errors.tag }"
+                            />
+                            <p
+                                v-if="form.errors.tag"
+                                class="mt-1 text-sm text-red-600"
+                            >
+                                {{ form.errors.tag }}
+                            </p>
+                        </div>
+                    </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -578,7 +603,7 @@
 <script setup>
 import { computed } from "vue";
 import { useForm, Link } from "@inertiajs/inertia-vue3";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     breeds: Array,
@@ -590,6 +615,7 @@ const props = defineProps({
 const today = new Date().toISOString().split("T")[0];
 
 const form = useForm({
+    tag: "",
     name: "",
     animal_type: "",
     sex: "",
@@ -622,6 +648,6 @@ const handleImageUpload = (event) => {
 };
 
 const submit = () => {
-    form.post("/animals");
+    form.post(route("animals.store"));
 };
 </script>

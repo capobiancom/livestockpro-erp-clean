@@ -437,7 +437,7 @@
 import { Link } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 import { useMoneyFormatter } from "@/Utils/money";
 
 const props = defineProps({

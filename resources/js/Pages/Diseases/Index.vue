@@ -2,7 +2,7 @@
 import { ref, watch, computed } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import Layout from "../Layout/AppLayout.vue"; // Changed to AppLayout
+import Layout from "@/Layouts/AppLayout.vue"; // Changed to AppLayout
 import Pagination from "@/Components/Pagination.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";

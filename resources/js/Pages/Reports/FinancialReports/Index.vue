@@ -268,7 +268,7 @@
 </template>
 
 <script setup>
-import AppLayout from "@/Pages/Layout/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import { reactive } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 

@@ -475,7 +475,7 @@
 import { ref, computed } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-vue3";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     farms: Object,

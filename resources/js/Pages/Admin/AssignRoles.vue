@@ -261,7 +261,7 @@
 </template>
 
 <script setup>
-import AppLayout from "@/Pages/Layout/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import { Head, useForm } from "@inertiajs/inertia-vue3";
 import { computed } from "vue";
 

@@ -430,7 +430,7 @@
 
 <script setup>
 import { useForm, Link, Head } from "@inertiajs/inertia-vue3";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     animals: Array,

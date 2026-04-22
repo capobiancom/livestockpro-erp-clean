@@ -83,6 +83,12 @@ class AnimalController extends Controller
             return redirect()->route('login');
         }
         $validated = $request->validate([
+            'tag' => [
+                'nullable',
+                'string',
+                'max:50',
+                Rule::unique('animals', 'tag')->where(fn($q) => $q->where('farm_id', $request->farm_id))
+            ],
             'name' => 'nullable|string|max:100',
             'animal_type' => 'required|in:cow,ox,bull,calf,heifer,buffalo,other',
             'sex' => 'required|in:male,female,unknown',
@@ -95,17 +101,23 @@ class AnimalController extends Controller
             'color' => 'nullable|string|max:50',
             'acquired_at' => 'nullable|date|before_or_equal:today',
             'purchase_price' => 'nullable|numeric|min:0|max:9999999.99',
-            'supplier_id' => 'nullable|exists:suppliers,id', // Changed 'source' to 'supplier_id'
+            'supplier_id' => 'nullable|exists:suppliers,id',
             'attributes' => 'nullable|array',
             'notes' => 'nullable|string|max:1000',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        // Set user_id
+        $validated['user_id'] = $user->id;
+
         // Enforce farm_id for farm owners
         if ($user->hasRole('farm owner')) {
             $validated['farm_id'] = $user->farm_id;
-            $validated['user_id'] = $user->id;
-            $validated['tag'] = $this->generateUniqueTagNumber(); // Automatically generate tag for farm owners
+        }
+
+        // Generate tag if not provided
+        if (empty($validated['tag'])) {
+            $validated['tag'] = $this->generateUniqueTagNumber();
         }
 
         // Handle image upload

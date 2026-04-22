@@ -393,7 +393,7 @@
 
 <script setup>
 import { Link, useForm, Head } from "@inertiajs/inertia-vue3";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 import { ref } from "vue";
 
 const props = defineProps({

@@ -312,7 +312,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { Link, useForm } from "@inertiajs/inertia-vue3";
-import Layout from "@/Pages/Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import { Inertia } from "@inertiajs/inertia";
 

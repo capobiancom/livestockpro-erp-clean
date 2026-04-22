@@ -536,7 +536,7 @@
 
 <script setup>
 import { useForm, Link } from "@inertiajs/inertia-vue3";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 
 import { ref, computed } from "vue"; // Import ref and computed
 import { watch } from "vue";

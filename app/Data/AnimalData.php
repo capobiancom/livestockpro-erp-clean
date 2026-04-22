@@ -12,6 +12,7 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 class AnimalData extends Data
 {
     public function __construct(
+        public ?string $tag = null,
         public ?string $name = null,
         public ?string $animalType = null,
         public ?string $sex = null,
@@ -28,5 +29,6 @@ class AnimalData extends Data
         public ?array $attributes = null,
         public ?string $notes = null,
         public ?string $image = null,
+        public ?int $userId = null,
     ) {}
 }

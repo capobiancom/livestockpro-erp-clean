@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from "@/Pages/Layout/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import ConfirmModal from "@/Components/ConfirmModal.vue";
 import NotifyModal from "@/Components/NotifyModal.vue";
 import ToastNotification from "@/Components/ToastNotification.vue";

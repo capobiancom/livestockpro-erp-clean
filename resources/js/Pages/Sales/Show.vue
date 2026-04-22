@@ -532,7 +532,7 @@
 
 <script setup>
 import { Link, useForm } from "@inertiajs/inertia-vue3";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 import { useMoneyFormatter } from "@/Utils/money";
 
 const props = defineProps({

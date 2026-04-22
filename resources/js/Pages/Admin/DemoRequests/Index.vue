@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import { Head, useForm, usePage } from "@inertiajs/inertia-vue3";
-import AppLayout from "@/Pages/Layout/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     requests: {

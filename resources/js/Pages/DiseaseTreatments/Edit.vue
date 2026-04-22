@@ -597,7 +597,7 @@
 
 <script setup>
 import { useForm, Link } from "@inertiajs/inertia-vue3";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 import { ref, watch } from "vue";
 import axios from "axios";
 import { format } from "date-fns"; // Import date-fns

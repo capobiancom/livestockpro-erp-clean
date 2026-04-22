@@ -287,7 +287,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import { Link } from "@inertiajs/inertia-vue3";
-import AppLayout from "@/Pages/Layout/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     farm: { type: Object, required: true },

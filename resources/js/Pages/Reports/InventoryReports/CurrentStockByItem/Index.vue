@@ -390,7 +390,7 @@
 </template>
 
 <script setup>
-import AppLayout from "@/Pages/Layout/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import { computed, reactive } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import { useMoneyFormatter } from "@/Utils/money";

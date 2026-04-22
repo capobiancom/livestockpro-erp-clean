@@ -356,7 +356,7 @@
 
 <script setup>
 import { Link } from "@inertiajs/inertia-vue3";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 
 defineProps({
     breed: Object,

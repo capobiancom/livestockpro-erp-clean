@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import SupplierPaymentForm from "./Partials/SupplierPaymentForm.vue";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     suppliers: Array,

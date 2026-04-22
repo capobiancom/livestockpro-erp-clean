@@ -484,7 +484,7 @@
 import { Link, usePage } from "@inertiajs/inertia-vue3"; // Import usePage
 import { ref, onMounted } from "vue"; // Import onMounted
 import { Inertia } from "@inertiajs/inertia";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 import { useMoneyFormatter } from "@/Utils/money";
 
 const props = defineProps({

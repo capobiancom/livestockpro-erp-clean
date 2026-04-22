@@ -582,7 +582,7 @@
 
 <script setup>
 import { useForm, Link } from "@inertiajs/inertia-vue3";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 import { ref, watch } from "vue";
 
 const props = defineProps({

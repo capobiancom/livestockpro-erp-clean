@@ -97,7 +97,7 @@
 
 <script setup>
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import Layout from "@/Pages/Layout/AppLayout.vue"; // Assuming AppLayout is the correct layout
+import Layout from "@/Layouts/AppLayout.vue"; // Assuming AppLayout is the correct layout
 
 const props = defineProps({
     designation: Object,

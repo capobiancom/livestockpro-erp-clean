@@ -2550,7 +2550,7 @@
 
 <script setup>
 import { Link, usePage } from "@inertiajs/inertia-vue3";
-import Layout from "./Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 import { computed, ref, onMounted } from "vue";
 import { useMoneyFormatter } from "@/Utils/money";
 import DemoSeedingPopup from "@/Components/DemoSeedingPopup.vue"; // Import the new component

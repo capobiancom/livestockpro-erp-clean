@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from "@/Pages/Layout/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({

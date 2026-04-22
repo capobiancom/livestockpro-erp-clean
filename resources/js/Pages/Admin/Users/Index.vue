@@ -411,7 +411,7 @@
 </template>
 
 <script setup>
-import AppLayout from "@/Pages/Layout/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import Pagination from "@/Pages/Shared/Pagination.vue";
 import { Head, useForm } from "@inertiajs/inertia-vue3";
 import { computed, ref } from "vue";

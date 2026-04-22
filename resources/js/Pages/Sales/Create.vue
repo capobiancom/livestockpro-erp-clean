@@ -1,6 +1,6 @@
 <script setup>
 import { useForm, Link } from "@inertiajs/inertia-vue3";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 import SaleForm from "./Partials/SaleForm.vue";
 
 const props = defineProps({

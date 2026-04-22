@@ -552,7 +552,7 @@
 import { Link } from "@inertiajs/inertia-vue3";
 import { ref, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
-import Layout from "../Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 import { debounce } from "lodash";
 import { useMoneyFormatter } from "@/Utils/money";
 

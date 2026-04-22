@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from "@/Pages/Layout/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import Pagination from "@/Components/Pagination.vue";
 import { ref, watch, computed, onMounted } from "vue";

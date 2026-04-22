@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from "@/Pages/Layout/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import { Head, usePage } from "@inertiajs/inertia-vue3";
 import { computed, ref, watch } from "vue";
 import ConfirmModal from "@/Components/ConfirmModal.vue";

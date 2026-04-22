@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
-import AppLayout from "@/Pages/Layout/AppLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import { Inertia } from "@inertiajs/inertia";
 import DocumentViewerModal from "@/Components/DocumentViewerModal.vue";
 

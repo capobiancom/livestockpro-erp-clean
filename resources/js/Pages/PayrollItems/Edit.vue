@@ -433,7 +433,7 @@
 <script setup>
 import { computed } from "vue";
 import { useForm, Link } from "@inertiajs/inertia-vue3";
-import Layout from "@/Pages/Layout/AppLayout.vue";
+import Layout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     payrollItem: Object,
