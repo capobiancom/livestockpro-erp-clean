@@ -22,6 +22,8 @@ WORKDIR /var/www/html
 # Install system dependencies and PHP extensions
 RUN apk add --no-cache \
     mysql-client \
+    curl \
+    wget \
     && docker-php-ext-install -j$(nproc) bcmath
 
 # Copy application files
