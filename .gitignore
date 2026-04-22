@@ -22,3 +22,4 @@ yarn-error.log
 /vendor
 /bootstrap/cache/*.php
 /public/build
+/tmp
