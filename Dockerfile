@@ -21,14 +21,8 @@ WORKDIR /var/www/html
 
 # Install system dependencies and PHP extensions
 RUN apk add --no-cache \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    libzip-dev \
     mysql-client \
-    $PHPIZE_DEPS \
-    && docker-php-ext-install -j$(nproc) bcmath gd zip pdo_mysql \
-    && apk del $PHPIZE_DEPS
+    && docker-php-ext-install -j$(nproc) bcmath
 
 # Copy application files
 COPY . .
