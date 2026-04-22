@@ -48,7 +48,9 @@ RUN mkdir -p /var/www/html/storage/framework/sessions \
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Fix Nginx duplicate location errors by using a clean monolithic config
-RUN rm -rf /etc/nginx/sites-enabled/* /etc/nginx/sites-available/* /etc/nginx/conf.d/* /nginx.conf
+RUN rm -rf /etc/nginx/sites-enabled/* /etc/nginx/sites-available/* /etc/nginx/conf.d/* /nginx.conf \
+    && mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled \
+    && touch /etc/nginx/sites-available/default.conf
 COPY custom-nginx.conf /etc/nginx/nginx.conf
 COPY custom-nginx.conf /nginx.conf
 
