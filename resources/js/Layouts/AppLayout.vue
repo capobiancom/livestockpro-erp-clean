@@ -12,10 +12,7 @@
             <div class="p-5 border-b border-gray-700 flex-shrink-0">
                 <Link
                     :href="
-                        page.props.value.auth?.user?.roles.includes(
-                            'Super Admin',
-                            'admin',
-                        )
+                        hasRole(['Super Admin', 'admin'])
                             ? route('admin.dashboard')
                             : route('dashboard')
                     "
@@ -47,10 +44,7 @@
                     <li v-if="hasFeatureOrSingle('dashboard')">
                         <Link
                             :href="
-                                page.props.value.auth?.user?.roles.includes(
-                                    'Super Admin',
-                                    'admin',
-                                )
+                                hasRole(['Super Admin', 'admin'])
                                     ? route('admin.dashboard')
                                     : route('dashboard')
                             "
@@ -107,12 +101,7 @@
 
                     <!-- Animals Menu -->
                     <li
-                        v-if="
-                            !page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            ) && hasFeatureOrSingle('animals')
-                        "
+                        v-if="hasFeatureOrSingle('animals')"
                     >
                         <button
                             @click="toggleMenu('animals')"
@@ -235,12 +224,7 @@
 
                     <!-- Health Menu -->
                     <li
-                        v-if="
-                            !page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            ) && hasFeatureOrSingle('healths')
-                        "
+                        v-if="hasFeatureOrSingle('healths')"
                     >
                         <button
                             @click="toggleMenu('health')"
@@ -345,12 +329,7 @@
 
                     <!-- Feeding Menu -->
                     <li
-                        v-if="
-                            !page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            ) && hasFeatureOrSingle('feedings')
-                        "
+                        v-if="hasFeatureOrSingle('feedings')"
                     >
                         <button
                             @click="toggleMenu('feeding')"
@@ -413,12 +392,7 @@
 
                     <!-- Production Menu -->
                     <li
-                        v-if="
-                            !page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            ) && hasFeatureOrSingle('productions')
-                        "
+                        v-if="hasFeatureOrSingle('productions')"
                     >
                         <button
                             @click="toggleMenu('production')"
@@ -488,12 +462,7 @@
 
                     <!-- Accounts Menu -->
                     <li
-                        v-if="
-                            !page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            ) && hasFeatureOrSingle('accounting')
-                        "
+                        v-if="hasFeatureOrSingle('accounting')"
                     >
                         <button
                             @click="toggleMenu('accounts')"
@@ -616,12 +585,7 @@
 
                     <!-- Finance Menu -->
                     <li
-                        v-if="
-                            !page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            ) && hasFeatureOrSingle('finance')
-                        "
+                        v-if="hasFeatureOrSingle('finance')"
                     >
                         <button
                             @click="toggleMenu('finance')"
@@ -691,12 +655,7 @@
 
                     <!-- Customers Menu -->
                     <li
-                        v-if="
-                            !page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            ) && hasFeatureOrSingle('customers')
-                        "
+                        v-if="hasFeatureOrSingle('customers')"
                     >
                         <button
                             @click="toggleMenu('customers')"
@@ -766,12 +725,7 @@
 
                     <!-- Inventory Menu -->
                     <li
-                        v-if="
-                            !page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            ) && hasFeatureOrSingle('inventory')
-                        "
+                        v-if="hasFeatureOrSingle('inventory')"
                     >
                         <button
                             @click="toggleMenu('inventory')"
@@ -876,12 +830,7 @@
 
                     <!-- Operations Menu -->
                     <li
-                        v-if="
-                            !page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            ) && hasFeatureOrSingle('operation')
-                        "
+                        v-if="hasFeatureOrSingle('operation')"
                     >
                         <button
                             @click="toggleMenu('operations')"
@@ -957,12 +906,7 @@
 
                     <!-- Human Resource Menu -->
                     <li
-                        v-if="
-                            !page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            ) && hasFeatureOrSingle('hr')
-                        "
+                        v-if="hasFeatureOrSingle('hr')"
                     >
                         <button
                             @click="toggleMenu('humanResource')"
@@ -1103,12 +1047,7 @@
 
                     <!-- Reports Menu -->
                     <li
-                        v-if="
-                            !page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            ) && hasFeatureOrSingle('reports')
-                        "
+                        v-if="hasFeatureOrSingle('reports')"
                     >
                         <button
                             @click="toggleMenu('reports')"
@@ -1291,12 +1230,7 @@
 
                     <!-- Inventory Reports Menu -->
                     <li
-                        v-if="
-                            !page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            ) && hasFeatureOrSingle('invreports')
-                        "
+                        v-if="hasFeatureOrSingle('invreports')"
                     >
                         <button
                             @click="toggleMenu('inventoryReports')"
@@ -1472,13 +1406,7 @@
                     </li>
                     <!-- Subscription Plans & Features Menu (SaaS mode only) -->
                     <li
-                        v-if="
-                            isSaasMode &&
-                            page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            )
-                        "
+                        v-if="isSaasMode && hasRole(['Super Admin', 'admin'])"
                     >
                         <button
                             @click="toggleMenu('subscriptions')"
@@ -1556,14 +1484,7 @@
                     </li>
 
                     <!-- Administration Menu -->
-                    <li
-                        v-if="
-                            page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            )
-                        "
-                    >
+                    <li v-if="hasRole(['Super Admin', 'admin'])">
                         <button
                             @click="toggleMenu('admin')"
                             :class="[
@@ -1627,12 +1548,7 @@
 
                             <!-- Super Admin only -->
                             <li
-                                v-if="
-                                    !isSingleLicenseMode &&
-                                    page.props.value.auth?.user?.roles.includes(
-                                        'Super Admin',
-                                    )
-                                "
+                                v-if="!isSingleLicenseMode && hasRole('Super Admin')"
                             >
                                 <Link
                                     :href="route('admin.farms.index')"
@@ -1643,11 +1559,7 @@
 
                             <!-- Super Admin only -->
                             <li
-                                v-if="
-                                    page.props.value.auth?.user?.roles.includes(
-                                        'Super Admin',
-                                    )
-                                "
+                                v-if="hasRole('Super Admin')"
                             >
                                 <Link
                                     :href="route('admin.settings.website.edit')"
@@ -1660,11 +1572,7 @@
 
                             <!-- Super Admin only -->
                             <li
-                                v-if="
-                                    page.props.value.auth?.user?.roles.includes(
-                                        'Super Admin',
-                                    )
-                                "
+                                v-if="hasRole('Super Admin')"
                             >
                                 <Link
                                     :href="route('admin.settings.email.edit')"
@@ -1675,11 +1583,7 @@
 
                             <!-- Super Admin only -->
                             <li
-                                v-if="
-                                    page.props.value.auth?.user?.roles.includes(
-                                        'Super Admin',
-                                    )
-                                "
+                                v-if="hasRole('Super Admin')"
                             >
                                 <Link
                                     :href="route('admin.demo-requests.index')"
@@ -1850,13 +1754,7 @@
 
                     <li
                         class="pt-2"
-                        v-if="
-                            !isSingleLicenseMode &&
-                            page.props.value.auth?.user?.roles.includes(
-                                'Super Admin',
-                                'admin',
-                            )
-                        "
+                        v-if="!isSingleLicenseMode && hasRole(['Super Admin', 'admin'])"
                     >
                         <Link
                             :href="route('settings.payment-gateways.index')"
@@ -1941,10 +1839,7 @@
                         <Link
                             v-if="
                                 !isSingleLicenseMode &&
-                                page.props.value.auth?.user?.roles.includes(
-                                    'Super Admin',
-                                    'admin',
-                                )
+                                hasRole(['Super Admin', 'admin'])
                             "
                             :href="route('admin.dashboard')"
                             class="px-3 py-2 text-sm bg-gray-900 hover:bg-gray-800 text-white rounded-lg font-medium shadow-sm transition duration-200"
@@ -1998,9 +1893,10 @@ import FarmSwitcher from "@/Components/FarmSwitcher.vue";
 
 const page = usePage();
 const user = computed(() => page.props.value.auth?.user ?? null);
-const roles = computed(() =>
-    (page.props.value.auth?.user?.roles ?? []).map((r) => r.name),
-);
+const roles = computed(() => {
+    const rawRoles = page.props.value.auth?.user?.roles ?? [];
+    return rawRoles.map((r) => (typeof r === "string" ? r : r.name));
+});
 const appSettings = computed(() => usePage().props.value?.appSettings || {}); // Safely access appSettings with optional chaining
 const subscription = computed(() => usePage().props.value?.subscription || {});
 const enabledFeatures = computed(() => subscription.value?.features || []);
@@ -2008,7 +1904,16 @@ const hasFeature = (key) => enabledFeatures.value.includes(key);
 
 // In single-license mode we bypass subscription feature gating entirely.
 const hasFeatureOrSingle = (key) =>
-    isSingleLicenseMode.value ? true : hasFeature(key);
+    isSingleLicenseMode.value || hasRole(["Super Admin", "admin"])
+        ? true
+        : hasFeature(key);
+
+const hasRole = (roleName) => {
+    if (Array.isArray(roleName)) {
+        return roleName.some((r) => roles.value.includes(r));
+    }
+    return roles.value.includes(roleName);
+};
 
 // App mode flags (provided by HandleInertiaRequests)
 const isSaasMode = computed(() => !!page.props.value?.app_mode?.saas_mode);
