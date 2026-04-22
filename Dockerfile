@@ -42,8 +42,9 @@ RUN mkdir -p /var/www/html/storage/framework/sessions \
     /var/www/html/storage/framework/cache \
     /var/www/html/storage/logs \
     /var/www/html/bootstrap/cache \
+    && touch /var/www/html/.env \
     && chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+    && chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/.env
 
 # Fix Nginx duplicate location errors by using a clean monolithic config
 RUN rm -rf /etc/nginx/sites-enabled/* /etc/nginx/sites-available/* /etc/nginx/conf.d/* /nginx.conf
