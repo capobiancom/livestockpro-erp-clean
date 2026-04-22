@@ -19,3 +19,5 @@ yarn-error.log
 /.idea
 /.vscode
 /database/database.sqlite
+/vendor
+/bootstrap/cache/*.php
