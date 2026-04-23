@@ -2,8 +2,8 @@
     <Layout>
         <template #title>
             <div>
-                <h2 class="text-3xl font-bold text-gray-800">Edit Medicine</h2>
-                <p class="text-sm text-gray-500 mt-1">Update medicine record</p>
+                <h2 class="text-3xl font-bold text-gray-800"> {{ $t('edit_medicine') }} </h2>
+                <p class="text-sm text-gray-500 mt-1"> {{ $t('update_medicine_record') }} </p>
             </div>
         </template>
 
@@ -81,7 +81,7 @@
                             </label>
                             <select
                                 v-model="form.medicine_group_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="">Select Medicine Group</option>
                                 <option
@@ -111,7 +111,7 @@
                             </label>
                             <select
                                 v-model="form.inventory_category_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="">Select Category</option>
                                 <option
@@ -141,7 +141,7 @@
                             </label>
                             <select
                                 v-model="form.supplier_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="">Select Supplier</option>
                                 <option
@@ -213,7 +213,7 @@
                             </label>
                             <select
                                 v-model="form.unit"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="">Select Unit</option>
                                 <option value="ml">ml</option>

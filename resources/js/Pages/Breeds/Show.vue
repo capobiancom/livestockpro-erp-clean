@@ -26,7 +26,7 @@
                         <h2 class="text-3xl font-bold text-gray-800">
                             {{ breed.name }}
                         </h2>
-                        <p class="text-sm text-gray-500 mt-1">Breed Details</p>
+                        <p class="text-sm text-gray-500 mt-1"> {{ $t('breed_details') }} </p>
                     </div>
                 </div>
 

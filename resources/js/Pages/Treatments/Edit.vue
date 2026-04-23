@@ -1,8 +1,8 @@
 <template>
     <Layout>
         <template #title>
-            <h2 class="text-3xl font-bold text-gray-800">Edit Treatment</h2>
-            <p class="text-sm text-gray-500 mt-1">Update treatment record</p>
+            <h2 class="text-3xl font-bold text-gray-800"> {{ $t('edit_treatment') }} </h2>
+            <p class="text-sm text-gray-500 mt-1"> {{ $t('update_treatment_record') }} </p>
         </template>
 
         <div class="max-w-4xl mx-auto">
@@ -92,7 +92,7 @@
                                 </label>
                                 <select
                                     v-model="medication.medicine_id"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                     :class="{
                                         'border-red-500':
                                             form.errors[

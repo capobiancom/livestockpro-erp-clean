@@ -111,7 +111,7 @@ function clearFarm() {
     <AppLayout>
         <template #title>
             <div>
-                <div class="text-xs text-gray-500">Administration</div>
+                <div class="text-xs text-gray-500"> {{ $t('administration') }} </div>
                 <div class="text-lg font-semibold text-gray-900">
                     Collections
                 </div>
@@ -141,7 +141,7 @@ function clearFarm() {
                         >
                         <select
                             v-model="farmId"
-                            class="mt-1 w-full md:w-80 border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            class="mt-1 w-full md:w-80 border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option :value="null">All farms</option>
                             <option

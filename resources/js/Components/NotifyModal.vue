@@ -120,8 +120,8 @@ function submit() {
                     type="button"
                     @click="submit"
                 >
-                    <span v-if="loading">Sending…</span>
-                    <span v-else>Send</span>
+                    <span v-if="loading"> {{ $t('sending') }} </span>
+                    <span v-else> {{ $t('send') }} </span>
                 </PrimaryButton>
             </div>
         </div>

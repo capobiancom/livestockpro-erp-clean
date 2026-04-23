@@ -34,7 +34,7 @@
                         </label>
                         <select
                             v-model="form.health_issue_id"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             :class="{
                                 'border-red-500': form.errors.health_issue_id,
                             }"
@@ -67,7 +67,7 @@
                         </label>
                         <select
                             v-model="form.health_event_id"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             :class="{
                                 'border-red-500': form.errors.health_event_id,
                             }"
@@ -99,7 +99,7 @@
                         </label>
                         <select
                             v-model="form.treatment_id"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             :class="{
                                 'border-red-500': form.errors.treatment_id,
                             }"
@@ -479,7 +479,7 @@
                                 </label>
                                 <select
                                     v-model="medication.status"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                     :class="{
                                         'border-red-500':
                                             form.errors[
@@ -525,7 +525,7 @@
                         <select
                             v-model="form.status"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                            :class="{ 'border-red-500': form.errors.status }"
+                            :class="[{ 'border-red-500': form.errors.status }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                             required
                         >
                             <option value="">Select Status</option>

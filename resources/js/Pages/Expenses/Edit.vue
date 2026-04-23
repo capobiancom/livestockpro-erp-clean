@@ -156,7 +156,7 @@
                             </label>
                             <select
                                 v-model="form.farm_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.farm_id,
                                 }"
@@ -189,7 +189,7 @@
                             </label>
                             <select
                                 v-model="form.staff_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.staff_id,
                                 }"

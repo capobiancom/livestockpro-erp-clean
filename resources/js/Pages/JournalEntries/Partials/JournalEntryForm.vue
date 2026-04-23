@@ -144,15 +144,15 @@ watch(() => form.lines, debouncedUpdate, { deep: true });
                         <select
                             id="reference_type"
                             v-model="form.reference_type"
-                            class="mt-1 block w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm"
+                            class="mt-1 block w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
-                            <option value="">Select Reference Type</option>
-                            <option value="sale">Sale</option>
-                            <option value="purchase">Purchase</option>
-                            <option value="payroll">Payroll</option>
-                            <option value="treatment">Treatment</option>
+                            <option value=""> {{ $t('select_reference_type') }} </option>
+                            <option value="sale"> {{ $t('sale') }} </option>
+                            <option value="purchase"> {{ $t('purchase') }} </option>
+                            <option value="payroll"> {{ $t('payroll') }} </option>
+                            <option value="treatment"> {{ $t('treatment') }} </option>
                             <!-- Backward compatibility: auto journals store FQCN in reference_type -->
-                            <option value="App\Models\Sale">Sale (Auto)</option>
+                            <option value="App\Models\Sale"> {{ $t('sale_auto') }} </option>
                             <option value="App\Models\Purchase">
                                 Purchase (Auto)
                             </option>
@@ -195,11 +195,11 @@ watch(() => form.lines, debouncedUpdate, { deep: true });
                         <select
                             id="status"
                             v-model="form.status"
-                            class="mt-1 block w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm"
+                            class="mt-1 block w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
-                            <option value="draft">Draft</option>
-                            <option value="posted">Posted</option>
-                            <option value="reversed">Reversed</option>
+                            <option value="draft"> {{ $t('draft') }} </option>
+                            <option value="posted"> {{ $t('posted') }} </option>
+                            <option value="reversed"> {{ $t('reversed') }} </option>
                         </select>
                         <InputError
                             :message="form.errors.status"
@@ -244,7 +244,7 @@ watch(() => form.lines, debouncedUpdate, { deep: true });
                                     Narration
                                 </th>
                                 <th scope="col" class="relative px-6 py-3">
-                                    <span class="sr-only">Edit</span>
+                                    <span class="sr-only"> {{ $t('edit') }} </span>
                                 </th>
                             </tr>
                         </thead>
@@ -257,9 +257,9 @@ watch(() => form.lines, debouncedUpdate, { deep: true });
                                     <select
                                         :id="`account_id-${index}`"
                                         v-model="line.account_id"
-                                        class="block w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm text-sm"
+                                        class="block w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm text-sm cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                     >
-                                        <option value="">Select Account</option>
+                                        <option value=""> {{ $t('select_account') }} </option>
                                         <option
                                             v-for="account in chartOfAccounts"
                                             :key="account.id"

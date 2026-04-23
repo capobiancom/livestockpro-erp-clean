@@ -2,7 +2,7 @@
     <Layout>
         <template #title>
             <div class="flex items-center justify-between">
-                <h2 class="text-3xl font-bold text-gray-800">Farm Details</h2>
+                <h2 class="text-3xl font-bold text-gray-800"> {{ $t('farm_details') }} </h2>
                 <div class="flex gap-3">
                     <Link
                         :href="route('farms.edit', farm.id)"

@@ -64,7 +64,7 @@
                     <!-- <select
                         v-model="selectedStatus"
                         @change="handleSearch"
-                        class="border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        class="border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-green-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                     >
                         <option :value="null">All Statuses</option>
                         <option

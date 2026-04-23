@@ -293,7 +293,7 @@ const rows = computed(() => props.requests?.data ?? []);
                         <div class="sm:col-span-2">
                             <label
                                 class="block text-sm font-medium text-slate-700"
-                                >Subject</label
+                                > {{ $t('subject') }} </label
                             >
                             <input
                                 v-model="emailForm.subject"
@@ -311,7 +311,7 @@ const rows = computed(() => props.requests?.data ?? []);
                         <div class="sm:col-span-2">
                             <label
                                 class="block text-sm font-medium text-slate-700"
-                                >Scheduled at (optional)</label
+                                > {{ $t('scheduled_at_optional') }} </label
                             >
                             <input
                                 v-model="emailForm.scheduled_at"
@@ -329,7 +329,7 @@ const rows = computed(() => props.requests?.data ?? []);
                         <div class="sm:col-span-2">
                             <label
                                 class="block text-sm font-medium text-slate-700"
-                                >Message</label
+                                > {{ $t('message') }} </label
                             >
                             <textarea
                                 v-model="emailForm.message"
@@ -350,7 +350,7 @@ const rows = computed(() => props.requests?.data ?? []);
                     >
                         <div class="text-sm text-slate-500">
                             Uses the SMTP settings from
-                            <span class="font-medium">Email Settings</span>.
+                            <span class="font-medium"> {{ $t('email_settings') }} </span>.
                         </div>
 
                         <button

@@ -26,7 +26,7 @@
                         <h2 class="text-3xl font-bold text-gray-800">
                             {{ shift.name }}
                         </h2>
-                        <p class="text-sm text-gray-500 mt-1">Shift Details</p>
+                        <p class="text-sm text-gray-500 mt-1"> {{ $t('shift_details') }} </p>
                     </div>
                 </div>
                 <div class="flex gap-3">

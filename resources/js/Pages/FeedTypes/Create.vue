@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <template #title>
-            <h2 class="text-3xl font-bold text-gray-800">Add New Feed Type</h2>
+            <h2 class="text-3xl font-bold text-gray-800"> {{ $t('add_new_feed_type') }} </h2>
         </template>
 
         <form @submit.prevent="submit" class="mt-6">
@@ -31,7 +31,7 @@
                         <select
                             v-model="form.category"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                            :class="{ 'border-red-500': form.errors.category }"
+                            :class="[{ 'border-red-500': form.errors.category }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                             required
                         >
                             <option value="">Select Category</option>

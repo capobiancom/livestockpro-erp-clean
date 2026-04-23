@@ -224,7 +224,7 @@ const statusClasses = (status) => ({
                             >
                             <select
                                 v-model="form.reference_type"
-                                class="w-full text-sm border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50"
+                                class="w-full text-sm border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="">All Types</option>
                                 <option
@@ -245,7 +245,7 @@ const statusClasses = (status) => ({
                             >
                             <select
                                 v-model="form.status"
-                                class="w-full text-sm border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50"
+                                class="w-full text-sm border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="">All Statuses</option>
                                 <option value="draft">Draft</option>

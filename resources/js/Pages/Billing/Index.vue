@@ -306,11 +306,11 @@ onMounted(() => {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >Plan</label
+                                    > {{ $t('plan') }} </label
                                 >
                                 <select
                                     v-model="form.subscription_plan_id"
-                                    class="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 >
                                     <option
                                         v-for="p in plans"
@@ -325,13 +325,13 @@ onMounted(() => {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >Billing period</label
+                                    > {{ $t('billing_period') }} </label
                                 >
                                 <select
                                     v-model="form.billing_period"
-                                    class="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 >
-                                    <option value="monthly">Monthly</option>
+                                    <option value="monthly"> {{ $t('monthly') }} </option>
                                     <option value="yearly">
                                         Yearly (15% discount)
                                     </option>
@@ -341,11 +341,11 @@ onMounted(() => {
                             <div class="md:col-span-2">
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >Payment gateway</label
+                                    > {{ $t('payment_gateway') }} </label
                                 >
                                 <select
                                     v-model="form.gateway"
-                                    class="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 >
                                     <option
                                         v-for="gw in enabledGateways"
@@ -403,7 +403,7 @@ onMounted(() => {
                             <div v-if="selectedPlan" class="mt-4 space-y-3">
                                 <div class="flex items-center justify-between">
                                     <span class="text-sm text-gray-600"
-                                        >Monthly</span
+                                        > {{ $t('monthly') }} </span
                                     >
                                     <span
                                         class="text-sm font-semibold text-gray-900"
@@ -417,7 +417,7 @@ onMounted(() => {
 
                                 <div class="flex items-center justify-between">
                                     <span class="text-sm text-gray-600"
-                                        >Yearly</span
+                                        > {{ $t('yearly') }} </span
                                     >
                                     <span
                                         class="text-sm font-semibold text-gray-900"

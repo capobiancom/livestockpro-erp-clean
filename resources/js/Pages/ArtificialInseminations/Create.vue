@@ -36,7 +36,7 @@
                             <select
                                 id="animal_id"
                                 v-model="form.animal_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.animal_id,
                                 }"
@@ -110,7 +110,7 @@
                             </label>
                             <select
                                 v-model="form.breed_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.breed_id,
                                 }"
@@ -189,7 +189,7 @@
                             </label>
                             <select
                                 v-model="form.vet_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.vet_id,
                                 }"

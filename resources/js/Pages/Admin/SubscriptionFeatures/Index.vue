@@ -113,7 +113,7 @@ const sortedFeatures = computed(() => {
                 <div
                     class="rounded-2xl border border-gray-200 bg-white shadow-sm p-5"
                 >
-                    <div class="text-xs font-medium text-gray-500">Active</div>
+                    <div class="text-xs font-medium text-gray-500"> {{ $t('active') }} </div>
                     <div class="mt-2 text-2xl font-semibold text-gray-900">
                         {{ sortedFeatures.filter((f) => f.is_active).length }}
                     </div>

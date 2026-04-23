@@ -183,7 +183,7 @@ function submitNotify(message) {
     <AppLayout>
         <template #title>
             <div>
-                <div class="text-xs text-gray-500">Administration</div>
+                <div class="text-xs text-gray-500"> {{ $t('administration') }} </div>
                 <div class="text-lg font-semibold text-gray-900">
                     Admin Dashboard
                 </div>

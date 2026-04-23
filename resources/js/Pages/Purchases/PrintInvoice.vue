@@ -4,7 +4,7 @@
             <!-- Header -->
             <div class="flex justify-between items-center mb-8">
                 <div>
-                    <h1 class="text-4xl font-bold text-gray-900">INVOICE</h1>
+                    <h1 class="text-4xl font-bold text-gray-900"> {{ $t('invoice') }} </h1>
                     <p class="text-lg text-gray-600">
                         #{{ purchase.invoice_number || purchase.id }}
                     </p>
@@ -118,7 +118,7 @@
                         class="flex justify-between py-2 border-b border-gray-200"
                     >
                         <span class="text-sm font-medium text-gray-700"
-                            >Subtotal:</span
+                            > {{ $t('subtotal') }} </span
                         >
                         <span class="text-sm font-medium text-gray-900">{{
                             money(subTotalSum)
@@ -128,7 +128,7 @@
                         class="flex justify-between py-2 border-b border-gray-200"
                     >
                         <span class="text-sm font-medium text-gray-700"
-                            >Discount:</span
+                            > {{ $t('discount') }} </span
                         >
                         <span class="text-sm font-medium text-gray-900">
                             <span v-if="purchase.discount_type === 'Percent'">
@@ -146,7 +146,7 @@
                         class="flex justify-between py-2 border-b border-gray-200"
                     >
                         <span class="text-sm font-medium text-gray-700"
-                            >Tax:</span
+                            > {{ $t('tax') }} </span
                         >
                         <span class="text-sm font-medium text-gray-900">
                             <span v-if="purchase.tax_percentage > 0">
@@ -163,7 +163,7 @@
                     <div
                         class="flex justify-between py-3 font-bold text-lg bg-gray-50 rounded-b-lg"
                     >
-                        <span class="px-4 text-gray-800">Total:</span>
+                        <span class="px-4 text-gray-800"> {{ $t('total') }} </span>
                         <span class="px-4 text-gray-900">{{
                             money(purchase.total_amount)
                         }}</span>
@@ -173,7 +173,7 @@
 
             <!-- Notes -->
             <div v-if="purchase.notes" class="mb-8">
-                <h3 class="text-lg font-semibold text-gray-800 mb-3">Notes:</h3>
+                <h3 class="text-lg font-semibold text-gray-800 mb-3"> {{ $t('notes') }} </h3>
                 <p class="text-sm text-gray-600 whitespace-pre-wrap">
                     {{ purchase.notes }}
                 </p>
@@ -181,7 +181,7 @@
 
             <!-- Footer -->
             <div class="text-center text-gray-500 text-xs mt-12">
-                <p>Thank you for your business!</p>
+                <p> {{ $t('thank_you_for_your_business') }} </p>
                 <p>
                     {{ purchase.farm?.address || "" }} |
                     {{ purchase.farm?.phone || "" }} |

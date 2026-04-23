@@ -184,7 +184,7 @@
                         >
                         <select
                             v-model="form.animal_id"
-                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option :value="null">All cows</option>
                             <option
@@ -217,7 +217,7 @@
                         <div class="mt-1 grid grid-cols-2 gap-2">
                             <select
                                 v-model="form.sort"
-                                class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="total_cost">Total cost</option>
                                 <option value="total_feed">Total feed</option>
@@ -229,7 +229,7 @@
                             </select>
                             <select
                                 v-model="form.direction"
-                                class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="asc">Asc</option>
                                 <option value="desc">Desc</option>

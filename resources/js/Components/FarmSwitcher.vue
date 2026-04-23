@@ -1,8 +1,8 @@
 <template>
     <div class="flex items-center gap-2">
-        <label class="text-xs text-gray-500">Farm</label>
+        <label class="text-xs text-gray-500"> {{ $t('farm') }} </label>
         <select
-            class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
             :value="selectedFarmId ?? ''"
             @change="onChange"
         >

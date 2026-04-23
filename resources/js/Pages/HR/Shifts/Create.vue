@@ -59,7 +59,7 @@
                             <select
                                 v-model="form.name"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                                :class="{ 'border-red-500': form.errors.name }"
+                                :class="[{ 'border-red-500': form.errors.name }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                             >
                                 <option value="">Select shift name...</option>
                                 <option value="Morning">Morning</option>

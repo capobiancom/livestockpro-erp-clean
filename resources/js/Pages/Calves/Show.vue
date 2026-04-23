@@ -28,7 +28,7 @@
                         <h2 class="text-3xl font-bold text-gray-800">
                             {{ calf.tag_number }}
                         </h2>
-                        <p class="text-sm text-gray-500 mt-1">Calf Details</p>
+                        <p class="text-sm text-gray-500 mt-1"> {{ $t('calf_details') }} </p>
                     </div>
                 </div>
 

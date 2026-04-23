@@ -52,9 +52,9 @@ const props = defineProps({
                     v-model="form.type"
                     required
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-                    :class="{ 'border-red-500': form.errors.type }"
+                    :class="[{ 'border-red-500': form.errors.type }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                 >
-                    <option value="">Select Customer Type</option>
+                    <option value=""> {{ $t('select_customer_type') }} </option>
                     <option
                         v-for="typeOption in customerTypes"
                         :key="typeOption"
@@ -70,7 +70,7 @@ const props = defineProps({
 
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
-                    Email <span class="text-gray-400 text-xs">(Optional)</span>
+                    Email <span class="text-gray-400 text-xs"> {{ $t('optional') }} </span>
                 </label>
                 <input
                     id="email"
@@ -88,7 +88,7 @@ const props = defineProps({
 
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
-                    Phone <span class="text-gray-400 text-xs">(Optional)</span>
+                    Phone <span class="text-gray-400 text-xs"> {{ $t('optional') }} </span>
                 </label>
                 <input
                     id="phone"
@@ -125,7 +125,7 @@ const props = defineProps({
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
                     Address
-                    <span class="text-gray-400 text-xs">(Optional)</span>
+                    <span class="text-gray-400 text-xs"> {{ $t('optional') }} </span>
                 </label>
                 <input
                     id="address"
@@ -144,7 +144,7 @@ const props = defineProps({
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
                     Contact Person
-                    <span class="text-gray-400 text-xs">(Optional)</span>
+                    <span class="text-gray-400 text-xs"> {{ $t('optional') }} </span>
                 </label>
                 <input
                     id="contact_person"
@@ -181,7 +181,7 @@ const props = defineProps({
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Notes <span class="text-gray-400 text-xs">(Optional)</span>
+                Notes <span class="text-gray-400 text-xs"> {{ $t('optional') }} </span>
             </label>
             <textarea
                 id="notes"

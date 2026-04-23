@@ -35,7 +35,7 @@
                             </label>
                             <select
                                 v-model="form.supplier_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="">Select Supplier</option>
                                 <option
@@ -137,7 +137,7 @@
                                 >
                                 <select
                                     v-model="item.item_type"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 >
                                     <option value="inventory_item">
                                         Inventory Item
@@ -154,7 +154,7 @@
                                 >
                                 <select
                                     v-model="item.item_id"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 >
                                     <option value="">Select Item</option>
                                     <option
@@ -347,7 +347,7 @@
                             <select
                                 v-model="form.discount_type"
                                 @change="calculateTotals"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="Fixed">Fixed</option>
                                 <option value="Percent">Percent (%)</option>

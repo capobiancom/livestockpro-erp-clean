@@ -117,7 +117,7 @@
                             <div class="flex items-baseline gap-3">
                                 <span
                                     class="w-32 text-xs font-bold text-gray-500 uppercase tracking-wide flex-shrink-0"
-                                    >Voucher No.</span
+                                    > {{ $t('voucher_no') }} </span
                                 >
                                 <span class="text-sm font-black text-indigo-700"
                                     >#{{
@@ -128,7 +128,7 @@
                             <div class="flex items-baseline gap-3">
                                 <span
                                     class="w-32 text-xs font-bold text-gray-500 uppercase tracking-wide flex-shrink-0"
-                                    >Voucher Type</span
+                                    > {{ $t('voucher_type') }} </span
                                 >
                                 <span
                                     class="text-sm font-semibold text-indigo-600"
@@ -145,7 +145,7 @@
                             >
                                 <span
                                     class="w-32 text-xs font-bold text-gray-500 uppercase tracking-wide flex-shrink-0"
-                                    >Reference ID</span
+                                    > {{ $t('reference_id') }} </span
                                 >
                                 <span class="text-sm text-gray-700">{{
                                     journalEntry.reference_id
@@ -157,7 +157,7 @@
                             <div class="flex items-baseline gap-3">
                                 <span
                                     class="w-32 text-xs font-bold text-gray-500 uppercase tracking-wide flex-shrink-0"
-                                    >Entry Date</span
+                                    > {{ $t('entry_date') }} </span
                                 >
                                 <span
                                     class="text-sm font-semibold text-gray-900"
@@ -169,7 +169,7 @@
                             <div class="flex items-baseline gap-3">
                                 <span
                                     class="w-32 text-xs font-bold text-gray-500 uppercase tracking-wide flex-shrink-0"
-                                    >Status</span
+                                    > {{ $t('status') }} </span
                                 >
                                 <span
                                     class="text-sm font-bold capitalize"
@@ -183,7 +183,7 @@
                             >
                                 <span
                                     class="w-32 text-xs font-bold text-gray-500 uppercase tracking-wide flex-shrink-0"
-                                    >Prepared By</span
+                                    > {{ $t('prepared_by') }} </span
                                 >
                                 <span class="text-sm text-gray-700">{{
                                     journalEntry.createdBy?.name

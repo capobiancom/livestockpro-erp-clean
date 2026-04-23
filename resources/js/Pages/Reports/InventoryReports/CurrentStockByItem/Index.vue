@@ -176,7 +176,7 @@
                         >
                         <select
                             v-model="form.item_type"
-                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option value="all">All</option>
                             <option value="inventory">Inventory items</option>
@@ -191,7 +191,7 @@
                         <div class="mt-1 grid grid-cols-2 gap-2">
                             <select
                                 v-model="form.sort"
-                                class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="name">Name</option>
                                 <option value="stock">Current stock</option>
@@ -200,7 +200,7 @@
                             </select>
                             <select
                                 v-model="form.direction"
-                                class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="asc">Asc</option>
                                 <option value="desc">Desc</option>

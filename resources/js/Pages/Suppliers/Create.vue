@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <template #title>
-            <h2 class="text-3xl font-bold text-gray-800">Add New Supplier</h2>
+            <h2 class="text-3xl font-bold text-gray-800"> {{ $t('add_new_supplier') }} </h2>
         </template>
 
         <form @submit.prevent="submit" class="mt-6">

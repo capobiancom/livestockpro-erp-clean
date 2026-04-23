@@ -30,7 +30,7 @@ function submit() {
 <template>
     <Layout>
         <template #title>
-            <h2 class="text-3xl font-bold text-gray-800">Create New Sale</h2>
+            <h2 class="text-3xl font-bold text-gray-800"> {{ $t('create_new_sale') }} </h2>
         </template>
 
         <form @submit.prevent="submit" class="mt-6">

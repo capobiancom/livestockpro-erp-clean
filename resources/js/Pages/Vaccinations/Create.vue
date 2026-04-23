@@ -60,7 +60,7 @@
                         <select
                             v-model="form.animal_id"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                            :class="{ 'border-red-500': form.errors.animal_id }"
+                            :class="[{ 'border-red-500': form.errors.animal_id }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                             required
                         >
                             <option value="">Select Animal</option>
@@ -88,7 +88,7 @@
                         </label>
                         <select
                             v-model="form.disease_id"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             :class="{
                                 'border-red-500': form.errors.disease_id,
                             }"
@@ -164,7 +164,7 @@
                         <select
                             v-model="form.staff_id"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                            :class="{ 'border-red-500': form.errors.staff_id }"
+                            :class="[{ 'border-red-500': form.errors.staff_id }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                         >
                             <option value="">Select Staff Member</option>
                             <option
@@ -232,7 +232,7 @@
                             </label>
                             <select
                                 v-model="medication.medicine_id"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500':
                                         form.errors[

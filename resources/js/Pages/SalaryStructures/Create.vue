@@ -92,7 +92,7 @@ const submit = () => {
                             <select
                                 id="employee_id"
                                 v-model="form.employee_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.employee_id,
                                 }"

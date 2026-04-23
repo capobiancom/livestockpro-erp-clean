@@ -40,7 +40,7 @@
                             </label>
                             <select
                                 v-model="form.animal_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.animal_id,
                                 }"
@@ -73,7 +73,7 @@
                             </label>
                             <select
                                 v-model="form.partner_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.partner_id,
                                 }"
@@ -130,7 +130,7 @@
                             <select
                                 id="event"
                                 v-model="form.event"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.event,
                                 }"
@@ -181,7 +181,7 @@
                             </label>
                             <select
                                 v-model="form.heat_stage"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.heat_stage,
                                 }"
@@ -207,7 +207,7 @@
                             </label>
                             <select
                                 v-model="form.performed_by"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.performed_by,
                                 }"
@@ -291,7 +291,7 @@
                                 </label>
                                 <select
                                     v-model="form.breed_id"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                     :class="{
                                         'border-red-500': form.errors.breed_id,
                                     }"
@@ -373,7 +373,7 @@
                                 </label>
                                 <select
                                     v-model="form.vet_id"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                     :class="{
                                         'border-red-500': form.errors.vet_id,
                                     }"
@@ -452,7 +452,7 @@
                             </label>
                             <select
                                 v-model="form.outcome"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.outcome,
                                 }"

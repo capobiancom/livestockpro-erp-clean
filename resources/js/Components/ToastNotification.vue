@@ -66,7 +66,7 @@
                 class="ml-auto -mr-1.5 -my-1.5 p-1.5 rounded-md inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2"
                 :class="buttonClasses"
             >
-                <span class="sr-only">Dismiss</span>
+                <span class="sr-only"> {{ $t('dismiss') }} </span>
                 <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                     <path
                         fill-rule="evenodd"

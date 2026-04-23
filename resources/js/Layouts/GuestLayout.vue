@@ -43,52 +43,39 @@ import { Link } from "@inertiajs/inertia-vue3";
                                 class="h-14 w-auto text-white drop-shadow mt-5"
                             />
                             <span class="text-lg font-semibold tracking-wide"
-                                >Vacaliza ERP SaaS</span
+                                > {{ $t("Vacaliza ERP SaaS") }} </span
                             >
                         </Link>
 
                         <h2
                             class="mt-10 text-4xl font-semibold leading-tight tracking-tight"
-                        >
-                            Gestión agrícola, simplificada.
-                        </h2>
-                        <p class="mt-4 text-base/7 text-white/85">
-                            Rastree el ganado, gestione las operaciones y optimice
-                            los rendimientos con una plataforma moderna y segura.
-                        </p>
+                        > {{ $t("Gestión agrícola, simplificada.") }} </h2>
+                        <p class="mt-4 text-base/7 text-white/85"> {{ $t("Rastree el ganado, gestione las operaciones y optimice los rendimientos con una plataforma moderna y segura.") }} </p>
 
                         <div class="mt-10 grid grid-cols-2 gap-4 text-sm">
                             <div
                                 class="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15"
                             >
-                                <div class="font-medium">Seguro</div>
-                                <div class="mt-1 text-white/80">
-                                    Mejores prácticas integradas
-                                </div>
+                                <div class="font-medium"> {{ $t("Seguro") }} </div>
+                                <div class="mt-1 text-white/80"> {{ $t("Mejores prácticas integradas") }} </div>
                             </div>
                             <div
                                 class="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15"
                             >
-                                <div class="font-medium">Rápido</div>
-                                <div class="mt-1 text-white/80">
-                                    Flujos de trabajo fluidos
-                                </div>
+                                <div class="font-medium"> {{ $t("Rápido") }} </div>
+                                <div class="mt-1 text-white/80"> {{ $t("Flujos de trabajo fluidos") }} </div>
                             </div>
                             <div
                                 class="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15"
                             >
-                                <div class="font-medium">Informativo</div>
-                                <div class="mt-1 text-white/80">
-                                    Informes claros
-                                </div>
+                                <div class="font-medium"> {{ $t("Informativo") }} </div>
+                                <div class="mt-1 text-white/80"> {{ $t("Informes claros") }} </div>
                             </div>
                             <div
                                 class="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15"
                             >
-                                <div class="font-medium">Escalable</div>
-                                <div class="mt-1 text-white/80">
-                                    Crece con su granja
-                                </div>
+                                <div class="font-medium"> {{ $t("Escalable") }} </div>
+                                <div class="mt-1 text-white/80"> {{ $t("Crece con su granja") }} </div>
                             </div>
                         </div>
                     </div>

@@ -126,7 +126,7 @@ function submit() {
                             <div class="sm:col-span-2">
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Website logo</label
+                                    > {{ $t('website_logo') }} </label
                                 >
                                 <div class="mt-2 flex items-center gap-4">
                                     <div
@@ -177,7 +177,7 @@ function submit() {
                             <div class="sm:col-span-2">
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Site title</label
+                                    > {{ $t('site_title') }} </label
                                 >
                                 <input
                                     v-model="form.site_title"
@@ -196,7 +196,7 @@ function submit() {
                             <div class="sm:col-span-2">
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Site description</label
+                                    > {{ $t('site_description') }} </label
                                 >
                                 <textarea
                                     v-model="form.site_description"
@@ -215,11 +215,11 @@ function submit() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Website currency</label
+                                    > {{ $t('website_currency') }} </label
                                 >
                                 <select
                                     v-model="form.website_currency"
-                                    class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 >
                                     <option
                                         v-for="c in currencyOptions"
@@ -240,7 +240,7 @@ function submit() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Preview price</label
+                                    > {{ $t('preview_price') }} </label
                                 >
                                 <div
                                     class="mt-2 flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
@@ -265,7 +265,7 @@ function submit() {
                             class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between"
                         >
                             <div class="text-sm text-slate-500">
-                                <span v-if="form.processing">Saving…</span>
+                                <span v-if="form.processing"> {{ $t('saving') }} </span>
                                 <span v-else
                                     >Changes are applied immediately after
                                     saving.</span
@@ -336,7 +336,7 @@ function submit() {
                             <div class="mt-2 text-2xl font-semibold text-white">
                                 {{ currencySymbol }} 29.00
                                 <span class="text-sm text-white/60"
-                                    >/ month</span
+                                    > {{ $t('month') }} </span
                                 >
                             </div>
                         </div>

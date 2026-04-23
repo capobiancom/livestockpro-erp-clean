@@ -35,7 +35,7 @@ function submit() {
         <template #title>
             <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="text-3xl font-bold text-gray-800">Edit Sale</h2>
+                    <h2 class="text-3xl font-bold text-gray-800"> {{ $t('edit_sale') }} </h2>
                     <p class="text-sm text-gray-500 mt-1">
                         Update sale information
                     </p>

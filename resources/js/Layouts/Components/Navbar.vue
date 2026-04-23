@@ -41,12 +41,12 @@
         <div class="flex items-center gap-4">
             <div v-if="user" class="flex items-center gap-3">
                 <span class="text-sm text-gray-600"
-                    >Hello, {{ user.name }}</span
+                    >{{ $t('hello') }}, {{ user.name }}</span
                 >
 
                 <LanguageSelector />
 
-                <!-- Admin Dashboard quick link (Super Admin/Admin only) -->
+                <!-- {{ $t('admin_dashboard') }} quick link (Super Admin/Admin only) -->
                 <Link
                     v-if="
                         !isSingleLicenseMode &&
@@ -55,7 +55,7 @@
                     :href="route('admin.dashboard')"
                     class="px-3 py-2 text-sm bg-gray-900 hover:bg-gray-800 text-white rounded-lg font-medium shadow-sm transition duration-200"
                 >
-                    Admin Dashboard
+                    {{ $t('admin_dashboard') }}
                 </Link>
 
                 <button
@@ -69,12 +69,12 @@
                 <Link
                     :href="route('login')"
                     class="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                    >Login</Link
+                    >{{ $t('login') }}</Link
                 >
                 <Link
                     :href="route('register')"
                     class="ml-3 px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition"
-                    >Register</Link
+                    >{{ $t('register') }}</Link
                 >
             </div>
             <div>

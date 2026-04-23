@@ -9,8 +9,8 @@
                     <p class="mt-1 text-sm text-gray-600">
                         Monthly summary of stock consumption based on stock
                         movements where
-                        <span class="font-medium">movement type</span> is
-                        <span class="font-medium">out</span>. Filter by month
+                        <span class="font-medium"> {{ $t('movement_type') }} </span> is
+                        <span class="font-medium"> {{ $t('out') }} </span>. Filter by month
                         and item type, then export or print for reporting.
                     </p>
                 </div>
@@ -176,7 +176,7 @@
                         >
                         <select
                             v-model="form.item_type"
-                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option value="inventory">Inventory items</option>
                             <option value="medicine">Medicine items</option>
@@ -203,7 +203,7 @@
                         <div class="mt-1 grid grid-cols-2 gap-2">
                             <select
                                 v-model="form.sort"
-                                class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="cost">Cost</option>
                                 <option value="quantity">Quantity</option>
@@ -211,7 +211,7 @@
                             </select>
                             <select
                                 v-model="form.direction"
-                                class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="desc">Desc</option>
                                 <option value="asc">Asc</option>

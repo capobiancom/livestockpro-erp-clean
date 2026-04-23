@@ -63,7 +63,7 @@
                     <select
                         v-model="typeFilter"
                         @change="handleFilter"
-                        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                     >
                         <option value="">All Types</option>
                         <option v-for="type in accountTypes" :key="type.value" :value="type.value">

@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <template #title>
-            <h2 class="text-3xl font-bold text-gray-800">Record New Expense</h2>
+            <h2 class="text-3xl font-bold text-gray-800"> {{ $t('record_new_expense') }} </h2>
         </template>
 
         <form @submit.prevent="submit" class="mt-6">
@@ -125,7 +125,7 @@
                             </label>
                             <select
                                 v-model="form.farm_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="">Select Farm</option>
                                 <option
@@ -155,7 +155,7 @@
                             </label>
                             <select
                                 v-model="form.staff_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="">Select Staff</option>
                                 <option

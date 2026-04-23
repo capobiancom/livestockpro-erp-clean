@@ -93,7 +93,7 @@
                                 d="M2 11a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1H3a1 1 0 01-1-1v-6zM7 7a1 1 0 011-1h2a1 1 0 011 1v10a1 1 0 01-1 1H8a1 1 0 01-1-1V7zM12 4a1 1 0 011-1h2a1 1 0 011 1v13a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
                             />
                         </svg>
-                        <span>Farm Productivity</span>
+                        <span>{{ $t('farm_productivity') }}</span>
                     </Link>
                 </li>
 
@@ -154,28 +154,28 @@
                             <Link
                                 :href="route('animals.index')"
                                 :class="linkClass('/animals')"
-                                >Animals</Link
+                                >{{ $t('animals') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('breeds.index')"
                                 :class="linkClass('/breeds')"
-                                >Breeds</Link
+                                >{{ $t('breeds') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('herds.index')"
                                 :class="linkClass('/herds')"
-                                >Herds</Link
+                                >{{ $t('herds') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('reproduction-records.index')"
                                 :class="linkClass('/reproduction-records')"
-                                >Reproduction</Link
+                                >{{ $t('reproduction') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
@@ -186,35 +186,35 @@
                                 :class="
                                     linkClass('/artificial-inseminations')
                                 "
-                                >Artificial Inseminations</Link
+                                >{{ $t('artificial_inseminations') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('pregnancies.index')"
                                 :class="linkClass('/pregnancies')"
-                                >Pregnancy Records</Link
+                                >{{ $t('pregnancy_records') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('pregnancy-checkups.index')"
                                 :class="linkClass('/pregnancy-checkups')"
-                                >Pregnancy Checkups</Link
+                                >{{ $t('pregnancy_checkups') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('calving-records.index')"
                                 :class="linkClass('/calving-records')"
-                                >Calving Records</Link
+                                >{{ $t('calving_records') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('calves.index')"
                                 :class="linkClass('/calves')"
-                                >Newborn Calves</Link
+                                >{{ $t('newborn_calves') }}</Link
                             >
                         </li>
                     </ul>
@@ -251,7 +251,7 @@
                                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                                 />
                             </svg>
-                            <span>Health</span>
+                            <span>{{ $t('health') }}</span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -277,49 +277,49 @@
                             <Link
                                 :href="route('health-issues.index')"
                                 :class="linkClass('/health-issues')"
-                                >Health Issues</Link
+                                >{{ $t('health_issues') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('health-events.index')"
                                 :class="linkClass('/health-events')"
-                                >Health Events</Link
+                                >{{ $t('health_events') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('diseases.index')"
                                 :class="linkClass('/diseases')"
-                                >Diseases</Link
+                                >{{ $t('diseases') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('disease-treatments.index')"
                                 :class="linkClass('/disease-treatments')"
-                                >Disease Treatments</Link
+                                >{{ $t('disease_treatments') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('treatments.index')"
                                 :class="linkClass('/treatments')"
-                                >Treatments</Link
+                                >{{ $t('treatments') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('vaccinations.index')"
                                 :class="linkClass('/vaccinations')"
-                                >Vaccinations</Link
+                                >{{ $t('vaccinations') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('event-types.index')"
                                 :class="linkClass('/event-types')"
-                                >Event Types</Link
+                                >{{ $t('event_types') }}</Link
                             >
                         </li>
                     </ul>
@@ -356,7 +356,7 @@
                                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                                 />
                             </svg>
-                            <span>Feeding</span>
+                            <span>{{ $t('feeding') }}</span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -382,7 +382,7 @@
                             <Link
                                 :href="route('feedings.index')"
                                 :class="linkClass('/feedings')"
-                                >Feeding Records</Link
+                                >{{ $t('feeding_records') }}</Link
                             >
                         </li>
                     </ul>
@@ -419,7 +419,7 @@
                                     d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                                 />
                             </svg>
-                            <span>Production</span>
+                            <span>{{ $t('production') }}</span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -445,14 +445,14 @@
                             <Link
                                 :href="route('milk-records.index')"
                                 :class="linkClass('/milk-records')"
-                                >Milk Records</Link
+                                >{{ $t('milk_records') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('productions')">
                             <Link
                                 :href="route('milk-sales.index')"
                                 :class="linkClass('/milk-sales')"
-                                >Milk Sales</Link
+                                >{{ $t('milk_sales') }}</Link
                             >
                         </li>
                     </ul>
@@ -489,7 +489,7 @@
                                     d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                                 />
                             </svg>
-                            <span>Accounts</span>
+                            <span>{{ $t('accounts') }}</span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -515,21 +515,21 @@
                             <Link
                                 :href="route('cash-accounts.index')"
                                 :class="linkClass('/cash-accounts')"
-                                >Cash & Bank Management</Link
+                                >{{ $t('cash_bank_management') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('chart-of-accounts.index')"
                                 :class="linkClass('/chart-of-accounts')"
-                                >Chart of Accounts</Link
+                                >{{ $t('chart_of_accounts') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('journal-entries.index')"
                                 :class="linkClass('/journal-entries')"
-                                >Journal Entries</Link
+                                >{{ $t('journal_entries') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
@@ -540,42 +540,42 @@
                                 :class="
                                     linkClass('/journal-voucher-report')
                                 "
-                                >Journal Voucher Report</Link
+                                >{{ $t('journal_voucher_report') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('balance-sheet.index')"
                                 :class="linkClass('/balance-sheet')"
-                                >Balance Sheet</Link
+                                >{{ $t('balance_sheet') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('profit-loss.index')"
                                 :class="linkClass('/profit-loss')"
-                                >Profit & Loss</Link
+                                >{{ $t('profit_loss') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('cash-flow.index')"
                                 :class="linkClass('/cash-flow')"
-                                >Cash Flow</Link
+                                >{{ $t('cash_flow') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('trial-balance.index')"
                                 :class="linkClass('/trial-balance')"
-                                >Trial Balance</Link
+                                >{{ $t('trial_balance') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('fixed-assets.index')"
                                 :class="linkClass('/fixed-assets')"
-                                >Fixed Assets Register</Link
+                                >{{ $t('fixed_assets_register') }}</Link
                             >
                         </li>
                     </ul>
@@ -612,7 +612,7 @@
                                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                 />
                             </svg>
-                            <span>Finance</span>
+                            <span>{{ $t('finance') }}</span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -638,14 +638,14 @@
                             <Link
                                 :href="route('sales.index')"
                                 :class="linkClass('/sales')"
-                                >Sales</Link
+                                >{{ $t('sales') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('finance')">
                             <Link
                                 :href="route('purchases.index')"
                                 :class="linkClass('/purchases')"
-                                >Purchases</Link
+                                >{{ $t('purchases') }}</Link
                             >
                         </li>
                     </ul>
@@ -682,7 +682,7 @@
                                     d="M17 20h2a2 2 0 002-2V7.5a2.5 2.5 0 00-2.5-2.5h-1.5m-10 0H4a2 2 0 00-2 2v11a2 2 0 002 2h2m0-11V4a2 2 0 012-2h4a2 2 0 012 2v11m-8 0v2a2 2 0 002 2h2a2 2 0 002-2v-2m-6 0H6"
                                 />
                             </svg>
-                            <span>Customers</span>
+                            <span>{{ $t('customers') }}</span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -708,14 +708,14 @@
                             <Link
                                 :href="route('customers.index')"
                                 :class="linkClass('/customers')"
-                                >Manage Customers</Link
+                                >{{ $t('manage_customers') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('customers')">
                             <Link
                                 :href="route('customer-payments.index')"
                                 :class="linkClass('/customer-payments')"
-                                >Customer Payments</Link
+                                >{{ $t('customer_payments') }}</Link
                             >
                         </li>
                     </ul>
@@ -752,7 +752,7 @@
                                     d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
                                 />
                             </svg>
-                            <span>Inventory</span>
+                            <span>{{ $t('inventory') }}</span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -778,49 +778,49 @@
                             <Link
                                 :href="route('inventory.index')"
                                 :class="linkClass('/inventory')"
-                                >Inventory Items</Link
+                                >{{ $t('inventory_items') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('medicines.index')"
                                 :class="linkClass('/medicines')"
-                                >Medicine Items</Link
+                                >{{ $t('medicine_items') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('categories.index')"
                                 :class="linkClass('/categories')"
-                                >Categories</Link
+                                >{{ $t('categories') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('suppliers.index')"
                                 :class="linkClass('/suppliers')"
-                                >Suppliers</Link
+                                >{{ $t('suppliers') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('supplier-payments.index')"
                                 :class="linkClass('/supplier-payments')"
-                                >Supplier Payments</Link
+                                > {{ $t('supplier_payments') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('medicine-groups.index')"
                                 :class="linkClass('/medicine-groups')"
-                                >Medicine Groups</Link
+                                > {{ $t('medicine_groups') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('stock-movements.index')"
                                 :class="linkClass('/stock-movements')"
-                                >Stock Movements</Link
+                                > {{ $t('stock_movements') }} </Link
                             >
                         </li>
                     </ul>
@@ -863,7 +863,7 @@
                                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                                 />
                             </svg>
-                            <span>Operations</span>
+                            <span> {{ $t('operations') }} </span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -889,14 +889,14 @@
                             <Link
                                 :href="route('logistics.index')"
                                 :class="linkClass('/logistics')"
-                                >Logistics</Link
+                                > {{ $t('logistics') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('operation')">
                             <Link
                                 :href="route('farms.index')"
                                 :class="linkClass('/farms')"
-                                >Farms</Link
+                                > {{ $t('farms') }} </Link
                             >
                         </li>
                     </ul>
@@ -933,7 +933,7 @@
                                     d="M17 20h2a2 2 0 002-2V7.5a2.5 2.5 0 00-2.5-2.5h-1.5m-10 0H4a2 2 0 00-2 2v11a2 2 0 002 2h2m0-11V4a2 2 0 012-2h4a2 2 0 012 2v11m-8 0v2a2 2 0 002 2h2a2 2 0 002-2v-2m-6 0H6"
                                 />
                             </svg>
-                            <span>HR & Payroll</span>
+                            <span> {{ $t('hr_payroll') }} </span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -959,7 +959,7 @@
                             <Link
                                 :href="route('departments.index')"
                                 :class="linkClass('/departments')"
-                                >Departments</Link
+                                > {{ $t('departments') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')"></li>
@@ -967,77 +967,77 @@
                             <Link
                                 :href="route('designations.index')"
                                 :class="linkClass('/designations')"
-                                >Designations</Link
+                                > {{ $t('designations') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('employees.index')"
                                 :class="linkClass('/employees')"
-                                >Employees</Link
+                                > {{ $t('employees') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('employee-documents.index')"
                                 :class="linkClass('/employee-documents')"
-                                >Employee Documents</Link
+                                > {{ $t('employee_documents') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('shifts.index')"
                                 :class="linkClass('/shifts')"
-                                >Shifts</Link
+                                > {{ $t('shifts') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('employee-shifts.index')"
                                 :class="linkClass('/employee-shifts')"
-                                >Assign Shifts</Link
+                                > {{ $t('assign_shifts') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('attendances.index')"
                                 :class="linkClass('/attendances')"
-                                >Attendances</Link
+                                > {{ $t('attendances') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('leave-types.index')"
                                 :class="linkClass('/leave-types')"
-                                >Leave Types</Link
+                                > {{ $t('leave_types') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('leave-requests.index')"
                                 :class="linkClass('/leave-requests')"
-                                >Leave Requests</Link
+                                > {{ $t('leave_requests') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('salary-structures.index')"
                                 :class="linkClass('/salary-structures')"
-                                >Salary Structures</Link
+                                > {{ $t('salary_structures') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('payroll-runs.index')"
                                 :class="linkClass('/payroll-runs')"
-                                >Payroll Runs</Link
+                                > {{ $t('payroll_runs') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('payroll-items.index')"
                                 :class="linkClass('/payroll-items')"
-                                >Payroll Items</Link
+                                > {{ $t('payroll_items') }} </Link
                             >
                         </li>
                     </ul>
@@ -1074,7 +1074,7 @@
                                     d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5l2 2h5a2 2 0 012 2v12a2 2 0 01-2 2z"
                                 />
                             </svg>
-                            <span>Reports</span>
+                            <span> {{ $t('reports') }} </span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1100,7 +1100,7 @@
                             <Link
                                 :href="route('reports.animal-health.index')"
                                 :class="linkClass('/reports/animal-health')"
-                                >Animal Health Reports</Link
+                                > {{ $t('animal_health_reports') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('reports')"></li>
@@ -1116,7 +1116,7 @@
                                         '/reports/feeding-cost-analysis',
                                     )
                                 "
-                                >Feeding Cost Analysis</Link
+                                > {{ $t('feeding_cost_analysis') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('reports')">
@@ -1127,14 +1127,14 @@
                                 :class="
                                     linkClass('/reports/vaccination-due')
                                 "
-                                >Vaccination Due Reports</Link
+                                > {{ $t('vaccination_due_reports') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('reports')">
                             <Link
                                 :href="route('reports.financial.index')"
                                 :class="linkClass('/reports/financial')"
-                                >Financial Reports</Link
+                                > {{ $t('financial_reports') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('reports')">
@@ -1149,7 +1149,7 @@
                                         '/reports/conception-success-rate',
                                     )
                                 "
-                                >Conception Success Rate</Link
+                                > {{ $t('conception_success_rate') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('reports')">
@@ -1164,7 +1164,7 @@
                                         '/reports/pregnancy-loss-analysis',
                                     )
                                 "
-                                >Pregnancy Loss Analysis</Link
+                                > {{ $t('pregnancy_loss_analysis') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('reports')">
@@ -1179,7 +1179,7 @@
                                         '/reports/ai-vs-natural-breeding-success',
                                     )
                                 "
-                                >AI vs Natural Breeding Success</Link
+                                > {{ $t('ai_vs_natural_breeding_success') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('reports')">
@@ -1190,7 +1190,7 @@
                                 :class="
                                     linkClass('/reports/calving-interval')
                                 "
-                                >Calving Interval Reports</Link
+                                > {{ $t('calving_interval_reports') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('reports')">
@@ -1205,7 +1205,7 @@
                                         '/reports/fertility-performance-per-cow',
                                     )
                                 "
-                                >Fertility Performance per Cow</Link
+                                > {{ $t('fertility_performance_per_cow') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('reports')">
@@ -1220,7 +1220,7 @@
                                         '/reports/treatment-cost-per-animal',
                                     )
                                 "
-                                >Treatment Cost per Animal</Link
+                                > {{ $t('treatment_cost_per_animal') }} </Link
                             >
                         </li>
                     </ul>
@@ -1257,7 +1257,7 @@
                                     d="M20 13V7a2 2 0 00-2-2H6a2 2 0 00-2 2v6m16 0v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6m16 0H4m4-8h8"
                                 />
                             </svg>
-                            <span>Inventory Reports</span>
+                            <span> {{ $t('inventory_reports') }} </span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1291,7 +1291,7 @@
                                         '/reports/inventory/current-stock-by-item',
                                     )
                                 "
-                                >Current Stock by Item</Link
+                                > {{ $t('current_stock_by_item') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('invreports')"></li>
@@ -1307,7 +1307,7 @@
                                         '/reports/inventory/low-stock-alerts',
                                     )
                                 "
-                                >Low-stock Alerts</Link
+                                > {{ $t('low_stock_alerts') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('invreports')">
@@ -1322,7 +1322,7 @@
                                         '/reports/inventory/expired-medicine',
                                     )
                                 "
-                                >Expired Medicine Report</Link
+                                > {{ $t('expired_medicine_report') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('invreports')">
@@ -1337,7 +1337,7 @@
                                         '/reports/inventory/feed-consumed-per-animal',
                                     )
                                 "
-                                >Feed Consumed per Animal</Link
+                                > {{ $t('feed_consumed_per_animal') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('invreports')">
@@ -1352,7 +1352,7 @@
                                         '/reports/inventory/cost-of-feed-per-cow',
                                     )
                                 "
-                                >Cost of Feed per Cow</Link
+                                > {{ $t('cost_of_feed_per_cow') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('invreports')">
@@ -1367,7 +1367,7 @@
                                         '/reports/inventory/medicine-used-per-disease',
                                     )
                                 "
-                                >Medicine Used per Disease</Link
+                                > {{ $t('medicine_used_per_disease') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('invreports')">
@@ -1382,7 +1382,7 @@
                                         '/reports/inventory/monthly-consumption-summary',
                                     )
                                 "
-                                >Monthly Consumption Summary</Link
+                                > {{ $t('monthly_consumption_summary') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('invreports')">
@@ -1397,7 +1397,7 @@
                                         '/reports/inventory/wastage-loss',
                                     )
                                 "
-                                >Wastage & Loss Report</Link
+                                > {{ $t('wastage_loss_report') }} </Link
                             >
                         </li>
                     </ul>
@@ -1430,7 +1430,7 @@
                                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                 />
                             </svg>
-                            <span>Plans & Features</span>
+                            <span> {{ $t('plans_features') }} </span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1460,7 +1460,7 @@
                                 :class="
                                     linkClass('/admin/subscription-plans')
                                 "
-                                >Manage Plans</Link
+                                > {{ $t('manage_plans') }} </Link
                             >
                         </li>
                         <li>
@@ -1475,7 +1475,7 @@
                                         '/admin/subscription-features',
                                     )
                                 "
-                                >Manage Features</Link
+                                > {{ $t('manage_features') }} </Link
                             >
                         </li>
                     </ul>
@@ -1507,7 +1507,7 @@
                                     d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
                                 />
                             </svg>
-                            <span>Administration</span>
+                            <span> {{ $t('administration') }} </span>
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1533,14 +1533,14 @@
                             <Link
                                 :href="route('admin.dashboard')"
                                 :class="linkClass('/admin/dashboard')"
-                                >Dashboard</Link
+                                >{{ $t('dashboard') }}</Link
                             >
                         </li>
                         <li v-if="!isSingleLicenseMode">
                             <Link
                                 :href="route('admin.collections')"
                                 :class="linkClass('/admin/collections')"
-                                >Collections</Link
+                                > {{ $t('collections') }} </Link
                             >
                         </li>
 
@@ -1551,7 +1551,7 @@
                             <Link
                                 :href="route('admin.farms.index')"
                                 :class="linkClass('/admin/farms')"
-                                >Farms Directory</Link
+                                > {{ $t('farms_directory') }} </Link
                             >
                         </li>
 
@@ -1564,7 +1564,7 @@
                                 :class="
                                     linkClass('/admin/settings/website')
                                 "
-                                >Website Settings</Link
+                                > {{ $t('website_settings') }} </Link
                             >
                         </li>
 
@@ -1575,7 +1575,7 @@
                             <Link
                                 :href="route('admin.settings.email.edit')"
                                 :class="linkClass('/admin/settings/email')"
-                                >Email Settings</Link
+                                > {{ $t('email_settings') }} </Link
                             >
                         </li>
 
@@ -1586,7 +1586,7 @@
                             <Link
                                 :href="route('admin.demo-requests.index')"
                                 :class="linkClass('/admin/demo-requests')"
-                                >Demo Requests</Link
+                                > {{ $t('demo_requests') }} </Link
                             >
                         </li>
 
@@ -1594,28 +1594,28 @@
                             <Link
                                 :href="route('admin.roles.index')"
                                 :class="linkClass('/admin/roles')"
-                                >Roles</Link
+                                > {{ $t('roles') }} </Link
                             >
                         </li>
                         <li>
                             <Link
                                 :href="route('admin.permissions.index')"
                                 :class="linkClass('/admin/permissions')"
-                                >Permissions</Link
+                                > {{ $t('permissions') }} </Link
                             >
                         </li>
                         <li>
                             <Link
                                 :href="route('admin.users.index')"
                                 :class="linkClass('/admin/users')"
-                                >Users</Link
+                                > {{ $t('users') }} </Link
                             >
                         </li>
                         <li>
                             <Link
                                 :href="route('admin.assignRoles')"
                                 :class="linkClass('/admin/assign-roles')"
-                                >Assign Roles</Link
+                                > {{ $t('assign_roles') }} </Link
                             >
                         </li>
                     </ul>
@@ -1648,7 +1648,7 @@
                                 d="M4 3a2 2 0 00-2 2v2a2 2 0 002 2h1v6H4a2 2 0 00-2 2v1h16v-1a2 2 0 00-2-2h-1V9h1a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 6h6v6H7V9z"
                             />
                         </svg>
-                        <span>Plan</span>
+                        <span> {{ $t('plan') }} </span>
                     </Link>
                 </li>
 
@@ -1686,7 +1686,7 @@
                                 clip-rule="evenodd"
                             />
                         </svg>
-                        <span>Subscription & Billing</span>
+                        <span> {{ $t('subscription_billing') }} </span>
                     </Link>
                 </li>
 
@@ -1713,7 +1713,7 @@
                                 clip-rule="evenodd"
                             />
                         </svg>
-                        <span>Profile</span>
+                        <span> {{ $t('profile') }} </span>
                     </Link>
                 </li>
                 <!-- Settings -->
@@ -1746,7 +1746,7 @@
                                 clip-rule="evenodd"
                             />
                         </svg>
-                        <span>Settings</span>
+                        <span> {{ $t('settings') }} </span>
                     </Link>
                 </li>
 
@@ -1775,7 +1775,7 @@
                                 clip-rule="evenodd"
                             />
                         </svg>
-                        <span>Payment Gateways</span>
+                        <span> {{ $t('payment_gateways') }} </span>
                     </Link>
                 </li>
             </ul>

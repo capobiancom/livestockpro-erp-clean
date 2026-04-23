@@ -13,7 +13,7 @@ const messages = {
     pt_BR,
 };
 
-const savedLocale = localStorage.getItem('vacaliza_locale') || 'en';
+const savedLocale = localStorage.getItem('vacaliza_locale') || 'es';
 
 const i18n = createI18n({
     legacy: false, // You must set `false`, to use Composition API

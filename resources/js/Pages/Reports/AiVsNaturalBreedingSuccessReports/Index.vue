@@ -9,11 +9,11 @@
                     <p class="mt-1 text-sm text-gray-600">
                         Compare conception performance between
                         <span class="font-medium text-gray-800"
-                            >Artificial Insemination (AI)</span
+                            > {{ $t('artificial_insemination_ai') }} </span
                         >
                         and
                         <span class="font-medium text-gray-800"
-                            >Natural Mating</span
+                            > {{ $t('natural_mating') }} </span
                         >.
                         <span class="text-gray-500">
                             (Confirmed Pregnancies ÷ Total Services) × 100
@@ -261,7 +261,7 @@
                         >
                         <select
                             v-model="form.method"
-                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option value="all">All methods</option>
                             <option value="ai">
@@ -279,7 +279,7 @@
                         >
                         <select
                             v-model="form.group_by"
-                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option value="method">Method</option>
                             <option value="month">Month</option>
@@ -296,7 +296,7 @@
                         >
                         <select
                             v-model="form.animal_id"
-                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option :value="null">All animals</option>
                             <option

@@ -26,7 +26,7 @@
                             </svg>
                         </div>
                         <div>
-                            <h1 class="text-lg font-bold">Dashboard</h1>
+                            <h1 class="text-lg font-bold">{{ $t('dashboard') }}</h1>
                             <div
                                 class="flex items-center gap-2 text-blue-100 text-xs"
                             >
@@ -77,7 +77,7 @@
                             ></div>
                             <span
                                 class="text-xs font-semibold text-white tracking-wide"
-                                >Live</span
+                                >{{ $t('live') }}</span
                             >
                         </div>
                     </div>
@@ -99,9 +99,9 @@
                         </div>
                         <select
                             v-model="selectedUserId"
-                            class="mt-3 w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            class="mt-3 w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
-                            <option :value="null">Select user...</option>
+                            <option :value="null">{{ $t('select_user') }}</option>
                             <option
                                 v-for="u in farmUsers"
                                 :key="u.id"
@@ -162,7 +162,7 @@
                             <p
                                 class="text-sm text-blue-600 font-semibold uppercase tracking-wider"
                             >
-                                Total Animals
+                                {{ $t('total_animals') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-blue-700 mt-2"
@@ -170,7 +170,7 @@
                                 {{ stats.total_animals }}
                             </p>
                             <p class="text-xs text-blue-500 mt-1">
-                                All registered
+                                {{ $t('all_registered') }}
                             </p>
                         </div>
                         <div
@@ -202,7 +202,7 @@
                             <p
                                 class="text-sm text-green-600 font-semibold uppercase tracking-wider"
                             >
-                                Active Animals
+                                {{ $t('active_animals') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-green-700 mt-2"
@@ -210,7 +210,7 @@
                                 {{ stats.active_animals }}
                             </p>
                             <p class="text-xs text-green-500 mt-1">
-                                Currently active
+                                {{ $t('currently_active') }}
                             </p>
                         </div>
                         <div
@@ -242,7 +242,7 @@
                             <p
                                 class="text-sm text-orange-600 font-semibold uppercase tracking-wider"
                             >
-                                Total Staff
+                                {{ $t('total_staff') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-orange-700 mt-2"
@@ -250,7 +250,7 @@
                                 {{ stats.total_staff }}
                             </p>
                             <p class="text-xs text-orange-500 mt-1">
-                                Team members
+                                {{ $t('team_members') }}
                             </p>
                         </div>
                         <div
@@ -282,7 +282,7 @@
                             <p
                                 class="text-sm text-purple-600 font-semibold uppercase tracking-wider"
                             >
-                                Total Farms
+                                {{ $t('total_farms') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-purple-700 mt-2"
@@ -290,7 +290,7 @@
                                 {{ stats.total_farms }}
                             </p>
                             <p class="text-xs text-purple-500 mt-1">
-                                Locations
+                                {{ $t('locations') }}
                             </p>
                         </div>
                         <div
@@ -322,7 +322,7 @@
                             <p
                                 class="text-sm text-red-600 font-semibold uppercase tracking-wider"
                             >
-                                Low Stock Items
+                                {{ $t('low_stock_items') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-red-700 mt-2"
@@ -330,7 +330,7 @@
                                 {{ stats.low_stock_items }}
                             </p>
                             <p class="text-xs text-red-500 mt-1">
-                                Needs restock
+                                {{ $t('needs_restock') }}
                             </p>
                         </div>
                         <div
@@ -362,7 +362,7 @@
                             <p
                                 class="text-sm text-teal-600 font-semibold uppercase tracking-wider"
                             >
-                                Feedings Today
+                                {{ $t('feedings_today') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-teal-700 mt-2"
@@ -370,7 +370,7 @@
                                 {{ stats.feedings_today }}
                             </p>
                             <p class="text-xs text-teal-500 mt-1">
-                                Completed today
+                                {{ $t('completed_today') }}
                             </p>
                         </div>
                         <div
@@ -402,7 +402,7 @@
                             <p
                                 class="text-sm text-yellow-600 font-semibold uppercase tracking-wider"
                             >
-                                Vaccinations Due
+                                {{ $t('vaccinations_due') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-yellow-700 mt-2"
@@ -410,7 +410,7 @@
                                 {{ stats.vaccinations_due }}
                             </p>
                             <p class="text-xs text-yellow-500 mt-1">
-                                Within 7 days
+                                {{ $t('within_7_days') }}
                             </p>
                         </div>
                         <div
@@ -442,7 +442,7 @@
                             <p
                                 class="text-sm text-pink-600 font-semibold uppercase tracking-wider"
                             >
-                                Active Health Issues
+                                {{ $t('active_health_issues') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-pink-700 mt-2"
@@ -450,7 +450,7 @@
                                 {{ stats.active_health_issues }}
                             </p>
                             <p class="text-xs text-pink-500 mt-1">
-                                Needs attention
+                                {{ $t('needs_attention') }}
                             </p>
                         </div>
                         <div
@@ -506,7 +506,7 @@
                             <p
                                 class="text-sm text-purple-600 font-semibold uppercase tracking-wider"
                             >
-                                Total Pregnancies
+                                {{ $t('total_pregnancies') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-purple-700 mt-2"
@@ -514,7 +514,7 @@
                                 {{ reproductionStats.total_pregnancies }}
                             </p>
                             <p class="text-xs text-purple-500 mt-1">
-                                All records
+                                {{ $t('all_records') }}
                             </p>
                         </div>
                         <div
@@ -547,7 +547,7 @@
                             <p
                                 class="text-sm text-blue-600 font-semibold uppercase tracking-wider"
                             >
-                                Ongoing Pregnancies
+                                {{ $t('ongoing_pregnancies') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-blue-700 mt-2"
@@ -555,7 +555,7 @@
                                 {{ reproductionStats.ongoing_pregnancies }}
                             </p>
                             <p class="text-xs text-blue-500 mt-1">
-                                Currently active
+                                {{ $t('currently_active') }}
                             </p>
                         </div>
                         <div
@@ -588,7 +588,7 @@
                             <p
                                 class="text-sm text-red-600 font-semibold uppercase tracking-wider"
                             >
-                                Aborted Pregnancies
+                                {{ $t('aborted_pregnancies') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-red-700 mt-2"
@@ -596,7 +596,7 @@
                                 {{ reproductionStats.aborted_pregnancies }}
                             </p>
                             <p class="text-xs text-red-500 mt-1">
-                                Unsuccessful
+                                {{ $t('unsuccessful') }}
                             </p>
                         </div>
                         <div
@@ -629,7 +629,7 @@
                             <p
                                 class="text-sm text-green-600 font-semibold uppercase tracking-wider"
                             >
-                                Completed Pregnancies
+                                {{ $t('completed_pregnancies') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-green-700 mt-2"
@@ -637,7 +637,7 @@
                                 {{ reproductionStats.completed_pregnancies }}
                             </p>
                             <p class="text-xs text-green-500 mt-1">
-                                Calved successfully
+                                {{ $t('calved_successfully') }}
                             </p>
                         </div>
                         <div
@@ -670,7 +670,7 @@
                             <p
                                 class="text-sm text-yellow-600 font-semibold uppercase tracking-wider"
                             >
-                                Total Checkups
+                                {{ $t('total_checkups') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-yellow-700 mt-2"
@@ -678,7 +678,7 @@
                                 {{ reproductionStats.total_pregnancy_checkups }}
                             </p>
                             <p class="text-xs text-yellow-500 mt-1">
-                                All checkups
+                                {{ $t('all_checkups') }}
                             </p>
                         </div>
                         <div
@@ -711,7 +711,7 @@
                             <p
                                 class="text-sm text-green-600 font-semibold uppercase tracking-wider"
                             >
-                                Normal Checkups
+                                {{ $t('normal_checkups') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-green-700 mt-2"
@@ -719,7 +719,7 @@
                                 {{ reproductionStats.normal_checkups }}
                             </p>
                             <p class="text-xs text-green-500 mt-1">
-                                Healthy results
+                                {{ $t('healthy_results') }}
                             </p>
                         </div>
                         <div
@@ -752,7 +752,7 @@
                             <p
                                 class="text-sm text-orange-600 font-semibold uppercase tracking-wider"
                             >
-                                Risk Checkups
+                                {{ $t('risk_checkups') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-orange-700 mt-2"
@@ -760,7 +760,7 @@
                                 {{ reproductionStats.risk_checkups }}
                             </p>
                             <p class="text-xs text-orange-500 mt-1">
-                                Potential issues
+                                {{ $t('potential_issues') }}
                             </p>
                         </div>
                         <div
@@ -793,7 +793,7 @@
                             <p
                                 class="text-sm text-red-600 font-semibold uppercase tracking-wider"
                             >
-                                Critical Checkups
+                                {{ $t('critical_checkups') }}
                             </p>
                             <p
                                 class="text-4xl font-extrabold text-red-700 mt-2"

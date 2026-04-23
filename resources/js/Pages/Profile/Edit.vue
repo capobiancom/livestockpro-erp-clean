@@ -5,7 +5,7 @@
         <template #title>
             <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="text-3xl font-bold text-gray-800">My Profile</h2>
+                    <h2 class="text-3xl font-bold text-gray-800"> {{ $t('my_profile') }} </h2>
                     <p class="text-sm text-gray-500 mt-1">
                         Manage your account settings, roles, and permissions
                     </p>

@@ -26,7 +26,7 @@
                         <h2 class="text-3xl font-bold text-gray-800">
                             Sale #{{ sale.invoice_number }}
                         </h2>
-                        <p class="text-sm text-gray-500 mt-1">Sale Details</p>
+                        <p class="text-sm text-gray-500 mt-1"> {{ $t('sale_details') }} </p>
                     </div>
                 </div>
                 <div class="flex gap-3">

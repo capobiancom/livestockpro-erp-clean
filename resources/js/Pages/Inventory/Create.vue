@@ -84,7 +84,7 @@
                             </label>
                             <select
                                 v-model="form.inventory_category_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="">Select Category</option>
                                 <option
@@ -114,7 +114,7 @@
                             </label>
                             <select
                                 v-model="form.supplier_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="">Select Supplier</option>
                                 <option
@@ -186,7 +186,7 @@
                             </label>
                             <select
                                 v-model="form.unit"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option value="">Select Unit</option>
                                 <option value="kg">kg</option>

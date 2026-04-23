@@ -140,10 +140,10 @@ watch(
                     id="customer_id"
                     v-model="form.customer_id"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-                    :class="{ 'border-red-500': form.errors.customer_id }"
+                    :class="[{ 'border-red-500': form.errors.customer_id }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                     required
                 >
-                    <option value="">Select Customer</option>
+                    <option value=""> {{ $t('select_customer') }} </option>
                     <option
                         v-for="customer in customers"
                         :key="customer.id"
@@ -189,9 +189,9 @@ watch(
                     v-model="form.status"
                     required
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-                    :class="{ 'border-red-500': form.errors.status }"
+                    :class="[{ 'border-red-500': form.errors.status }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                 >
-                    <option value="">Select Status</option>
+                    <option value=""> {{ $t('select_status') }} </option>
                     <option
                         v-for="statusOption in saleStatuses"
                         :key="statusOption.value"
@@ -209,7 +209,7 @@ watch(
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
                     Invoice Number
                     <span class="text-gray-400 text-xs"
-                        >(Auto-generated if empty)</span
+                        > {{ $t('auto_generated_if_empty') }} </span
                     >
                 </label>
                 <input
@@ -260,7 +260,7 @@ watch(
                 <select
                     :id="`item_type-${index}`"
                     v-model="item.item_type"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                     :class="{
                         'border-red-500':
                             form.errors[`sales_items.${index}.item_type`],
@@ -272,11 +272,11 @@ watch(
                         updateDerivedUnitPrice(item);
                     "
                 >
-                    <option value="">Select Item Type</option>
+                    <option value=""> {{ $t('select_item_type') }} </option>
                     <option value="App\Models\InventoryItem">
                         Inventory Item
                     </option>
-                    <option value="App\Models\Animal">Animal</option>
+                    <option value="App\Models\Animal"> {{ $t('animal') }} </option>
                 </select>
                 <p
                     v-if="form.errors[`sales_items.${index}.item_type`]"
@@ -288,13 +288,12 @@ watch(
                 <label
                     :for="`item_id-${index}`"
                     class="block text-sm font-semibold text-gray-700 mb-2 mt-4"
-                >
-                    Select Item <span class="text-red-500">*</span>
+                > {{ $t('select_item') }} <span class="text-red-500">*</span>
                 </label>
                 <select
                     :id="`item_id-${index}`"
                     v-model="item.item_id"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                     :class="{
                         'border-red-500':
                             form.errors[`sales_items.${index}.item_id`],

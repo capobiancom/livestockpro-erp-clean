@@ -83,7 +83,7 @@ const emit = defineEmits(["close", "confirm"]);
                     type="button"
                     @click="emit('confirm')"
                 >
-                    <span v-if="loading">Please wait…</span>
+                    <span v-if="loading"> {{ $t('please_wait') }} </span>
                     <span v-else>{{ confirmText }}</span>
                 </DangerButton>
 
@@ -93,7 +93,7 @@ const emit = defineEmits(["close", "confirm"]);
                     type="button"
                     @click="emit('confirm')"
                 >
-                    <span v-if="loading">Please wait…</span>
+                    <span v-if="loading"> {{ $t('please_wait') }} </span>
                     <span v-else>{{ confirmText }}</span>
                 </PrimaryButton>
             </div>

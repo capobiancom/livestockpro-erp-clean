@@ -94,15 +94,15 @@ function submit() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Mailer</label
+                                    > {{ $t('mailer') }} </label
                                 >
                                 <select
                                     v-model="form.super_admin_mail_mailer"
-                                    class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 >
-                                    <option value="smtp">smtp</option>
-                                    <option value="sendmail">sendmail</option>
-                                    <option value="log">log</option>
+                                    <option value="smtp"> {{ $t('smtp') }} </option>
+                                    <option value="sendmail"> {{ $t('sendmail') }} </option>
+                                    <option value="log"> {{ $t('log') }} </option>
                                 </select>
                                 <div
                                     v-if="form.errors.super_admin_mail_mailer"
@@ -115,15 +115,15 @@ function submit() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Encryption</label
+                                    > {{ $t('encryption') }} </label
                                 >
                                 <select
                                     v-model="form.super_admin_mail_encryption"
-                                    class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 >
-                                    <option value="">None</option>
-                                    <option value="tls">tls</option>
-                                    <option value="ssl">ssl</option>
+                                    <option value=""> {{ $t('none') }} </option>
+                                    <option value="tls"> {{ $t('tls') }} </option>
+                                    <option value="ssl"> {{ $t('ssl') }} </option>
                                 </select>
                                 <div
                                     v-if="
@@ -140,7 +140,7 @@ function submit() {
                             <div class="sm:col-span-2">
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Host</label
+                                    > {{ $t('host') }} </label
                                 >
                                 <input
                                     v-model="form.super_admin_mail_host"
@@ -159,7 +159,7 @@ function submit() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Port</label
+                                    > {{ $t('port') }} </label
                                 >
                                 <input
                                     v-model="form.super_admin_mail_port"
@@ -178,7 +178,7 @@ function submit() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Username</label
+                                    > {{ $t('username') }} </label
                                 >
                                 <input
                                     v-model="form.super_admin_mail_username"
@@ -197,7 +197,7 @@ function submit() {
                             <div class="sm:col-span-2">
                                 <label
                                     class="block text-sm font-medium text-slate-700"
-                                    >Password</label
+                                    > {{ $t('password') }} </label
                                 >
                                 <input
                                     v-model="form.super_admin_mail_password"
@@ -233,7 +233,7 @@ function submit() {
                                         <div>
                                             <label
                                                 class="block text-sm font-medium text-slate-700"
-                                                >From email</label
+                                                > {{ $t('from_email') }} </label
                                             >
                                             <input
                                                 v-model="
@@ -260,7 +260,7 @@ function submit() {
                                         <div>
                                             <label
                                                 class="block text-sm font-medium text-slate-700"
-                                                >From name</label
+                                                > {{ $t('from_name') }} </label
                                             >
                                             <input
                                                 v-model="
@@ -292,7 +292,7 @@ function submit() {
                             class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between"
                         >
                             <div class="text-sm text-slate-500">
-                                <span v-if="form.processing">Saving…</span>
+                                <span v-if="form.processing"> {{ $t('saving') }} </span>
                                 <span v-else
                                     >Changes are applied for future
                                     emails.</span

@@ -314,7 +314,7 @@
                     <div class="w-full">
                         <select
                             v-model="assignForm.role"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option value="">-- Select a Role --</option>
                             <option

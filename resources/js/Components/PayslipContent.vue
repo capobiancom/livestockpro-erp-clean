@@ -2,7 +2,7 @@
     <div class="bg-white rounded-lg shadow-lg p-8 print-area">
         <div class="flex justify-between items-center mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-800">Payslip</h1>
+                <h1 class="text-3xl font-bold text-gray-800"> {{ $t('payslip') }} </h1>
                 <p class="text-gray-600">
                     For the month of
                     {{ getMonthName(payrollItem.payroll_run?.month) }}
@@ -16,7 +16,7 @@
                     alt="Company Logo"
                     class="h-10"
                 />
-                <h2 class="text-2xl font-bold text-gray-800">AGRO SASS</h2>
+                <h2 class="text-2xl font-bold text-gray-800"> {{ $t('agro_sass') }} </h2>
             </div>
         </div>
 
@@ -26,20 +26,20 @@
                     Employee Details
                 </h3>
                 <p>
-                    <strong>Name:</strong>
+                    <strong> {{ $t('name') }} </strong>
                     {{ payrollItem.employee?.first_name }}
                     {{ payrollItem.employee?.last_name }}
                 </p>
                 <p>
-                    <strong>Employee ID:</strong>
+                    <strong> {{ $t('employee_id') }} </strong>
                     {{ payrollItem.employee?.employee_id }}
                 </p>
                 <p>
-                    <strong>Department:</strong>
+                    <strong> {{ $t('department') }} </strong>
                     {{ payrollItem.employee?.department?.name }}
                 </p>
                 <p>
-                    <strong>Designation:</strong>
+                    <strong> {{ $t('designation') }} </strong>
                     {{ payrollItem.employee?.designation?.name }}
                 </p>
             </div>
@@ -48,23 +48,23 @@
                     Payroll Period
                 </h3>
                 <p>
-                    <strong>Month:</strong>
+                    <strong> {{ $t('month') }} </strong>
                     {{ getMonthName(payrollItem.payroll_run?.month) }}
                 </p>
                 <p>
-                    <strong>Year:</strong>
+                    <strong> {{ $t('year') }} </strong>
                     {{ payrollItem.payroll_run?.year }}
                 </p>
                 <p>
-                    <strong>Working Days:</strong>
+                    <strong> {{ $t('working_days') }} </strong>
                     {{ payrollItem.working_days }}
                 </p>
                 <p>
-                    <strong>Paid Leave Days:</strong>
+                    <strong> {{ $t('paid_leave_days') }} </strong>
                     {{ payrollItem.paid_leave_days }}
                 </p>
                 <p>
-                    <strong>Unpaid Leave Days:</strong>
+                    <strong> {{ $t('unpaid_leave_days') }} </strong>
                     {{ payrollItem.unpaid_leave_days }}
                 </p>
             </div>
@@ -77,47 +77,47 @@
                 </h3>
                 <div class="space-y-2">
                     <div class="flex justify-between">
-                        <span>Basic Salary:</span>
+                        <span> {{ $t('basic_salary') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.basic_salary)
                         }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>House Allowance:</span>
+                        <span> {{ $t('house_allowance') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.house_allowance)
                         }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Medical Allowance:</span>
+                        <span> {{ $t('medical_allowance') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.medical_allowance)
                         }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Transport Allowance:</span>
+                        <span> {{ $t('transport_allowance') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.transport_allowance)
                         }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Overtime Amount:</span>
+                        <span> {{ $t('overtime_amount') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.overtime_amount)
                         }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Bonus:</span>
+                        <span> {{ $t('bonus') }} </span>
                         <span>{{ formatCurrency(payrollItem.bonus) }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Festival Bonus:</span>
+                        <span> {{ $t('festival_bonus') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.festival_bonus)
                         }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Performance Incentive:</span>
+                        <span> {{ $t('performance_incentive') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.performance_incentive)
                         }}</span>
@@ -125,7 +125,7 @@
                     <div
                         class="flex justify-between font-bold border-t pt-2 mt-2"
                     >
-                        <span>Gross Salary:</span>
+                        <span> {{ $t('gross_salary') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.gross_salary)
                         }}</span>
@@ -139,25 +139,25 @@
                 </h3>
                 <div class="space-y-2">
                     <div class="flex justify-between">
-                        <span>Leave Deduction:</span>
+                        <span> {{ $t('leave_deduction') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.leave_deduction)
                         }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Tax Amount:</span>
+                        <span> {{ $t('tax_amount') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.tax_amount)
                         }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Loan Deduction:</span>
+                        <span> {{ $t('loan_deduction') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.loan_deduction)
                         }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Other Deductions:</span>
+                        <span> {{ $t('other_deductions') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.other_deductions)
                         }}</span>
@@ -165,7 +165,7 @@
                     <div
                         class="flex justify-between font-bold border-t pt-2 mt-2"
                     >
-                        <span>Total Deductions:</span>
+                        <span> {{ $t('total_deductions') }} </span>
                         <span>{{
                             formatCurrency(payrollItem.deductions)
                         }}</span>
@@ -177,13 +177,13 @@
         <div
             class="flex justify-between items-center bg-rose-100 p-4 rounded-lg"
         >
-            <h3 class="text-xl font-bold text-gray-800">Net Salary:</h3>
+            <h3 class="text-xl font-bold text-gray-800"> {{ $t('net_salary') }} </h3>
             <span class="text-2xl font-extrabold text-rose-700">{{
                 formatCurrency(payrollItem.net_salary)
             }}</span>
         </div>
         <div class="mt-4 text-lg font-semibold text-gray-700">
-            <p><strong>Net Salary in Words:</strong> {{ netSalaryInWords }}</p>
+            <p><strong> {{ $t('net_salary_in_words') }} </strong> {{ netSalaryInWords }}</p>
         </div>
 
         <div class="mt-12 text-gray-600 text-sm">

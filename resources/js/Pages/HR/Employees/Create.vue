@@ -102,7 +102,7 @@
                             </label>
                             <select
                                 v-model="form.gender"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 required
                             >
                                 <option value="">Select Gender</option>
@@ -240,7 +240,7 @@
                             </label>
                             <select
                                 v-model="form.department_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 required
                             >
                                 <option value="">Select Department</option>
@@ -268,7 +268,7 @@
                             </label>
                             <select
                                 v-model="form.designation_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 required
                             >
                                 <option value="">Select Designation</option>
@@ -296,7 +296,7 @@
                             </label>
                             <select
                                 v-model="form.employment_type"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 required
                             >
                                 <option value="">Select Employment Type</option>
@@ -320,7 +320,7 @@
                             </label>
                             <select
                                 v-model="form.salary_type"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 required
                             >
                                 <option value="">Select Salary Type</option>
@@ -344,7 +344,7 @@
                             </label>
                             <select
                                 v-model="form.status"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 required
                             >
                                 <option value="active">Active</option>

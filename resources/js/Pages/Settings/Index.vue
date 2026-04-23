@@ -84,7 +84,7 @@
                                 >
                                 <select
                                     v-model="form.currency"
-                                    class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 >
                                     <option
                                         v-for="c in currencyOptions"
@@ -109,7 +109,7 @@
                                 >
                                 <select
                                     v-model="form.timezone"
-                                    class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 >
                                     <option
                                         v-for="tz in timezones"
@@ -184,7 +184,7 @@
                                 >
                                 <select
                                     v-model="form.inventory_consumption_type"
-                                    class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="mt-2 block w-full rounded-2xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 >
                                     <option :value="consumptionTypes.FIFO">
                                         FIFO (First-In, First-Out)

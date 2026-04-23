@@ -1,8 +1,8 @@
 <template>
     <Layout>
         <template #title>
-            <h2 class="text-3xl font-bold text-gray-800">Edit Vaccine Type</h2>
-            <p class="text-sm text-gray-500 mt-1">Update vaccine type information</p>
+            <h2 class="text-3xl font-bold text-gray-800"> {{ $t('edit_vaccine_type') }} </h2>
+            <p class="text-sm text-gray-500 mt-1"> {{ $t('update_vaccine_type_information') }} </p>
         </template>
 
         <div class="max-w-4xl mx-auto">

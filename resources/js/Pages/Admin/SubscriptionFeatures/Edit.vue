@@ -59,7 +59,7 @@ function submit() {
             >
                 <div>
                     <label class="block text-sm font-medium text-gray-700"
-                        >Name</label
+                        > {{ $t('name') }} </label
                     >
                     <input
                         v-model="form.name"
@@ -77,7 +77,7 @@ function submit() {
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700"
-                        >Key</label
+                        > {{ $t('key') }} </label
                     >
                     <input
                         v-model="form.key"
@@ -98,7 +98,7 @@ function submit() {
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700"
-                        >Description</label
+                        > {{ $t('description') }} </label
                     >
                     <textarea
                         v-model="form.description"
@@ -117,7 +117,7 @@ function submit() {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                         <label class="block text-sm font-medium text-gray-700"
-                            >Sort order</label
+                            > {{ $t('sort_order') }} </label
                         >
                         <input
                             v-model.number="form.sort_order"

@@ -30,8 +30,8 @@ function submit() {
                         </h1>
                         <p class="text-sm text-gray-600 mt-1">
                             Define a feature that can be attached to plans.
-                            Example keys: <code>animals</code>,
-                            <code>reports</code>, <code>accounting</code>.
+                            Example keys: <code> {{ $t('animals') }} </code>,
+                            <code> {{ $t('reports') }} </code>, <code> {{ $t('accounting') }} </code>.
                         </p>
                     </div>
 
@@ -57,7 +57,7 @@ function submit() {
             >
                 <div>
                     <label class="block text-sm font-medium text-gray-700"
-                        >Name</label
+                        > {{ $t('name') }} </label
                     >
                     <input
                         v-model="form.name"
@@ -75,7 +75,7 @@ function submit() {
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700"
-                        >Key</label
+                        > {{ $t('key') }} </label
                     >
                     <input
                         v-model="form.key"
@@ -96,7 +96,7 @@ function submit() {
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700"
-                        >Description</label
+                        > {{ $t('description') }} </label
                     >
                     <textarea
                         v-model="form.description"
@@ -115,7 +115,7 @@ function submit() {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                         <label class="block text-sm font-medium text-gray-700"
-                            >Sort order</label
+                            > {{ $t('sort_order') }} </label
                         >
                         <input
                             v-model.number="form.sort_order"

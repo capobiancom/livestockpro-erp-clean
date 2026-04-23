@@ -18,12 +18,12 @@
                     <span
                         v-if="account.is_system"
                         class="ml-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800"
-                        >System</span
+                        > {{ $t('system') }} </span
                     >
                     <span
                         v-if="!account.is_active"
                         class="ml-2 inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800"
-                        >Inactive</span
+                        > {{ $t('inactive') }} </span
                     >
                 </div>
                 <div class="flex items-center gap-2">

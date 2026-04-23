@@ -99,10 +99,10 @@ onMounted(() => {
                     id="customer_id"
                     v-model="form.customer_id"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-                    :class="{ 'border-red-500': form.errors.customer_id }"
+                    :class="[{ 'border-red-500': form.errors.customer_id }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                     required
                 >
-                    <option value="">Select Customer</option>
+                    <option value=""> {{ $t('select_customer') }} </option>
                     <option
                         v-for="customer in customers"
                         :key="customer.id"
@@ -127,10 +127,10 @@ onMounted(() => {
                     id="payable_id"
                     v-model="form.payable_id"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-                    :class="{ 'border-red-500': form.errors.payable_id }"
+                    :class="[{ 'border-red-500': form.errors.payable_id }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                     required
                 >
-                    <option value="">Select Payable</option>
+                    <option value=""> {{ $t('select_payable') }} </option>
                     <option
                         v-for="payable in filteredPayables"
                         :key="payable.id"
@@ -226,10 +226,10 @@ onMounted(() => {
                     id="payment_method"
                     v-model="form.payment_method"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-                    :class="{ 'border-red-500': form.errors.payment_method }"
+                    :class="[{ 'border-red-500': form.errors.payment_method }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                     required
                 >
-                    <option value="">Select Method</option>
+                    <option value=""> {{ $t('select_method') }} </option>
                     <option
                         v-for="method in paymentMethods"
                         :key="method"
@@ -249,7 +249,7 @@ onMounted(() => {
             <div class="md:col-span-2">
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
                     Reference Number
-                    <span class="text-gray-400 text-xs">(Auto-generated)</span>
+                    <span class="text-gray-400 text-xs"> {{ $t('auto_generated') }} </span>
                 </label>
                 <input
                     id="reference_number"
@@ -271,7 +271,7 @@ onMounted(() => {
 
             <div class="md:col-span-2">
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
-                    Notes <span class="text-gray-400 text-xs">(Optional)</span>
+                    Notes <span class="text-gray-400 text-xs"> {{ $t('optional') }} </span>
                 </label>
                 <textarea
                     id="notes"

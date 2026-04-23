@@ -3,7 +3,7 @@
 
     <Layout>
         <template #title>
-            <h2 class="text-3xl font-bold text-gray-800">Add New Calf</h2>
+            <h2 class="text-3xl font-bold text-gray-800"> {{ $t('add_new_calf') }} </h2>
             <p class="text-sm text-gray-500 mt-1">
                 Fill in the details to add a new calf to the inventory.
             </p>
@@ -22,7 +22,7 @@
                         <select
                             id="mother_id"
                             v-model="form.mother_id"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option :value="null">Select Mother</option>
                             <option
@@ -49,7 +49,7 @@
                         <select
                             id="father_id"
                             v-model="form.father_id"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option :value="null">Select Father</option>
                             <option
@@ -76,7 +76,7 @@
                         <select
                             id="gender"
                             v-model="form.gender"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option :value="null">Select Gender</option>
                             <option
@@ -142,7 +142,7 @@
                         <select
                             id="health_status"
                             v-model="form.health_status"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option :value="null">Select Health Status</option>
                             <option

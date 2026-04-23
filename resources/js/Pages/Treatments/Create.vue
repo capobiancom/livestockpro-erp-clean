@@ -120,7 +120,7 @@
                                 </label>
                                 <select
                                     v-model="medication.medicine_id"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                     :class="{
                                         'border-red-500':
                                             form.errors[

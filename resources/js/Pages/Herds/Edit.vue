@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <template #title>
-            <h2 class="text-3xl font-bold text-gray-800">Edit Herd</h2>
+            <h2 class="text-3xl font-bold text-gray-800"> {{ $t('edit_herd') }} </h2>
         </template>
 
         <form @submit.prevent="submit" class="mt-6">
@@ -14,7 +14,7 @@
                         <select
                             v-model="form.farm_id"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                            :class="{ 'border-red-500': form.errors.farm_id }"
+                            :class="[{ 'border-red-500': form.errors.farm_id }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                             required
                         >
                             <option value="">Select Farm</option>

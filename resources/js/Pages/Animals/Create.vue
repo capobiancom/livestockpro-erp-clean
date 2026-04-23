@@ -106,7 +106,7 @@
                             </label>
                             <select
                                 v-model="form.animal_type"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.animal_type,
                                 }"
@@ -137,7 +137,7 @@
                             <select
                                 v-model="form.sex"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
-                                :class="{ 'border-red-500': form.errors.sex }"
+                                :class="[{ 'border-red-500': form.errors.sex }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                             >
                                 <option value="">Select sex...</option>
                                 <option value="male">Male</option>
@@ -255,7 +255,7 @@
                             </label>
                             <select
                                 v-model="form.breed_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.breed_id,
                                 }"
@@ -286,7 +286,7 @@
                             <select
                                 v-model="form.farm_id"
                                 @change="filterHerds"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.farm_id,
                                 }"
@@ -320,7 +320,7 @@
                             <select
                                 v-model="form.herd_id"
                                 :disabled="!form.farm_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent transition disabled:bg-gray-100 disabled:cursor-not-allowed"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.herd_id,
                                 }"
@@ -356,7 +356,7 @@
                             </label>
                             <select
                                 v-model="form.status"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.status,
                                 }"
@@ -468,7 +468,7 @@
                             </label>
                             <select
                                 v-model="form.supplier_id"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500': form.errors.supplier_id,
                                 }"

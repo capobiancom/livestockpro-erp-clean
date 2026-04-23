@@ -147,7 +147,7 @@
                         >
                         <select
                             v-model="form.event_type"
-                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option value="health_events">Health Events</option>
                             <option value="disease_treatments">
@@ -163,7 +163,7 @@
                         >
                         <select
                             v-model="form.animal_id"
-                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option :value="null">All animals</option>
                             <option
@@ -187,7 +187,7 @@
                         <select
                             v-model="form.health_issue_id"
                             :disabled="form.event_type !== 'health_events'"
-                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-400"
+                            class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-400 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                         >
                             <option :value="null">All issues</option>
                             <option

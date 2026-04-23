@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <template #title>
-            <h2 class="text-3xl font-bold text-gray-800">Record Feeding</h2>
+            <h2 class="text-3xl font-bold text-gray-800"> {{ $t('record_feeding') }} </h2>
         </template>
 
         <form @submit.prevent="submit" class="mt-6">
@@ -16,7 +16,7 @@
                         <select
                             v-model="form.animal_id"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                            :class="{ 'border-red-500': form.errors.animal_id }"
+                            :class="[{ 'border-red-500': form.errors.animal_id }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                         >
                             <option :value="null">Select Animal</option>
                             <option
@@ -44,7 +44,7 @@
                         <select
                             v-model="form.group_id"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                            :class="{ 'border-red-500': form.errors.group_id }"
+                            :class="[{ 'border-red-500': form.errors.group_id }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                         >
                             <option :value="null">Select Group</option>
                             <option
@@ -94,7 +94,7 @@
                         </label>
                         <select
                             v-model="form.feeding_time"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             :class="{
                                 'border-red-500': form.errors.feeding_time,
                             }"
@@ -150,7 +150,7 @@
                             </label>
                             <select
                                 v-model="item.item_id"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 :class="{
                                     'border-red-500':
                                         form.errors[

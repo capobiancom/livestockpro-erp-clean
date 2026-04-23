@@ -63,7 +63,7 @@
                     <select
                         v-model="directionFilter"
                         @change="handleFilter"
-                        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                     >
                         <option value="">All Directions</option>
                         <option v-for="direction in directions" :key="direction.value" :value="direction.value">
@@ -73,7 +73,7 @@
                     <select
                         v-model="accountFilter"
                         @change="handleFilter"
-                        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                     >
                         <option value="">All Accounts</option>
                         <option v-for="account in cashAccounts" :key="account.id" :value="account.id">

@@ -83,7 +83,7 @@
                     </label>
                     <select
                         v-model="selectedFarmOwnerId"
-                        class="w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
+                        class="w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                     >
                         <option :value="null">Select farm owner...</option>
                         <option

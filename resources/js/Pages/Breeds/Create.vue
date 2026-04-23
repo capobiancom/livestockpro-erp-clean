@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <template #title>
-            <h2 class="text-3xl font-bold text-gray-800">Add New Breed</h2>
+            <h2 class="text-3xl font-bold text-gray-800"> {{ $t('add_new_breed') }} </h2>
         </template>
 
         <form @submit.prevent="submit" class="mt-6">
@@ -82,7 +82,7 @@
                         <select
                             v-model="form.origin"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                            :class="{ 'border-red-500': form.errors.origin }"
+                            :class="[{ 'border-red-500': form.errors.origin }, 'cursor-pointer hover:bg-gray-50 transition-colors duration-200']"
                             required
                         >
                             <option value="">Select Origin</option>
@@ -106,7 +106,7 @@
                         </label>
                         <select
                             v-model="form.animal_type"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             :class="{
                                 'border-red-500': form.errors.animal_type,
                             }"
@@ -142,7 +142,7 @@
                                 </label>
                                 <select
                                     v-model="form.characteristics.temperament"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                     :class="{
                                         'border-red-500':
                                             form.errors[
@@ -182,7 +182,7 @@
                                     v-model="
                                         form.characteristics.suitable_climate
                                     "
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                     :class="{
                                         'border-red-500':
                                             form.errors[

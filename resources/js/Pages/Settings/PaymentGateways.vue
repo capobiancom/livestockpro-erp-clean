@@ -85,7 +85,7 @@ function save() {
                         <div class="mt-2">
                             <select
                                 v-model="form.default_gateway"
-                                class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                             >
                                 <option
                                     v-for="gw in enabledGateways"
@@ -178,7 +178,7 @@ function save() {
                                     v-model="gw.is_enabled"
                                     class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                 />
-                                <span>Enable</span>
+                                <span> {{ $t('enable') }} </span>
                             </label>
                         </div>
                     </div>
@@ -191,14 +191,14 @@ function save() {
                             <div class="md:col-span-2">
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >Mode</label
+                                    > {{ $t('mode') }} </label
                                 >
                                 <select
                                     v-model="gw.config.mode"
-                                    class="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                 >
-                                    <option value="sandbox">sandbox</option>
-                                    <option value="live">live</option>
+                                    <option value="sandbox"> {{ $t('sandbox') }} </option>
+                                    <option value="live"> {{ $t('live') }} </option>
                                 </select>
                                 <div class="mt-1 text-xs text-gray-500">
                                     If set to sandbox, bKash will use sandbox
@@ -209,7 +209,7 @@ function save() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >Sandbox Base URL</label
+                                    > {{ $t('sandbox_base_url') }} </label
                                 >
                                 <input
                                     type="text"
@@ -222,7 +222,7 @@ function save() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >Live Base URL</label
+                                    > {{ $t('live_base_url') }} </label
                                 >
                                 <input
                                     type="text"
@@ -235,7 +235,7 @@ function save() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >App Key</label
+                                    > {{ $t('app_key') }} </label
                                 >
                                 <input
                                     type="text"
@@ -248,7 +248,7 @@ function save() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >App Secret</label
+                                    > {{ $t('app_secret') }} </label
                                 >
                                 <input
                                     type="password"
@@ -261,7 +261,7 @@ function save() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >Username</label
+                                    > {{ $t('username') }} </label
                                 >
                                 <input
                                     type="text"
@@ -274,7 +274,7 @@ function save() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >Password</label
+                                    > {{ $t('password') }} </label
                                 >
                                 <input
                                     type="password"
@@ -292,7 +292,7 @@ function save() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >API Base URL</label
+                                    > {{ $t('api_base_url') }} </label
                                 >
                                 <input
                                     type="text"
@@ -308,7 +308,7 @@ function save() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >Merchant / App Key</label
+                                    > {{ $t('merchant_app_key') }} </label
                                 >
                                 <input
                                     type="text"
@@ -321,7 +321,7 @@ function save() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >Secret</label
+                                    > {{ $t('secret') }} </label
                                 >
                                 <input
                                     type="password"
@@ -337,7 +337,7 @@ function save() {
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700"
-                                    >Webhook / Callback URL (optional)</label
+                                    > {{ $t('webhook_callback_url_optional') }} </label
                                 >
                                 <input
                                     type="text"

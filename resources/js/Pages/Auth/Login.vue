@@ -90,7 +90,7 @@ const submit = () => {
                         v-model:checked="form.remember"
                         class="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                     />
-                    <span class="text-sm text-slate-700">Recordarme</span>
+                    <span class="text-sm text-slate-700"> {{ $t('recordarme') }} </span>
                 </label>
             </div>
 

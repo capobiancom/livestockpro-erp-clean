@@ -4,7 +4,7 @@
             <!-- Header -->
             <div class="flex justify-between items-center mb-8">
                 <div>
-                    <h1 class="text-4xl font-bold text-gray-900">INVOICE</h1>
+                    <h1 class="text-4xl font-bold text-gray-900"> {{ $t('invoice') }} </h1>
                     <p class="text-lg text-gray-600">
                         #{{ sale.invoice_number || sale.id }}
                     </p>
@@ -128,7 +128,7 @@
                         class="flex justify-between py-2 border-b border-gray-200"
                     >
                         <span class="text-sm font-medium text-gray-700"
-                            >Total Amount:</span
+                            > {{ $t('total_amount') }} </span
                         >
                         <span class="text-sm font-medium text-gray-900">{{
                             formatCurrency(sale.total_amount)
@@ -138,7 +138,7 @@
                         class="flex justify-between py-2 border-b border-gray-200"
                     >
                         <span class="text-sm font-medium text-gray-700"
-                            >Paid Amount:</span
+                            > {{ $t('paid_amount') }} </span
                         >
                         <span class="text-sm font-medium text-green-600">{{
                             formatCurrency(sale.paid_amount)
@@ -148,7 +148,7 @@
                         class="flex justify-between py-2 border-b border-gray-200"
                     >
                         <span class="text-sm font-medium text-gray-700"
-                            >Due Amount:</span
+                            > {{ $t('due_amount') }} </span
                         >
                         <span
                             class="text-sm font-medium"
@@ -163,7 +163,7 @@
                     <div
                         class="flex justify-between py-3 font-bold text-lg bg-gray-50 rounded-b-lg"
                     >
-                        <span class="px-4 text-gray-800">Status:</span>
+                        <span class="px-4 text-gray-800"> {{ $t('status') }} </span>
                         <span
                             class="px-4 capitalize"
                             :class="{
@@ -195,7 +195,7 @@
 
             <!-- Footer -->
             <div class="text-center text-gray-500 text-xs mt-12">
-                <p>Thank you for your business!</p>
+                <p> {{ $t('thank_you_for_your_business') }} </p>
                 <p>
                     {{ sale.farm?.address || "" }}
                     <span v-if="sale.farm?.address && sale.farm?.phone">|</span>

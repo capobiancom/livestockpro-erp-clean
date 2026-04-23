@@ -3,7 +3,7 @@
         <template #title>
             <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="text-3xl font-bold text-gray-800">Edit Supplier</h2>
+                    <h2 class="text-3xl font-bold text-gray-800"> {{ $t('edit_supplier') }} </h2>
                     <p class="text-sm text-gray-500 mt-1">Update supplier information for {{ supplier.name }}</p>
                 </div>
                 <Link

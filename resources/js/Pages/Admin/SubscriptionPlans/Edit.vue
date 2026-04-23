@@ -143,7 +143,7 @@ function destroyPlan() {
                                             <div class="sm:col-span-2">
                                                 <label
                                                     class="block text-sm font-medium text-gray-700"
-                                                    >Name</label
+                                                    > {{ $t('name') }} </label
                                                 >
                                                 <input
                                                     v-model="form.name"
@@ -164,7 +164,7 @@ function destroyPlan() {
                                             <div class="sm:col-span-2">
                                                 <label
                                                     class="block text-sm font-medium text-gray-700"
-                                                    >Slug (optional)</label
+                                                    > {{ $t('slug_optional') }} </label
                                                 >
                                                 <input
                                                     v-model="form.slug"
@@ -242,7 +242,7 @@ function destroyPlan() {
                                             <div>
                                                 <label
                                                     class="block text-sm font-medium text-gray-700"
-                                                    >Yearly discount (%)</label
+                                                    > {{ $t('yearly_discount') }} </label
                                                 >
                                                 <input
                                                     v-model.number="
@@ -467,11 +467,11 @@ function destroyPlan() {
                                             <div>
                                                 <label
                                                     class="block text-sm font-medium text-gray-700"
-                                                    >Status</label
+                                                    > {{ $t('status') }} </label
                                                 >
                                                 <select
                                                     v-model="form.is_active"
-                                                    class="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                    class="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                                                 >
                                                     <option :value="true">
                                                         Active
@@ -497,7 +497,7 @@ function destroyPlan() {
                                             <div>
                                                 <label
                                                     class="block text-sm font-medium text-gray-700"
-                                                    >Sort order</label
+                                                    > {{ $t('sort_order') }} </label
                                                 >
                                                 <input
                                                     v-model.number="
