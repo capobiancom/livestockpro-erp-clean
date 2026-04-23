@@ -8,7 +8,10 @@ ENV SKIP_COMPOSER=1 \
     PHP_ERRORS_STDERR=1 \
     RUN_SCRIPTS=1 \
     APP_ENV=production \
-    SKIP_CHOWN=1
+    SKIP_CHOWN=1 \
+    REAL_IP_HEADER=0 \
+    PHP_CATCHALL=0 \
+    WEBROOT=""
 
 WORKDIR /var/www/html
 
