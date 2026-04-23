@@ -586,6 +586,16 @@ Route::middleware(['auth', 'subscription.active'])->group(function () {
         ->middleware('role:farm owner')
         ->name('plan.index');
 
+    // Payment gateway settings (configure API keys + default gateway) - SaaS mode only
+    Route::middleware('saas.only')->group(function () {
+        Route::get('/settings/payment-gateways', [\App\Http\Controllers\PaymentGatewaySettingsController::class, 'index'])
+            ->middleware('role:admin|Super Admin')
+            ->name('settings.payment-gateways.index');
+        Route::post('/settings/payment-gateways', [\App\Http\Controllers\PaymentGatewaySettingsController::class, 'update'])
+            ->middleware('role:admin|Super Admin')
+            ->name('settings.payment-gateways.update');
+    });
+
     // Settings routes
     Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])
         ->middleware('role:farm owner')
