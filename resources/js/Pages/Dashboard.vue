@@ -1,85 +1,40 @@
 <template>
     <Layout>
         <template #title>
-            <!-- Hero Section with Welcome -->
-            <div
-                class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-lg shadow-lg p-3 mb-4 text-white"
-            >
-                <div class="flex items-center justify-between gap-6">
-                    <div class="flex items-center gap-3">
-                        <div
-                            class="bg-white/20 backdrop-blur-sm rounded-lg p-2"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                                />
-                            </svg>
-                        </div>
-                        <div>
-                            <h1 class="text-lg font-bold">{{ $t('dashboard') }}</h1>
-                            <div
-                                class="flex items-center gap-2 text-blue-100 text-xs"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-3 w-3"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                    />
-                                </svg>
-                                <span class="font-medium">{{
-                                    getCurrentDate()
-                                }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Switch dashboard shortcuts -->
-                    <div class="hidden sm:flex items-center gap-3">
-                        <Link
-                            v-if="isSuperAdmin"
-                            :href="route('admin.users.index')"
-                            class="px-3 py-2 text-xs font-semibold bg-white/15 hover:bg-white/25 rounded-lg transition"
-                        >
-                            {{ $t('switch_farm_owner') }}
-                        </Link>
-
-                        <Link
-                            v-if="isFarmOwner"
-                            :href="route('dashboard', { user_id: authUserId })"
-                            class="px-3 py-2 text-xs font-semibold bg-white/15 hover:bg-white/25 rounded-lg transition"
-                        >
-                            {{ $t('my_dashboard') }}
-                        </Link>
-
-                        <div
-                            class="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg"
-                        >
-                            <div
-                                class="h-2.5 w-2.5 bg-green-400 rounded-full animate-pulse"
-                            ></div>
-                            <span
-                                class="text-xs font-semibold text-white tracking-wide"
-                                >{{ $t('live') }}</span
-                            >
-                        </div>
+            <!-- Clean page header -->
+            <div class="flex items-start justify-between gap-4 mb-6">
+                <div class="min-w-0">
+                    <h1 class="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+                        {{ $t('dashboard') }}
+                    </h1>
+                    <p class="mt-1 text-sm text-slate-500 flex items-center gap-2 flex-wrap">
+                        <CalendarDays aria-hidden="true" class="w-3.5 h-3.5 text-slate-400" :stroke-width="2" />
+                        <span>{{ getCurrentDate() }}</span>
+                        <span class="text-slate-300" aria-hidden="true">·</span>
+                        <span>{{ $t('dashboard_subtitle') }}</span>
+                    </p>
+                </div>
+                <div class="hidden sm:flex items-center gap-2 shrink-0">
+                    <Link
+                        v-if="isSuperAdmin"
+                        :href="route('admin.users.index')"
+                        class="px-3 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2"
+                    >
+                        {{ $t('switch_farm_owner') }}
+                    </Link>
+                    <Link
+                        v-if="isFarmOwner"
+                        :href="route('dashboard', { user_id: authUserId })"
+                        class="px-3 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2"
+                    >
+                        {{ $t('my_dashboard') }}
+                    </Link>
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 text-green-700 ring-1 ring-green-200/60"
+                        role="status"
+                    >
+                        <span class="h-2 w-2 bg-green-500 rounded-full animate-pulse" aria-hidden="true"></span>
+                        <span class="text-xs font-semibold tracking-wide">{{ $t('live') }}</span>
                     </div>
                 </div>
             </div>
@@ -114,9 +69,10 @@
 
                     <div class="flex gap-2">
                         <button
+                            type="button"
                             @click="openSelectedUserDashboard"
                             :disabled="!selectedUserId"
-                            class="px-4 py-2 rounded-lg font-semibold shadow transition duration-200 text-sm bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                            class="px-4 py-2 rounded-lg font-semibold text-sm bg-green-600 hover:bg-green-700 text-white shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {{ $t('open') }}
                         </button>
@@ -132,348 +88,123 @@
             </div>
         </template>
 
-        <!-- Quick Stats Overview (8 cards in 4x2 grid) with hover animations -->
-        <div class="mb-8">
-            <h3
-                class="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-2"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-7 w-7 text-indigo-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+        <!-- KPI sections: Resources · Operations · Risk -->
+        <div class="space-y-8 mb-8">
+            <!-- Resources -->
+            <section aria-labelledby="group-resources">
+                <h2
+                    id="group-resources"
+                    class="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.08em] mb-3"
                 >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                    />
-                </svg>
-                {{ $t('quick_overview') }}
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                <div
-                    class="group bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl shadow-md hover:shadow-2xl p-6 border border-blue-100 transform hover:-translate-y-1 transition-all duration-300"
-                >
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p
-                                class="text-sm text-blue-600 font-semibold uppercase tracking-wider"
-                            >
-                                {{ $t('total_animals') }}
-                            </p>
-                            <p
-                                class="text-4xl font-extrabold text-blue-700 mt-2"
-                            >
-                                {{ stats.total_animals }}
-                            </p>
-                            <p class="text-xs text-blue-500 mt-1">
-                                {{ $t('all_registered') }}
-                            </p>
-                        </div>
-                        <div
-                            class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300 shadow-lg"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-10 w-10 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                                />
-                            </svg>
-                        </div>
-                    </div>
+                    {{ $t('group_resources') }}
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <KpiCard
+                        intent="primary"
+                        :label="$t('total_animals')"
+                        :value="stats.total_animals"
+                        :subtitle="$t('all_registered')"
+                    >
+                        <template #icon>
+                            <PawPrint class="w-5 h-5" :stroke-width="2" />
+                        </template>
+                    </KpiCard>
+                    <KpiCard
+                        intent="primary"
+                        :label="$t('active_animals')"
+                        :value="stats.active_animals"
+                        :subtitle="$t('currently_active')"
+                    >
+                        <template #icon>
+                            <CheckCircle2 class="w-5 h-5" :stroke-width="2" />
+                        </template>
+                    </KpiCard>
                 </div>
+            </section>
 
-                <div
-                    class="group bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl shadow-md hover:shadow-2xl p-6 border border-green-100 transform hover:-translate-y-1 transition-all duration-300"
+            <!-- Operations -->
+            <section aria-labelledby="group-operations">
+                <h2
+                    id="group-operations"
+                    class="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.08em] mb-3"
                 >
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p
-                                class="text-sm text-green-600 font-semibold uppercase tracking-wider"
-                            >
-                                {{ $t('active_animals') }}
-                            </p>
-                            <p
-                                class="text-4xl font-extrabold text-green-700 mt-2"
-                            >
-                                {{ stats.active_animals }}
-                            </p>
-                            <p class="text-xs text-green-500 mt-1">
-                                {{ $t('currently_active') }}
-                            </p>
-                        </div>
-                        <div
-                            class="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300 shadow-lg"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-10 w-10 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
-                        </div>
-                    </div>
+                    {{ $t('group_operations') }}
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <KpiCard
+                        intent="neutral"
+                        :label="$t('total_staff')"
+                        :value="stats.total_staff"
+                        :subtitle="$t('team_members')"
+                    >
+                        <template #icon>
+                            <UsersRound class="w-5 h-5" :stroke-width="2" />
+                        </template>
+                    </KpiCard>
+                    <KpiCard
+                        intent="neutral"
+                        :label="$t('total_farms')"
+                        :value="stats.total_farms"
+                        :subtitle="$t('locations')"
+                    >
+                        <template #icon>
+                            <MapPin class="w-5 h-5" :stroke-width="2" />
+                        </template>
+                    </KpiCard>
+                    <KpiCard
+                        intent="neutral"
+                        :label="$t('feedings_today')"
+                        :value="stats.feedings_today"
+                        :subtitle="$t('completed_today')"
+                    >
+                        <template #icon>
+                            <Clock class="w-5 h-5" :stroke-width="2" />
+                        </template>
+                    </KpiCard>
                 </div>
+            </section>
 
-                <div
-                    class="group bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl shadow-md hover:shadow-2xl p-6 border border-orange-100 transform hover:-translate-y-1 transition-all duration-300"
+            <!-- Risk -->
+            <section aria-labelledby="group-risk">
+                <h2
+                    id="group-risk"
+                    class="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.08em] mb-3"
                 >
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p
-                                class="text-sm text-orange-600 font-semibold uppercase tracking-wider"
-                            >
-                                {{ $t('total_staff') }}
-                            </p>
-                            <p
-                                class="text-4xl font-extrabold text-orange-700 mt-2"
-                            >
-                                {{ stats.total_staff }}
-                            </p>
-                            <p class="text-xs text-orange-500 mt-1">
-                                {{ $t('team_members') }}
-                            </p>
-                        </div>
-                        <div
-                            class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300 shadow-lg"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-10 w-10 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                                />
-                            </svg>
-                        </div>
-                    </div>
+                    {{ $t('group_risk') }}
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <KpiCard
+                        intent="warning"
+                        :label="$t('vaccinations_due')"
+                        :value="stats.vaccinations_due"
+                        :subtitle="$t('within_7_days')"
+                    >
+                        <template #icon>
+                            <Syringe class="w-5 h-5" :stroke-width="2" />
+                        </template>
+                    </KpiCard>
+                    <KpiCard
+                        intent="warning"
+                        :label="$t('low_stock_items')"
+                        :value="stats.low_stock_items"
+                        :subtitle="$t('needs_restock')"
+                    >
+                        <template #icon>
+                            <AlertTriangle class="w-5 h-5" :stroke-width="2" />
+                        </template>
+                    </KpiCard>
+                    <KpiCard
+                        intent="critical"
+                        :label="$t('active_health_issues')"
+                        :value="stats.active_health_issues"
+                        :subtitle="$t('needs_attention')"
+                    >
+                        <template #icon>
+                            <HeartPulse class="w-5 h-5" :stroke-width="2" />
+                        </template>
+                    </KpiCard>
                 </div>
-
-                <div
-                    class="group bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl shadow-md hover:shadow-2xl p-6 border border-purple-100 transform hover:-translate-y-1 transition-all duration-300"
-                >
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p
-                                class="text-sm text-purple-600 font-semibold uppercase tracking-wider"
-                            >
-                                {{ $t('total_farms') }}
-                            </p>
-                            <p
-                                class="text-4xl font-extrabold text-purple-700 mt-2"
-                            >
-                                {{ stats.total_farms }}
-                            </p>
-                            <p class="text-xs text-purple-500 mt-1">
-                                {{ $t('locations') }}
-                            </p>
-                        </div>
-                        <div
-                            class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300 shadow-lg"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-10 w-10 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                                />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="group bg-gradient-to-br from-red-50 to-rose-50 rounded-xl shadow-md hover:shadow-2xl p-6 border border-red-100 transform hover:-translate-y-1 transition-all duration-300"
-                >
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p
-                                class="text-sm text-red-600 font-semibold uppercase tracking-wider"
-                            >
-                                {{ $t('low_stock_items') }}
-                            </p>
-                            <p
-                                class="text-4xl font-extrabold text-red-700 mt-2"
-                            >
-                                {{ stats.low_stock_items }}
-                            </p>
-                            <p class="text-xs text-red-500 mt-1">
-                                {{ $t('needs_restock') }}
-                            </p>
-                        </div>
-                        <div
-                            class="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300 shadow-lg"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-10 w-10 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                                />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="group bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl shadow-md hover:shadow-2xl p-6 border border-teal-100 transform hover:-translate-y-1 transition-all duration-300"
-                >
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p
-                                class="text-sm text-teal-600 font-semibold uppercase tracking-wider"
-                            >
-                                {{ $t('feedings_today') }}
-                            </p>
-                            <p
-                                class="text-4xl font-extrabold text-teal-700 mt-2"
-                            >
-                                {{ stats.feedings_today }}
-                            </p>
-                            <p class="text-xs text-teal-500 mt-1">
-                                {{ $t('completed_today') }}
-                            </p>
-                        </div>
-                        <div
-                            class="bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300 shadow-lg"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-10 w-10 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="group bg-gradient-to-br from-yellow-50 to-amber-50 rounded-xl shadow-md hover:shadow-2xl p-6 border border-yellow-100 transform hover:-translate-y-1 transition-all duration-300"
-                >
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p
-                                class="text-sm text-yellow-600 font-semibold uppercase tracking-wider"
-                            >
-                                {{ $t('vaccinations_due') }}
-                            </p>
-                            <p
-                                class="text-4xl font-extrabold text-yellow-700 mt-2"
-                            >
-                                {{ stats.vaccinations_due }}
-                            </p>
-                            <p class="text-xs text-yellow-500 mt-1">
-                                {{ $t('within_7_days') }}
-                            </p>
-                        </div>
-                        <div
-                            class="bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300 shadow-lg"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-10 w-10 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
-                                />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="group bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl shadow-md hover:shadow-2xl p-6 border border-pink-100 transform hover:-translate-y-1 transition-all duration-300"
-                >
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p
-                                class="text-sm text-pink-600 font-semibold uppercase tracking-wider"
-                            >
-                                {{ $t('active_health_issues') }}
-                            </p>
-                            <p
-                                class="text-4xl font-extrabold text-pink-700 mt-2"
-                            >
-                                {{ stats.active_health_issues }}
-                            </p>
-                            <p class="text-xs text-pink-500 mt-1">
-                                {{ $t('needs_attention') }}
-                            </p>
-                        </div>
-                        <div
-                            class="bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300 shadow-lg"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-10 w-10 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                                />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </section>
         </div>
         <!-- Reproduction Statistics Section -->
         <div class="mb-8">
@@ -2554,6 +2285,19 @@ import Layout from "@/Layouts/AppLayout.vue";
 import { computed, ref, onMounted } from "vue";
 import { useMoneyFormatter } from "@/Utils/money";
 import DemoSeedingPopup from "@/Components/DemoSeedingPopup.vue"; // Import the new component
+import KpiCard from "@/Components/KpiCard.vue";
+import {
+    PawPrint,
+    CheckCircle2,
+    UsersRound,
+    MapPin,
+    AlertTriangle,
+    Clock,
+    Syringe,
+    HeartPulse,
+    CalendarDays,
+    LayoutDashboard,
+} from "lucide-vue-next";
 import {
     Chart,
     LineController,

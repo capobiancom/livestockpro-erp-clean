@@ -1,5 +1,7 @@
 <template>
     <aside
+        id="primary-sidebar"
+        :aria-label="$t('primary_navigation')"
         :class="{
             'translate-x-0': showing,
             '-translate-x-full': !showing,
@@ -19,15 +21,15 @@
                 <img
                     v-if="appSettings.logo_path"
                     :src="appSettings.logo_path"
-                    alt="App Logo"
+                    alt=""
                     class="block h-9 w-auto"
                 />
                 <ApplicationLogo
                     v-else
-                    class="block h-9 w-auto fill-current text-lime-500"
+                    class="block h-9 w-auto fill-current text-green-600"
                 >
                 </ApplicationLogo>
-                <span class="text-xl font-semibold text-gray-900"
+                <span class="text-xl font-semibold text-slate-900"
                     >Vacaliza
                 </span>
             </Link>
@@ -35,9 +37,24 @@
 
         <!-- Navigation - Scrollable -->
         <nav
+            :aria-label="$t('primary_navigation')"
             class="flex-1 overflow-y-auto py-4 px-3 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent"
         >
             <ul class="space-y-1">
+                <li v-if="sectionHas.operations" class="px-3 pt-1 pb-1">
+                    <button
+                        type="button"
+                        @click="toggleSection('operations')"
+                        :aria-expanded="openSections.operations"
+                        class="w-full flex items-center justify-between py-1 hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 rounded"
+                    >
+                        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            {{ $t('section_operations') }}
+                        </h3>
+                        <ChevronDown aria-hidden="true" class="h-3.5 w-3.5 text-slate-400 transition-transform" :class="{ 'rotate-180': openSections.operations }" :stroke-width="2" />
+                    </button>
+                </li>
+                <template v-if="sectionHas.operations && openSections.operations">
                 <!-- Dashboard -->
                 <li v-if="hasFeatureOrSingle('dashboard')">
                     <Link
@@ -47,22 +64,14 @@
                                 : route('dashboard')
                         "
                         :class="[
-                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isActive('/dashboard')
-                                ? 'bg-lime-500 text-white shadow-md'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'bg-green-50 text-green-700 font-semibold'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
+                        :aria-current="isActive('/dashboard') ? 'page' : undefined"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
-                            />
-                        </svg>
+                        <Home aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                         <span>{{ $t('dashboard') }}</span>
                     </Link>
                 </li>
@@ -77,104 +86,88 @@
                     <Link
                         :href="route('farm-productivity-dashboard.index')"
                         :class="[
-                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isActive('/farm-productivity-dashboard')
-                                ? 'bg-lime-500 text-white shadow-md'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'bg-green-50 text-green-700 font-semibold'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
+                        :aria-current="isActive('/farm-productivity-dashboard') ? 'page' : undefined"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                d="M2 11a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1H3a1 1 0 01-1-1v-6zM7 7a1 1 0 011-1h2a1 1 0 011 1v10a1 1 0 01-1 1H8a1 1 0 01-1-1V7zM12 4a1 1 0 011-1h2a1 1 0 011 1v13a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
-                            />
-                        </svg>
+                        <BarChart3 aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                         <span>{{ $t('farm_productivity') }}</span>
                     </Link>
                 </li>
 
+                </template>
+                <li v-if="sectionHas.livestock" class="px-3 pt-5 pb-1">
+                    <button
+                        type="button"
+                        @click="toggleSection('livestock')"
+                        :aria-expanded="openSections.livestock"
+                        class="w-full flex items-center justify-between py-1 hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 rounded"
+                    >
+                        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            {{ $t('section_livestock') }}
+                        </h3>
+                        <ChevronDown aria-hidden="true" class="h-3.5 w-3.5 text-slate-400 transition-transform" :class="{ 'rotate-180': openSections.livestock }" :stroke-width="2" />
+                    </button>
+                </li>
+                <template v-if="sectionHas.livestock && openSections.livestock">
                 <!-- Animals Menu -->
                 <li
                     v-if="hasFeatureOrSingle('animals')"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('animals')"
+                        :aria-expanded="openMenus.animals"
+                        aria-controls="submenu-animals"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('animals')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div
                             class="flex items-center gap-3"
                             v-if="hasFeatureOrSingle('animals')"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                                />
-                            </svg>
+                            <PawPrint aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span>{{ $t('animals') }}</span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.animals && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.animals && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-animals"
                         v-show="openMenus.animals"
                         class="ml-8 mt-1 space-y-1 overflow-hidden"
                     >
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('animals.index')"
-                                :class="linkClass('/animals')"
+                                v-bind="linkAttrs('/animals')"
                                 >{{ $t('animals') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('breeds.index')"
-                                :class="linkClass('/breeds')"
+                                v-bind="linkAttrs('/breeds')"
                                 >{{ $t('breeds') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('herds.index')"
-                                :class="linkClass('/herds')"
+                                v-bind="linkAttrs('/herds')"
                                 >{{ $t('herds') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('reproduction-records.index')"
-                                :class="linkClass('/reproduction-records')"
+                                v-bind="linkAttrs('/reproduction-records')"
                                 >{{ $t('reproduction') }}</Link
                             >
                         </li>
@@ -192,28 +185,28 @@
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('pregnancies.index')"
-                                :class="linkClass('/pregnancies')"
+                                v-bind="linkAttrs('/pregnancies')"
                                 >{{ $t('pregnancy_records') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('pregnancy-checkups.index')"
-                                :class="linkClass('/pregnancy-checkups')"
+                                v-bind="linkAttrs('/pregnancy-checkups')"
                                 >{{ $t('pregnancy_checkups') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('calving-records.index')"
-                                :class="linkClass('/calving-records')"
+                                v-bind="linkAttrs('/calving-records')"
                                 >{{ $t('calving_records') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('animals')">
                             <Link
                                 :href="route('calves.index')"
-                                :class="linkClass('/calves')"
+                                v-bind="linkAttrs('/calves')"
                                 >{{ $t('newborn_calves') }}</Link
                             >
                         </li>
@@ -225,100 +218,77 @@
                     v-if="hasFeatureOrSingle('healths')"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('health')"
+                        :aria-expanded="openMenus.health"
+                        aria-controls="submenu-health"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('health')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div
                             class="flex items-center gap-3"
                             v-if="hasFeatureOrSingle('healths')"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                                />
-                            </svg>
+                            <HeartPulse aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span>{{ $t('health') }}</span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.health && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.health && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-health"
                         v-show="openMenus.health"
                         class="ml-8 mt-1 space-y-1"
                     >
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('health-issues.index')"
-                                :class="linkClass('/health-issues')"
+                                v-bind="linkAttrs('/health-issues')"
                                 >{{ $t('health_issues') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('health-events.index')"
-                                :class="linkClass('/health-events')"
+                                v-bind="linkAttrs('/health-events')"
                                 >{{ $t('health_events') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('diseases.index')"
-                                :class="linkClass('/diseases')"
+                                v-bind="linkAttrs('/diseases')"
                                 >{{ $t('diseases') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('disease-treatments.index')"
-                                :class="linkClass('/disease-treatments')"
+                                v-bind="linkAttrs('/disease-treatments')"
                                 >{{ $t('disease_treatments') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('treatments.index')"
-                                :class="linkClass('/treatments')"
+                                v-bind="linkAttrs('/treatments')"
                                 >{{ $t('treatments') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('vaccinations.index')"
-                                :class="linkClass('/vaccinations')"
+                                v-bind="linkAttrs('/vaccinations')"
                                 >{{ $t('vaccinations') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('healths')">
                             <Link
                                 :href="route('event-types.index')"
-                                :class="linkClass('/event-types')"
+                                v-bind="linkAttrs('/event-types')"
                                 >{{ $t('event_types') }}</Link
                             >
                         </li>
@@ -330,58 +300,35 @@
                     v-if="hasFeatureOrSingle('feedings')"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('feeding')"
+                        :aria-expanded="openMenus.feeding"
+                        aria-controls="submenu-feeding"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('feeding')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div
                             class="flex items-center gap-3"
                             v-if="hasFeatureOrSingle('feedings')"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                                />
-                            </svg>
+                            <Wheat aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span>{{ $t('feeding') }}</span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.feeding && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.feeding && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-feeding"
                         v-show="openMenus.feeding"
                         class="ml-8 mt-1 space-y-1"
                     >
                         <li v-if="hasFeatureOrSingle('feedings')">
                             <Link
                                 :href="route('feedings.index')"
-                                :class="linkClass('/feedings')"
+                                v-bind="linkAttrs('/feedings')"
                                 >{{ $t('feeding_records') }}</Link
                             >
                         </li>
@@ -393,142 +340,111 @@
                     v-if="hasFeatureOrSingle('productions')"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('production')"
+                        :aria-expanded="openMenus.production"
+                        aria-controls="submenu-production"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('production')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div
                             class="flex items-center gap-3"
                             v-if="hasFeatureOrSingle('productions')"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                                />
-                            </svg>
+                            <Droplet aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span>{{ $t('production') }}</span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.production && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.production && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-production"
                         v-show="openMenus.production"
                         class="ml-8 mt-1 space-y-1"
                     >
                         <li v-if="hasFeatureOrSingle('productions')">
                             <Link
                                 :href="route('milk-records.index')"
-                                :class="linkClass('/milk-records')"
+                                v-bind="linkAttrs('/milk-records')"
                                 >{{ $t('milk_records') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('productions')">
                             <Link
                                 :href="route('milk-sales.index')"
-                                :class="linkClass('/milk-sales')"
+                                v-bind="linkAttrs('/milk-sales')"
                                 >{{ $t('milk_sales') }}</Link
                             >
                         </li>
                     </ul>
                 </li>
 
+                </template>
+                <li v-if="sectionHas.finance" class="px-3 pt-5 pb-1">
+                    <button
+                        type="button"
+                        @click="toggleSection('finance')"
+                        :aria-expanded="openSections.finance"
+                        class="w-full flex items-center justify-between py-1 hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 rounded"
+                    >
+                        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            {{ $t('section_finance') }}
+                        </h3>
+                        <ChevronDown aria-hidden="true" class="h-3.5 w-3.5 text-slate-400 transition-transform" :class="{ 'rotate-180': openSections.finance }" :stroke-width="2" />
+                    </button>
+                </li>
+                <template v-if="sectionHas.finance && openSections.finance">
                 <!-- Accounts Menu -->
                 <li
                     v-if="hasFeatureOrSingle('accounting')"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('accounts')"
+                        :aria-expanded="openMenus.accounts"
+                        aria-controls="submenu-accounts"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('accounts')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div
                             class="flex items-center gap-3"
                             v-if="hasFeatureOrSingle('accounting')"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                                />
-                            </svg>
+                            <Landmark aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span>{{ $t('accounts') }}</span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.accounts && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.accounts && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-accounts"
                         v-show="openMenus.accounts"
                         class="ml-8 mt-1 space-y-1"
                     >
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('cash-accounts.index')"
-                                :class="linkClass('/cash-accounts')"
+                                v-bind="linkAttrs('/cash-accounts')"
                                 >{{ $t('cash_bank_management') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('chart-of-accounts.index')"
-                                :class="linkClass('/chart-of-accounts')"
+                                v-bind="linkAttrs('/chart-of-accounts')"
                                 >{{ $t('chart_of_accounts') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('journal-entries.index')"
-                                :class="linkClass('/journal-entries')"
+                                v-bind="linkAttrs('/journal-entries')"
                                 >{{ $t('journal_entries') }}</Link
                             >
                         </li>
@@ -546,35 +462,35 @@
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('balance-sheet.index')"
-                                :class="linkClass('/balance-sheet')"
+                                v-bind="linkAttrs('/balance-sheet')"
                                 >{{ $t('balance_sheet') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('profit-loss.index')"
-                                :class="linkClass('/profit-loss')"
+                                v-bind="linkAttrs('/profit-loss')"
                                 >{{ $t('profit_loss') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('cash-flow.index')"
-                                :class="linkClass('/cash-flow')"
+                                v-bind="linkAttrs('/cash-flow')"
                                 >{{ $t('cash_flow') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('trial-balance.index')"
-                                :class="linkClass('/trial-balance')"
+                                v-bind="linkAttrs('/trial-balance')"
                                 >{{ $t('trial_balance') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('accounting')">
                             <Link
                                 :href="route('fixed-assets.index')"
-                                :class="linkClass('/fixed-assets')"
+                                v-bind="linkAttrs('/fixed-assets')"
                                 >{{ $t('fixed_assets_register') }}</Link
                             >
                         </li>
@@ -586,65 +502,42 @@
                     v-if="hasFeatureOrSingle('finance')"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('finance')"
+                        :aria-expanded="openMenus.finance"
+                        aria-controls="submenu-finance"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('finance')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div
                             class="flex items-center gap-3"
                             v-if="hasFeatureOrSingle('finance')"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
+                            <CircleDollarSign aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span>{{ $t('finance') }}</span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.finance && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.finance && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-finance"
                         v-show="openMenus.finance"
                         class="ml-8 mt-1 space-y-1"
                     >
                         <li v-if="hasFeatureOrSingle('finance')">
                             <Link
                                 :href="route('sales.index')"
-                                :class="linkClass('/sales')"
+                                v-bind="linkAttrs('/sales')"
                                 >{{ $t('sales') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('finance')">
                             <Link
                                 :href="route('purchases.index')"
-                                :class="linkClass('/purchases')"
+                                v-bind="linkAttrs('/purchases')"
                                 >{{ $t('purchases') }}</Link
                             >
                         </li>
@@ -656,170 +549,139 @@
                     v-if="hasFeatureOrSingle('customers')"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('customers')"
+                        :aria-expanded="openMenus.customers"
+                        aria-controls="submenu-customers"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('customers')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div
                             class="flex items-center gap-3"
                             v-if="hasFeatureOrSingle('customers')"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M17 20h2a2 2 0 002-2V7.5a2.5 2.5 0 00-2.5-2.5h-1.5m-10 0H4a2 2 0 00-2 2v11a2 2 0 002 2h2m0-11V4a2 2 0 012-2h4a2 2 0 012 2v11m-8 0v2a2 2 0 002 2h2a2 2 0 002-2v-2m-6 0H6"
-                                />
-                            </svg>
+                            <Users aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span>{{ $t('customers') }}</span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.customers && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.customers && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-customers"
                         v-show="openMenus.customers"
                         class="ml-8 mt-1 space-y-1"
                     >
                         <li v-if="hasFeatureOrSingle('customers')">
                             <Link
                                 :href="route('customers.index')"
-                                :class="linkClass('/customers')"
+                                v-bind="linkAttrs('/customers')"
                                 >{{ $t('manage_customers') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('customers')">
                             <Link
                                 :href="route('customer-payments.index')"
-                                :class="linkClass('/customer-payments')"
+                                v-bind="linkAttrs('/customer-payments')"
                                 >{{ $t('customer_payments') }}</Link
                             >
                         </li>
                     </ul>
                 </li>
 
+                </template>
+                <li v-if="sectionHas.inventory" class="px-3 pt-5 pb-1">
+                    <button
+                        type="button"
+                        @click="toggleSection('inventory')"
+                        :aria-expanded="openSections.inventory"
+                        class="w-full flex items-center justify-between py-1 hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 rounded"
+                    >
+                        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            {{ $t('section_inventory') }}
+                        </h3>
+                        <ChevronDown aria-hidden="true" class="h-3.5 w-3.5 text-slate-400 transition-transform" :class="{ 'rotate-180': openSections.inventory }" :stroke-width="2" />
+                    </button>
+                </li>
+                <template v-if="sectionHas.inventory && openSections.inventory">
                 <!-- Inventory Menu -->
                 <li
                     v-if="hasFeatureOrSingle('inventory')"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('inventory')"
+                        :aria-expanded="openMenus.inventory"
+                        aria-controls="submenu-inventory"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('inventory')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div
                             class="flex items-center gap-3"
                             v-if="hasFeatureOrSingle('inventory')"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                                />
-                            </svg>
+                            <Package aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span>{{ $t('inventory') }}</span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.inventory && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.inventory && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-inventory"
                         v-show="openMenus.inventory"
                         class="ml-8 mt-1 space-y-1"
                     >
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('inventory.index')"
-                                :class="linkClass('/inventory')"
+                                v-bind="linkAttrs('/inventory')"
                                 >{{ $t('inventory_items') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('medicines.index')"
-                                :class="linkClass('/medicines')"
+                                v-bind="linkAttrs('/medicines')"
                                 >{{ $t('medicine_items') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('categories.index')"
-                                :class="linkClass('/categories')"
+                                v-bind="linkAttrs('/categories')"
                                 >{{ $t('categories') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('suppliers.index')"
-                                :class="linkClass('/suppliers')"
+                                v-bind="linkAttrs('/suppliers')"
                                 >{{ $t('suppliers') }}</Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('supplier-payments.index')"
-                                :class="linkClass('/supplier-payments')"
+                                v-bind="linkAttrs('/supplier-payments')"
                                 > {{ $t('supplier_payments') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('medicine-groups.index')"
-                                :class="linkClass('/medicine-groups')"
+                                v-bind="linkAttrs('/medicine-groups')"
                                 > {{ $t('medicine_groups') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('inventory')">
                             <Link
                                 :href="route('stock-movements.index')"
-                                :class="linkClass('/stock-movements')"
+                                v-bind="linkAttrs('/stock-movements')"
                                 > {{ $t('stock_movements') }} </Link
                             >
                         </li>
@@ -831,134 +693,97 @@
                     v-if="hasFeatureOrSingle('operation')"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('operations')"
+                        :aria-expanded="openMenus.operations"
+                        aria-controls="submenu-operations"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('operations')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div
                             class="flex items-center gap-3"
                             v-if="hasFeatureOrSingle('operation')"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                                />
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                />
-                            </svg>
+                            <Truck aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span> {{ $t('operations') }} </span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.operations && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.operations && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-operations"
                         v-show="openMenus.operations"
                         class="ml-8 mt-1 space-y-1"
                     >
                         <li v-if="hasFeatureOrSingle('operation')">
                             <Link
                                 :href="route('logistics.index')"
-                                :class="linkClass('/logistics')"
+                                v-bind="linkAttrs('/logistics')"
                                 > {{ $t('logistics') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('operation')">
                             <Link
                                 :href="route('farms.index')"
-                                :class="linkClass('/farms')"
+                                v-bind="linkAttrs('/farms')"
                                 > {{ $t('farms') }} </Link
                             >
                         </li>
                     </ul>
                 </li>
 
+                </template>
+                <li v-if="sectionHas.hr" class="px-3 pt-5 pb-1">
+                    <button
+                        type="button"
+                        @click="toggleSection('hr')"
+                        :aria-expanded="openSections.hr"
+                        class="w-full flex items-center justify-between py-1 hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 rounded"
+                    >
+                        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            {{ $t('section_hr') }}
+                        </h3>
+                        <ChevronDown aria-hidden="true" class="h-3.5 w-3.5 text-slate-400 transition-transform" :class="{ 'rotate-180': openSections.hr }" :stroke-width="2" />
+                    </button>
+                </li>
+                <template v-if="sectionHas.hr && openSections.hr">
                 <!-- Human Resource Menu -->
                 <li
                     v-if="hasFeatureOrSingle('hr')"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('humanResource')"
+                        :aria-expanded="openMenus.humanResource"
+                        aria-controls="submenu-humanResource"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('humanResource')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div
                             class="flex items-center gap-3"
                             v-if="hasFeatureOrSingle('hr')"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M17 20h2a2 2 0 002-2V7.5a2.5 2.5 0 00-2.5-2.5h-1.5m-10 0H4a2 2 0 00-2 2v11a2 2 0 002 2h2m0-11V4a2 2 0 012-2h4a2 2 0 012 2v11m-8 0v2a2 2 0 002 2h2a2 2 0 002-2v-2m-6 0H6"
-                                />
-                            </svg>
+                            <BriefcaseBusiness aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span> {{ $t('hr_payroll') }} </span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.humanResource && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.humanResource && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-humanResource"
                         v-show="openMenus.humanResource"
                         class="ml-8 mt-1 space-y-1"
                     >
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('departments.index')"
-                                :class="linkClass('/departments')"
+                                v-bind="linkAttrs('/departments')"
                                 > {{ $t('departments') }} </Link
                             >
                         </li>
@@ -966,140 +791,132 @@
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('designations.index')"
-                                :class="linkClass('/designations')"
+                                v-bind="linkAttrs('/designations')"
                                 > {{ $t('designations') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('employees.index')"
-                                :class="linkClass('/employees')"
+                                v-bind="linkAttrs('/employees')"
                                 > {{ $t('employees') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('employee-documents.index')"
-                                :class="linkClass('/employee-documents')"
+                                v-bind="linkAttrs('/employee-documents')"
                                 > {{ $t('employee_documents') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('shifts.index')"
-                                :class="linkClass('/shifts')"
+                                v-bind="linkAttrs('/shifts')"
                                 > {{ $t('shifts') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('employee-shifts.index')"
-                                :class="linkClass('/employee-shifts')"
+                                v-bind="linkAttrs('/employee-shifts')"
                                 > {{ $t('assign_shifts') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('attendances.index')"
-                                :class="linkClass('/attendances')"
+                                v-bind="linkAttrs('/attendances')"
                                 > {{ $t('attendances') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('leave-types.index')"
-                                :class="linkClass('/leave-types')"
+                                v-bind="linkAttrs('/leave-types')"
                                 > {{ $t('leave_types') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('leave-requests.index')"
-                                :class="linkClass('/leave-requests')"
+                                v-bind="linkAttrs('/leave-requests')"
                                 > {{ $t('leave_requests') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('salary-structures.index')"
-                                :class="linkClass('/salary-structures')"
+                                v-bind="linkAttrs('/salary-structures')"
                                 > {{ $t('salary_structures') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('payroll-runs.index')"
-                                :class="linkClass('/payroll-runs')"
+                                v-bind="linkAttrs('/payroll-runs')"
                                 > {{ $t('payroll_runs') }} </Link
                             >
                         </li>
                         <li v-if="hasFeatureOrSingle('hr')">
                             <Link
                                 :href="route('payroll-items.index')"
-                                :class="linkClass('/payroll-items')"
+                                v-bind="linkAttrs('/payroll-items')"
                                 > {{ $t('payroll_items') }} </Link
                             >
                         </li>
                     </ul>
                 </li>
 
+                </template>
+                <li v-if="sectionHas.reports" class="px-3 pt-5 pb-1">
+                    <button
+                        type="button"
+                        @click="toggleSection('reports')"
+                        :aria-expanded="openSections.reports"
+                        class="w-full flex items-center justify-between py-1 hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 rounded"
+                    >
+                        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            {{ $t('section_reports') }}
+                        </h3>
+                        <ChevronDown aria-hidden="true" class="h-3.5 w-3.5 text-slate-400 transition-transform" :class="{ 'rotate-180': openSections.reports }" :stroke-width="2" />
+                    </button>
+                </li>
+                <template v-if="sectionHas.reports && openSections.reports">
                 <!-- Reports Menu -->
                 <li
                     v-if="hasFeatureOrSingle('reports')"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('reports')"
+                        :aria-expanded="openMenus.reports"
+                        aria-controls="submenu-reports"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('reports')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div
                             class="flex items-center gap-3"
                             v-if="hasFeatureOrSingle('reports')"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5l2 2h5a2 2 0 012 2v12a2 2 0 01-2 2z"
-                                />
-                            </svg>
+                            <ClipboardList aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span> {{ $t('reports') }} </span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.reports && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.reports && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-reports"
                         v-show="openMenus.reports"
                         class="ml-8 mt-1 space-y-1"
                     >
                         <li v-if="hasFeatureOrSingle('reports')">
                             <Link
                                 :href="route('reports.animal-health.index')"
-                                :class="linkClass('/reports/animal-health')"
+                                v-bind="linkAttrs('/reports/animal-health')"
                                 > {{ $t('animal_health_reports') }} </Link
                             >
                         </li>
@@ -1133,7 +950,7 @@
                         <li v-if="hasFeatureOrSingle('reports')">
                             <Link
                                 :href="route('reports.financial.index')"
-                                :class="linkClass('/reports/financial')"
+                                v-bind="linkAttrs('/reports/financial')"
                                 > {{ $t('financial_reports') }} </Link
                             >
                         </li>
@@ -1231,51 +1048,28 @@
                     v-if="hasFeatureOrSingle('invreports')"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('inventoryReports')"
+                        :aria-expanded="openMenus.inventoryReports"
+                        aria-controls="submenu-inventoryReports"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('inventoryReports')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div
                             class="flex items-center gap-3"
                             v-if="hasFeatureOrSingle('invreports')"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M20 13V7a2 2 0 00-2-2H6a2 2 0 00-2 2v6m16 0v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6m16 0H4m4-8h8"
-                                />
-                            </svg>
+                            <LineChart aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span> {{ $t('inventory_reports') }} </span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.inventoryReports && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.inventoryReports && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-inventoryReports"
                         v-show="openMenus.inventoryReports"
                         class="ml-8 mt-1 space-y-1"
                     >
@@ -1402,53 +1196,45 @@
                         </li>
                     </ul>
                 </li>
+                </template>
+                <li v-if="sectionHas.administration" class="px-3 pt-5 pb-1">
+                    <button
+                        type="button"
+                        @click="toggleSection('administration')"
+                        :aria-expanded="openSections.administration"
+                        class="w-full flex items-center justify-between py-1 hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 rounded"
+                    >
+                        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            {{ $t('section_administration') }}
+                        </h3>
+                        <ChevronDown aria-hidden="true" class="h-3.5 w-3.5 text-slate-400 transition-transform" :class="{ 'rotate-180': openSections.administration }" :stroke-width="2" />
+                    </button>
+                </li>
+                <template v-if="sectionHas.administration && openSections.administration">
                 <!-- Subscription Plans & Features Menu (SaaS mode only) -->
                 <li
                     v-if="isSaasMode && hasRole(['Super Admin', 'admin'])"
                 >
                     <button
+                        type="button"
                         @click="toggleMenu('subscriptions')"
+                        :aria-expanded="openMenus.subscriptions"
+                        aria-controls="submenu-subscriptions"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('subscriptions')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div class="flex items-start gap-3">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
+                            <CreditCard aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span> {{ $t('plans_features') }} </span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.subscriptions && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.subscriptions && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-subscriptions"
                         v-show="openMenus.subscriptions"
                         class="ml-8 mt-1 space-y-1"
                     >
@@ -1484,62 +1270,39 @@
                 <!-- Administration Menu -->
                 <li v-if="hasRole(['Super Admin', 'admin'])">
                     <button
+                        type="button"
                         @click="toggleMenu('admin')"
+                        :aria-expanded="openMenus.admin"
+                        aria-controls="submenu-admin"
                         :class="[
-                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isMenuActive('admin')
-                                ? 'bg-lime-50 text-lime-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-lime-600',
+                                ? 'text-green-700'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
                     >
                         <div class="flex items-center gap-3">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                                />
-                            </svg>
+                            <ShieldCheck aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                             <span> {{ $t('administration') }} </span>
                         </div>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            :class="[
-                                'h-4 w-4 transition-transform duration-200',
-                                openMenus.admin && 'rotate-180',
-                            ]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <ChevronDown aria-hidden="true" :class="['h-4 w-4 transition-transform duration-200 text-slate-400', openMenus.admin && 'rotate-180']" :stroke-width="2" />
                     </button>
                     <ul
+                        id="submenu-admin"
                         v-show="openMenus.admin"
                         class="ml-8 mt-1 space-y-1"
                     >
                         <li v-if="!isSingleLicenseMode">
                             <Link
                                 :href="route('admin.dashboard')"
-                                :class="linkClass('/admin/dashboard')"
+                                v-bind="linkAttrs('/admin/dashboard')"
                                 >{{ $t('dashboard') }}</Link
                             >
                         </li>
                         <li v-if="!isSingleLicenseMode">
                             <Link
                                 :href="route('admin.collections')"
-                                :class="linkClass('/admin/collections')"
+                                v-bind="linkAttrs('/admin/collections')"
                                 > {{ $t('collections') }} </Link
                             >
                         </li>
@@ -1550,7 +1313,7 @@
                         >
                             <Link
                                 :href="route('admin.farms.index')"
-                                :class="linkClass('/admin/farms')"
+                                v-bind="linkAttrs('/admin/farms')"
                                 > {{ $t('farms_directory') }} </Link
                             >
                         </li>
@@ -1574,7 +1337,7 @@
                         >
                             <Link
                                 :href="route('admin.settings.email.edit')"
-                                :class="linkClass('/admin/settings/email')"
+                                v-bind="linkAttrs('/admin/settings/email')"
                                 > {{ $t('email_settings') }} </Link
                             >
                         </li>
@@ -1585,7 +1348,7 @@
                         >
                             <Link
                                 :href="route('admin.demo-requests.index')"
-                                :class="linkClass('/admin/demo-requests')"
+                                v-bind="linkAttrs('/admin/demo-requests')"
                                 > {{ $t('demo_requests') }} </Link
                             >
                         </li>
@@ -1593,34 +1356,49 @@
                         <li>
                             <Link
                                 :href="route('admin.roles.index')"
-                                :class="linkClass('/admin/roles')"
+                                v-bind="linkAttrs('/admin/roles')"
                                 > {{ $t('roles') }} </Link
                             >
                         </li>
                         <li>
                             <Link
                                 :href="route('admin.permissions.index')"
-                                :class="linkClass('/admin/permissions')"
+                                v-bind="linkAttrs('/admin/permissions')"
                                 > {{ $t('permissions') }} </Link
                             >
                         </li>
                         <li>
                             <Link
                                 :href="route('admin.users.index')"
-                                :class="linkClass('/admin/users')"
+                                v-bind="linkAttrs('/admin/users')"
                                 > {{ $t('users') }} </Link
                             >
                         </li>
                         <li>
                             <Link
                                 :href="route('admin.assignRoles')"
-                                :class="linkClass('/admin/assign-roles')"
+                                v-bind="linkAttrs('/admin/assign-roles')"
                                 > {{ $t('assign_roles') }} </Link
                             >
                         </li>
                     </ul>
                 </li>
 
+                </template>
+                <li v-if="sectionHas.account" class="px-3 pt-5 pb-1">
+                    <button
+                        type="button"
+                        @click="toggleSection('account')"
+                        :aria-expanded="openSections.account"
+                        class="w-full flex items-center justify-between py-1 hover:text-slate-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 rounded"
+                    >
+                        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            {{ $t('section_account') }}
+                        </h3>
+                        <ChevronDown aria-hidden="true" class="h-3.5 w-3.5 text-slate-400 transition-transform" :class="{ 'rotate-180': openSections.account }" :stroke-width="2" />
+                    </button>
+                </li>
+                <template v-if="sectionHas.account && openSections.account">
                 <!-- Plan (Farm Owner only) - hide in single-license mode -->
                 <li
                     class="pt-2"
@@ -1632,22 +1410,14 @@
                     <Link
                         :href="route('plan.index')"
                         :class="[
-                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isActive('/plan')
-                                ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg'
-                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                ? 'bg-green-50 text-green-700 font-semibold'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
+                        :aria-current="isActive('/plan') ? 'page' : undefined"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                d="M4 3a2 2 0 00-2 2v2a2 2 0 002 2h1v6H4a2 2 0 00-2 2v1h16v-1a2 2 0 00-2-2h-1V9h1a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 6h6v6H7V9z"
-                            />
-                        </svg>
+                        <CalendarDays aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                         <span> {{ $t('plan') }} </span>
                     </Link>
                 </li>
@@ -1665,27 +1435,14 @@
                     <Link
                         :href="route('billing.index')"
                         :class="[
-                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isActive('/billing')
-                                ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg'
-                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                ? 'bg-green-50 text-green-700 font-semibold'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
+                        :aria-current="isActive('/billing') ? 'page' : undefined"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                d="M4 4a2 2 0 012-2h8a2 2 0 012 2v2H4V4z"
-                            />
-                            <path
-                                fill-rule="evenodd"
-                                d="M4 8h12v8a2 2 0 01-2 2H6a2 2 0 01-2-2V8zm3 2a1 1 0 000 2h6a1 1 0 100-2H7z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <Receipt aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                         <span> {{ $t('subscription_billing') }} </span>
                     </Link>
                 </li>
@@ -1695,24 +1452,14 @@
                     <Link
                         :href="route('profile.edit')"
                         :class="[
-                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isActive('/profile')
-                                ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg'
-                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                ? 'bg-green-50 text-green-700 font-semibold'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
+                        :aria-current="isActive('/profile') ? 'page' : undefined"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <UserCircle aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                         <span> {{ $t('profile') }} </span>
                     </Link>
                 </li>
@@ -1728,24 +1475,14 @@
                     <Link
                         :href="route('settings.index')"
                         :class="[
-                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isActive('/settings')
-                                ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg'
-                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                ? 'bg-green-50 text-green-700 font-semibold'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
+                        :aria-current="isActive('/settings') ? 'page' : undefined"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M11.49 3.17c-.38-1.16-1.47-1.16-1.85 0a1.724 1.724 0 01-2.573 1.066c-1.543-.94-3.31.826-2.37 2.37a1.724 1.724 0 01-1.065 2.572c-1.16.38-1.16 1.47 0 1.85a1.724 1.724 0 011.066 2.573c-.94 1.543.826 3.31 2.37 2.37a1.724 1.724 0 012.572 1.065c.38 1.16 1.47 1.16 1.85 0a1.724 1.724 0 012.573-1.066c1.543.94 3.31-.826 2.37-2.37a1.724 1.724 0 011.065-2.572c1.16-.38 1.16-1.47 0-1.85a1.724 1.724 0 01-1.066-2.573c.94-1.543-.826-3.31-2.37-2.37a1.724 1.724 0 01-2.572-1.065zM10 11a1 1 0 100-2 1 1 0 000 2z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <SettingsIcon aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                         <span> {{ $t('settings') }} </span>
                     </Link>
                 </li>
@@ -1757,27 +1494,18 @@
                     <Link
                         :href="route('settings.payment-gateways.index')"
                         :class="[
-                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200',
+                            'flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors duration-150',
                             isActive('/settings/payment-gateways')
-                                ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg'
-                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                ? 'bg-green-50 text-green-700 font-semibold'
+                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                         ]"
+                        :aria-current="isActive('/settings/payment-gateways') ? 'page' : undefined"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M11.49 3.17c-.38-1.16-1.47-1.16-1.85 0a1.724 1.724 0 01-2.573 1.066c-1.543-.94-3.31.826-2.37 2.37a1.724 1.724 0 01-1.065 2.572c-1.16.38-1.16 1.47 0 1.85a1.724 1.724 0 011.066 2.573c-.94 1.543.826 3.31 2.37 2.37a1.724 1.724 0 012.572 1.065c.38 1.16 1.47 1.16 1.85 0a1.724 1.724 0 012.573-1.066c1.543.94 3.31-.826 2.37-2.37a1.724 1.724 0 011.065-2.572c1.16-.38 1.16-1.47 0-1.85a1.724 1.724 0 01-1.066-2.573c.94-1.543-.826-3.31-2.37-2.37a1.724 1.724 0 01-2.572-1.065zM10 11a1 1 0 100-2 1 1 0 000 2z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <Wallet aria-hidden="true" class="h-5 w-5" :stroke-width="2" />
                         <span> {{ $t('payment_gateways') }} </span>
                     </Link>
                 </li>
+                </template>
             </ul>
         </nav>
     </aside>
@@ -1787,6 +1515,30 @@
 import { Link, usePage } from "@inertiajs/inertia-vue3";
 import { computed, reactive, onMounted } from "vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import {
+    Home,
+    BarChart3,
+    PawPrint,
+    HeartPulse,
+    Wheat,
+    Droplet,
+    Landmark,
+    CircleDollarSign,
+    Users,
+    Package,
+    Truck,
+    BriefcaseBusiness,
+    LineChart,
+    ClipboardList,
+    CreditCard,
+    ShieldCheck,
+    CalendarDays,
+    Receipt,
+    UserCircle,
+    Settings as SettingsIcon,
+    Wallet,
+    ChevronDown,
+} from "lucide-vue-next";
 
 const props = defineProps({
     showing: {
@@ -1840,6 +1592,115 @@ const openMenus = reactive({
     accounts: false,
     customers: false,
 });
+
+const openSections = reactive({
+    operations: false,
+    livestock: false,
+    finance: false,
+    inventory: false,
+    hr: false,
+    reports: false,
+    administration: false,
+    account: false,
+});
+
+const toggleSection = (key) => {
+    openSections[key] = !openSections[key];
+};
+
+const sectionHas = computed(() => ({
+    operations:
+        hasFeatureOrSingle("dashboard") ||
+        (!isSingleLicenseMode.value && hasFeatureOrSingle("farmproductivity")),
+    livestock:
+        hasFeatureOrSingle("animals") ||
+        hasFeatureOrSingle("healths") ||
+        hasFeatureOrSingle("feedings") ||
+        hasFeatureOrSingle("productions"),
+    finance:
+        hasFeatureOrSingle("accounting") ||
+        hasFeatureOrSingle("finance") ||
+        hasFeatureOrSingle("customers"),
+    inventory:
+        hasFeatureOrSingle("inventory") || hasFeatureOrSingle("operation"),
+    hr: hasFeatureOrSingle("hr"),
+    reports:
+        hasFeatureOrSingle("reports") || hasFeatureOrSingle("invreports"),
+    administration: hasRole(["Super Admin", "admin"]),
+    account: true,
+}));
+
+const sectionActivePrefixes = {
+    operations: ["/dashboard", "/farm-productivity-dashboard"],
+    livestock: [
+        "/animals",
+        "/breeds",
+        "/herds",
+        "/reproduction-records",
+        "/artificial-inseminations",
+        "/pregnancies",
+        "/pregnancy-checkups",
+        "/calving-records",
+        "/calves",
+        "/health-issues",
+        "/health-events",
+        "/disease-treatments",
+        "/treatments",
+        "/vaccinations",
+        "/vaccine-types",
+        "/event-types",
+        "/diseases",
+        "/feedings",
+        "/feed-types",
+        "/milk-records",
+        "/milk-sales",
+    ],
+    finance: [
+        "/chart-of-accounts",
+        "/journal-entries",
+        "/journal-voucher-report",
+        "/balance-sheet",
+        "/profit-loss",
+        "/cash-flow",
+        "/trial-balance",
+        "/cash-accounts",
+        "/fixed-assets",
+        "/expenses",
+        "/sales",
+        "/purchases",
+        "/customers",
+        "/customer-payments",
+    ],
+    inventory: [
+        "/inventory",
+        "/medicines",
+        "/categories",
+        "/suppliers",
+        "/supplier-payments",
+        "/medicine-groups",
+        "/stock-movements",
+        "/logistics",
+        "/farms",
+        "/staff",
+    ],
+    hr: [
+        "/departments",
+        "/designations",
+        "/employees",
+        "/employee-documents",
+        "/shifts",
+        "/employee-shifts",
+        "/attendances",
+        "/leave-types",
+        "/leave-requests",
+        "/salary-structures",
+        "/payroll-runs",
+        "/payroll-items",
+    ],
+    reports: ["/reports"],
+    administration: ["/admin"],
+    account: ["/plan", "/billing", "/profile", "/settings"],
+};
 
 const currentPath = computed(() => page.url.value || "");
 
@@ -1958,14 +1819,20 @@ const isMenuActive = (menuKey) => {
     );
 };
 
-const linkClass = (path) => {
-    return [
-        "block px-3 py-2 rounded-lg text-sm transition-all duration-200",
-        currentPath.value.startsWith(path)
-            ? "bg-lime-500 text-white shadow-sm"
-            : "text-gray-500 hover:bg-gray-50 hover:text-lime-600",
-    ];
+const linkAttrs = (path) => {
+    const active = currentPath.value.startsWith(path);
+    return {
+        class: [
+            "block px-3 py-2 rounded-lg text-sm transition-colors duration-150",
+            active
+                ? "bg-green-50 text-green-700 font-semibold"
+                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
+        ],
+        "aria-current": active ? "page" : undefined,
+    };
 };
+
+const linkClass = (path) => linkAttrs(path).class;
 
 const toggleMenu = (menuKey) => {
     openMenus[menuKey] = !openMenus[menuKey];
@@ -1977,25 +1844,50 @@ onMounted(() => {
             openMenus[menuKey] = true;
         }
     });
+    Object.keys(openSections).forEach((key) => {
+        if (
+            sectionActivePrefixes[key]?.some((p) =>
+                currentPath.value.startsWith(p),
+            )
+        ) {
+            openSections[key] = true;
+        }
+    });
+    if (!Object.values(openSections).some(Boolean) && sectionHas.value.operations) {
+        openSections.operations = true;
+    }
 });
 </script>
 
 <style scoped>
-/* Custom scrollbar styling for sidebar */
+/* Scrollbar hidden by default, revealed on hover of the sidebar */
+.scrollbar-thin {
+    scrollbar-width: none;
+}
 .scrollbar-thin::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+.app-sidebar:hover .scrollbar-thin,
+.scrollbar-thin:focus-within {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+.app-sidebar:hover .scrollbar-thin::-webkit-scrollbar,
+.scrollbar-thin:focus-within::-webkit-scrollbar {
     width: 6px;
 }
-
-.scrollbar-thin::-webkit-scrollbar-track {
-    background: #1f2937;
+.app-sidebar:hover .scrollbar-thin::-webkit-scrollbar-track,
+.scrollbar-thin:focus-within::-webkit-scrollbar-track {
+    background: transparent;
 }
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-    background: #4b5563;
+.app-sidebar:hover .scrollbar-thin::-webkit-scrollbar-thumb,
+.scrollbar-thin:focus-within::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
     border-radius: 3px;
 }
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: #6b7280;
+.app-sidebar:hover .scrollbar-thin::-webkit-scrollbar-thumb:hover,
+.scrollbar-thin:focus-within::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 </style>

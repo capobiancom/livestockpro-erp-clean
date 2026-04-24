@@ -1,12 +1,19 @@
 <template>
     <div class="min-h-screen flex bg-gray-50">
+        <a
+            href="#main-content"
+            class="skip-link sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-lime-700 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2"
+        >
+            {{ $t('skip_to_main_content') }}
+        </a>
+
         <!-- Sidebar -->
         <Sidebar :showing="showingSidebar" />
 
         <!-- Main Content Area -->
         <div
             :class="{ 'ml-64': showingSidebar }"
-            class="flex-1 flex flex-col h-screen transition-all duration-300 ease-in-out lg:ml-64"
+            class="flex-1 flex flex-col h-screen lg:ml-64"
         >
             <!-- Header - Fixed at top -->
             <Navbar
@@ -22,7 +29,11 @@
             </Navbar>
 
             <!-- Main Content - Scrollable -->
-            <main class="flex-1 overflow-y-auto bg-gray-50 p-6">
+            <main
+                id="main-content"
+                tabindex="-1"
+                class="flex-1 overflow-y-auto bg-gray-50 p-6 focus:outline-none"
+            >
                 <slot />
             </main>
         </div>
