@@ -60,7 +60,7 @@ onMounted(() => {
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
                                 >
-                                    Dashboard
+                                    {{ $t('dashboard') }}
                                 </NavLink>
                                 <NavLink
                                     :href="route('calving-records.index')"
@@ -68,13 +68,13 @@ onMounted(() => {
                                         route().current('calving-records.*')
                                     "
                                 >
-                                    Calving Records
+                                    {{ $t('calving_records') }}
                                 </NavLink>
                                 <NavLink
                                     :href="route('calves.index')"
                                     :active="route().current('calves.*')"
                                 >
-                                    Newborn Calves
+                                    {{ $t('newborn_calves') }}
                                 </NavLink>
                                 <!-- Use the new InventoryDropdown component -->
                                 <InventoryDropdown />
@@ -84,19 +84,19 @@ onMounted(() => {
                                         route().current('stock-movements.*')
                                     "
                                 >
-                                    Stock Movements
+                                    {{ $t('stock_movements') }}
                                 </NavLink>
                                 <NavLink
                                     :href="route('diseases.index')"
                                     :active="route().current('diseases.*')"
                                 >
-                                    Diseases
+                                    {{ $t('diseases') }}
                                 </NavLink>
                                 <NavLink
                                     :href="route('departments.index')"
                                     :active="route().current('departments.*')"
                                 >
-                                    Departments
+                                    {{ $t('departments') }}
                                 </NavLink>
                             </div>
                         </div>
@@ -133,19 +133,19 @@ onMounted(() => {
                                         <DropdownLink
                                             :href="route('profile.edit')"
                                         >
-                                            Profile
+                                            {{ $t('profile') }}
                                         </DropdownLink>
                                         <DropdownLink
                                             :href="route('settings.index')"
                                         >
-                                            Settings
+                                            {{ $t('settings') }}
                                         </DropdownLink>
                                         <DropdownLink
                                             :href="route('logout')"
                                             method="post"
                                             as="button"
                                         >
-                                            Log Out
+                                            {{ $t('logout') }}
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
@@ -208,74 +208,62 @@ onMounted(() => {
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >
-                            Dashboard
+                            {{ $t('dashboard') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('calving-records.index')"
                             :active="route().current('calving-records.*')"
                         >
-                            Calving Records
+                            {{ $t('calving_records') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('calves.index')"
                             :active="route().current('calves.*')"
                         >
-                            Newborn Calves
+                            {{ $t('newborn_calves') }}
                         </ResponsiveNavLink>
                         <!-- Responsive Inventory Dropdown -->
                         <ResponsiveNavLink
                             :href="route('stock-movements.index')"
                             :active="route().current('stock-movements.*')"
                         >
-                            Stock Movements
+                            {{ $t('stock_movements') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('inventory.index')"
                             :active="route().current('inventory.*')"
                         >
-                            Inventory Items
+                            {{ $t('inventory_items') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('categories.index')"
                             :active="route().current('categories.*')"
                         >
-                            Inventory Categories
+                            {{ $t('categories') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('medicines.index')"
                             :active="route().current('medicines.*')"
                         >
-                            Medicines
+                            {{ $t('medicine_items') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('medicine-groups.index')"
                             :active="route().current('medicine-groups.*')"
                         >
-                            Medicine Groups
+                            {{ $t('medicine_groups') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('diseases.index')"
                             :active="route().current('diseases.*')"
                         >
-                            Diseases
+                            {{ $t('diseases') }}
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('departments.index')"
                             :active="route().current('departments.*')"
                         >
-                            Departments
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            :href="route('diseases.index')"
-                            :active="route().current('diseases.*')"
-                        >
-                            Diseases
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            :href="route('departments.index')"
-                            :active="route().current('departments.*')"
-                        >
-                            Departments
+                            {{ $t('departments') }}
                         </ResponsiveNavLink>
                     </div>
 
@@ -292,17 +280,17 @@ onMounted(() => {
 
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.edit')">
-                                Profile
+                                {{ $t('profile') }}
                             </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('settings.index')">
-                                Settings
+                                {{ $t('settings') }}
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
                             >
-                                Log Out
+                                {{ $t('logout') }}
                             </ResponsiveNavLink>
                         </div>
                     </div>

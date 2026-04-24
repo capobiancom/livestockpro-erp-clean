@@ -24,20 +24,20 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
+        <Head :title="$t('registro')" />
 
         <div class="mb-8">
             <h1 class="text-2xl font-semibold tracking-tight text-slate-900">
-                Create your account
+                {{ $t('crear_cuenta') }}
             </h1>
             <p class="mt-2 text-sm text-slate-600">
-                Set up your farm profile in a few steps.
+                {{ $t('configurar_perfil_granja') }}
             </p>
         </div>
 
         <form @submit.prevent="submit" class="space-y-6">
             <div>
-                <InputLabel for="name" value="Your name" />
+                <InputLabel for="name" :value="$t('su_nombre')" />
                 <div class="mt-2">
                     <TextInput
                         id="name"
@@ -53,7 +53,7 @@ const submit = () => {
 
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
-                    <InputLabel for="farm_name" value="Farm name" />
+                    <InputLabel for="farm_name" :value="$t('nombre_granja')" />
                     <div class="mt-2">
                         <TextInput
                             id="farm_name"
@@ -67,7 +67,7 @@ const submit = () => {
                 </div>
 
                 <div>
-                    <InputLabel for="farm_location" value="Farm location" />
+                    <InputLabel for="farm_location" :value="$t('ubicacion_granja')" />
                     <div class="mt-2">
                         <TextInput
                             id="farm_location"
@@ -85,7 +85,7 @@ const submit = () => {
             </div>
 
             <div>
-                <InputLabel for="email" value="Email address" />
+                <InputLabel for="email" :value="$t('correo_electronico')" />
                 <div class="mt-2">
                     <TextInput
                         id="email"
@@ -100,7 +100,7 @@ const submit = () => {
 
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
-                    <InputLabel for="password" value="Password" />
+                    <InputLabel for="password" :value="$t('contrasena')" />
                     <div class="mt-2">
                         <TextInput
                             id="password"
@@ -116,7 +116,7 @@ const submit = () => {
                 <div>
                     <InputLabel
                         for="password_confirmation"
-                        value="Confirm password"
+                        :value="$t('confirmar_contrasena')"
                     />
                     <div class="mt-2">
                         <TextInput
@@ -136,11 +136,11 @@ const submit = () => {
 
             <div class="pt-2">
                 <PrimaryButton
-                    class="w-full justify-center"
+                    class="w-full justify-center bg-[#58b32b] hover:bg-[#a5c72e] focus:ring-[#58b32b]"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Register
+                    {{ $t('registrarse') }}
                 </PrimaryButton>
             </div>
         </form>
@@ -152,7 +152,7 @@ const submit = () => {
                 </div>
                 <div class="relative flex justify-center text-xs">
                     <span class="bg-white px-2 text-slate-500">
-                        Already have an account?
+                        {{ $t('ya_tiene_cuenta') }}
                     </span>
                 </div>
             </div>
@@ -162,7 +162,7 @@ const submit = () => {
                     :href="route('login')"
                     class="flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-900 shadow-sm transition hover:bg-slate-50"
                 >
-                    Sign in
+                    {{ $t('iniciar_sesion') }}
                 </Link>
             </div>
         </div>

@@ -58,7 +58,7 @@
                             :href="route('admin.users.index')"
                             class="px-3 py-2 text-xs font-semibold bg-white/15 hover:bg-white/25 rounded-lg transition"
                         >
-                            Switch Farm Owner
+                            {{ $t('switch_farm_owner') }}
                         </Link>
 
                         <Link
@@ -66,7 +66,7 @@
                             :href="route('dashboard', { user_id: authUserId })"
                             class="px-3 py-2 text-xs font-semibold bg-white/15 hover:bg-white/25 rounded-lg transition"
                         >
-                            My Dashboard
+                            {{ $t('my_dashboard') }}
                         </Link>
 
                         <div
@@ -92,10 +92,10 @@
                 <div class="flex flex-col md:flex-row md:items-end gap-3">
                     <div class="flex-1">
                         <div class="text-sm font-semibold text-gray-800">
-                            Switch User Dashboard
+                            {{ $t('switch_user_dashboard') }}
                         </div>
                         <div class="text-xs text-gray-500 mt-1">
-                            View dashboard as another user in your farm.
+                            {{ $t('view_dashboard_as_another_user') }}
                         </div>
                         <select
                             v-model="selectedUserId"
@@ -118,14 +118,14 @@
                             :disabled="!selectedUserId"
                             class="px-4 py-2 rounded-lg font-semibold shadow transition duration-200 text-sm bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Open
+                            {{ $t('open') }}
                         </button>
 
                         <Link
                             :href="route('dashboard', { user_id: authUserId })"
                             class="px-4 py-2 rounded-lg font-semibold shadow transition duration-200 text-sm bg-gray-100 hover:bg-gray-200 text-gray-800"
                         >
-                            Reset
+                            {{ $t('reset') }}
                         </Link>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
                         d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                     />
                 </svg>
-                Quick Overview
+                {{ $t('quick_overview') }}
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                 <div
@@ -494,7 +494,7 @@
                         d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
                     />
                 </svg>
-                Reproduction Overview
+                {{ $t('reproduction_overview') }}
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                 <!-- Total Pregnancies -->

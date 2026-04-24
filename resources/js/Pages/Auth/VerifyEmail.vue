@@ -23,20 +23,17 @@ const verificationLinkSent = computed(
 
 <template>
     <GuestLayout>
-        <Head title="Email Verification" />
+        <Head :title="$t('verificacion_correo')" />
 
         <div class="mb-4 text-sm text-gray-600">
-            Thanks for signing up! Before getting started, could you verify your
-            email address by clicking on the link we just emailed to you? If you
-            didn't receive the email, we will gladly send you another.
+            {{ $t('texto_gracias_registro_verificacion') }}
         </div>
 
         <div
             v-if="verificationLinkSent"
             class="mb-4 text-sm font-medium text-green-600"
         >
-            A new verification link has been sent to the email address you
-            provided during registration.
+            {{ $t('texto_enlace_verificacion_enviado') }}
         </div>
 
         <form @submit.prevent="submit" class="space-y-6">
@@ -46,7 +43,7 @@ const verificationLinkSent = computed(
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Resend Verification Email
+                    {{ $t('reenviar_correo_verificacion') }}
                 </PrimaryButton>
             </div>
         </form>
@@ -58,7 +55,7 @@ const verificationLinkSent = computed(
                 </div>
                 <div class="relative flex justify-center text-sm">
                     <span class="bg-white px-2 text-gray-500">
-                        Or log out
+                        {{ $t('o_cerrar_sesion') }}
                     </span>
                 </div>
             </div>
@@ -70,7 +67,7 @@ const verificationLinkSent = computed(
                     as="button"
                     class="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 transition duration-200"
                 >
-                    Log Out
+                    {{ $t('cerrar_sesion') }}
                 </Link>
             </div>
         </div>

@@ -41,6 +41,12 @@
           >
             English (EN)
           </button>
+          <button 
+            @click="changeLanguage('pt')"
+            :class="['block w-full text-left px-4 py-2 text-sm transition-colors duration-150', currentLocale === 'pt' ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900']"
+          >
+            Português (PT)
+          </button>
         </div>
       </div>
     </transition>

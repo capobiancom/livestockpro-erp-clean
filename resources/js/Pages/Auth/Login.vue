@@ -31,20 +31,20 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Iniciar sesión" />
+        <Head :title="$t('iniciar_sesion')" />
 
         <div class="mb-8">
             <h1 class="text-2xl font-semibold tracking-tight text-slate-900">
-                Bienvenido de nuevo
+                {{ $t('bienvenido_de_nuevo') }}
             </h1>
             <p class="mt-2 text-sm text-slate-600">
-                Inicie sesión para acceder a su panel.
+                {{ $t('inicie_sesion_para_acceder_panel') }}
             </p>
         </div>
 
         <form @submit.prevent="submit" class="space-y-6">
             <div>
-                <InputLabel for="email" value="Correo electrónico" />
+                <InputLabel for="email" :value="$t('correo_electronico')" />
                 <div class="mt-2">
                     <TextInput
                         id="email"
@@ -60,13 +60,13 @@ const submit = () => {
 
             <div>
                 <div class="flex items-center justify-between">
-                    <InputLabel for="password" value="Contraseña" />
+                    <InputLabel for="password" :value="$t('contrasena')" />
                     <Link
                         v-if="canResetPassword"
                         :href="route('password.request')"
-                        class="text-sm font-medium text-emerald-700 hover:text-emerald-600"
+                        class="text-sm font-medium text-[#58b32b] hover:text-[#a5c72e]"
                     >
-                        ¿Olvidó su contraseña?
+                        {{ $t('olvido_su_contrasena') }}
                     </Link>
                 </div>
 
@@ -88,7 +88,7 @@ const submit = () => {
                         id="remember-me"
                         name="remember-me"
                         v-model:checked="form.remember"
-                        class="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                        class="h-4 w-4 rounded border-slate-300 text-[#58b32b] focus:ring-[#58b32b]"
                     />
                     <span class="text-sm text-slate-700"> {{ $t('recordarme') }} </span>
                 </label>
@@ -96,11 +96,11 @@ const submit = () => {
 
             <div class="pt-2">
                 <PrimaryButton
-                    class="w-full justify-center bg-emerald-600 hover:bg-emerald-500 focus:ring-emerald-500"
+                    class="w-full justify-center bg-[#58b32b] hover:bg-[#a5c72e] focus:ring-[#58b32b]"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Iniciar sesión
+                    {{ $t('iniciar_sesion') }}
                 </PrimaryButton>
             </div>
         </form>
@@ -112,7 +112,7 @@ const submit = () => {
                 </div>
                 <div class="relative flex justify-center text-xs">
                     <span class="bg-white px-2 text-slate-500">
-                        ¿Nuevo en Vacaliza?
+                        {{ $t('nuevo_en_vacaliza') }}
                     </span>
                 </div>
             </div>
@@ -122,7 +122,7 @@ const submit = () => {
                     :href="route('register')"
                     class="flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-900 shadow-sm transition hover:bg-slate-50"
                 >
-                    Crear una cuenta
+                    {{ $t('crear_una_cuenta') }}
                 </Link>
             </div>
         </div>

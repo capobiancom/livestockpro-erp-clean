@@ -23,12 +23,10 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Forgot Password" />
+        <Head :title="$t('olvido_su_contrasena')" />
 
         <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email
-            address and we will email you a password reset link that will allow
-            you to choose a new one.
+            {{ $t('texto_olvido_contrasena') }}
         </div>
 
         <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
@@ -37,7 +35,7 @@ const submit = () => {
 
         <form @submit.prevent="submit" class="space-y-8">
             <div>
-                <InputLabel for="email" value="Email address" />
+                <InputLabel for="email" :value="$t('correo_electronico')" />
                 <div class="mt-1">
                     <TextInput
                         id="email"
@@ -57,7 +55,7 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Email Password Reset Link
+                    {{ $t('enviar_enlace_restablecimiento') }}
                 </PrimaryButton>
             </div>
         </form>

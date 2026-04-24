@@ -4,6 +4,7 @@ import es from '../lang/es.json';
 import fr from '../lang/fr.json';
 import de from '../lang/de.json';
 import pt_BR from '../lang/pt_BR.json';
+import pt from '../lang/pt.json';
 
 const messages = {
     en,
@@ -11,6 +12,7 @@ const messages = {
     fr,
     de,
     pt_BR,
+    pt,
 };
 
 const savedLocale = localStorage.getItem('vacaliza_locale') || 'es';
