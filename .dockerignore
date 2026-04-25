@@ -4,3 +4,10 @@ vendor
 tests
 .env*
 storage/*.key
+
+# Vite HMR runtime artifacts — never deploy
+public/hot
+
+# Dev tooling never needed at runtime
+scripts/dev-on.sh
+scripts/dev-off.sh
